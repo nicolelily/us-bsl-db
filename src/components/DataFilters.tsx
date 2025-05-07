@@ -51,6 +51,19 @@ const DataFilters = ({ onFilterChange }: DataFiltersProps) => {
     setType(null);
   };
 
+  // Handle value changes for selects
+  const handleBreedChange = (value: string) => {
+    setBreed(value === "all" ? null : value);
+  };
+
+  const handleStateChange = (value: string) => {
+    setStateFilter(value === "all" ? null : value);
+  };
+
+  const handleTypeChange = (value: string) => {
+    setType(value === "all" ? null : value);
+  };
+
   return (
     <div className="bg-white p-4 rounded-lg shadow-md mb-6">
       <h2 className="text-lg font-semibold mb-4 text-dogdata-text">Filter Data</h2>
@@ -76,12 +89,15 @@ const DataFilters = ({ onFilterChange }: DataFiltersProps) => {
           <label htmlFor="breed-filter" className="text-sm font-medium text-dogdata-text">
             Breed
           </label>
-          <Select value={breed || ''} onValueChange={setBreed}>
+          <Select 
+            value={breed || "all"} 
+            onValueChange={handleBreedChange}
+          >
             <SelectTrigger id="breed-filter">
               <SelectValue placeholder="All breeds" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All breeds</SelectItem>
+              <SelectItem value="all">All breeds</SelectItem>
               {uniqueBreeds.map(breed => (
                 <SelectItem key={breed} value={breed}>{breed}</SelectItem>
               ))}
@@ -93,12 +109,15 @@ const DataFilters = ({ onFilterChange }: DataFiltersProps) => {
           <label htmlFor="state-filter" className="text-sm font-medium text-dogdata-text">
             State
           </label>
-          <Select value={stateFilter || ''} onValueChange={setStateFilter}>
+          <Select 
+            value={stateFilter || "all"} 
+            onValueChange={handleStateChange}
+          >
             <SelectTrigger id="state-filter">
               <SelectValue placeholder="All states" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All states</SelectItem>
+              <SelectItem value="all">All states</SelectItem>
               {uniqueStates.map(state => (
                 <SelectItem key={state} value={state}>{state}</SelectItem>
               ))}
@@ -110,12 +129,15 @@ const DataFilters = ({ onFilterChange }: DataFiltersProps) => {
           <label htmlFor="type-filter" className="text-sm font-medium text-dogdata-text">
             Municipality Type
           </label>
-          <Select value={type || ''} onValueChange={setType}>
+          <Select 
+            value={type || "all"} 
+            onValueChange={handleTypeChange}
+          >
             <SelectTrigger id="type-filter">
               <SelectValue placeholder="All types" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All types</SelectItem>
+              <SelectItem value="all">All types</SelectItem>
               <SelectItem value="City">City</SelectItem>
               <SelectItem value="County">County</SelectItem>
             </SelectContent>
