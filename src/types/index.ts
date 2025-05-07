@@ -17,3 +17,7 @@ export interface FilterOptions {
   stateFilter: string | null;
   type: string | null;
 }
+
+export interface SheetData {
+  values: any[][];
+}

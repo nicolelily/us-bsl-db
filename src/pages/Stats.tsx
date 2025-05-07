@@ -4,8 +4,9 @@ import Navigation from '../components/Navigation';
 import StatsComponent from '../components/StatsComponent';
 import DataFilters from '../components/DataFilters';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { breedLegislationData } from '../data/breedLegislationData';
 import { FilterOptions } from '@/types';
+import { fetchBreedLegislationData } from '@/utils/dataFetcher';
+import { useQuery } from '@tanstack/react-query';
 
 const Stats = () => {
   const [filters, setFilters] = useState<FilterOptions>({
@@ -13,6 +14,11 @@ const Stats = () => {
     breed: null,
     stateFilter: null,
     type: null,
+  });
+
+  const { data: breedLegislationData = [], isLoading, error } = useQuery({
+    queryKey: ['breedLegislationData'],
+    queryFn: fetchBreedLegislationData
   });
 
   const filteredData = useMemo(() => {
@@ -39,7 +45,7 @@ const Stats = () => {
 
       return true;
     });
-  }, [filters]);
+  }, [filters, breedLegislationData]);
 
   // Calculate some basic statistics
   const totalMunicipalities = filteredData.length;
@@ -58,47 +64,57 @@ const Stats = () => {
             Use the filters below to analyze specific subsets of the data.
           </p>
           
-          <DataFilters onFilterChange={setFilters} />
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm text-muted-foreground">Total Municipalities</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-3xl font-bold text-dogdata-blue">{totalMunicipalities}</p>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm text-muted-foreground">Total Breed Bans</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-3xl font-bold text-dogdata-accent">{totalBreedBans}</p>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm text-muted-foreground">Unique Breeds Banned</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-3xl font-bold text-dogdata-bluelight">{uniqueBreeds}</p>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm text-muted-foreground">States with Bans</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-3xl font-bold text-dogdata-blue">{uniqueStates}</p>
-              </CardContent>
-            </Card>
-          </div>
-          
-          <StatsComponent data={filteredData} />
+          {isLoading ? (
+            <div className="flex justify-center items-center h-32">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-dogdata-blue"></div>
+            </div>
+          ) : error ? (
+            <p className="text-red-500 mb-6">Error loading data. Please try again later.</p>
+          ) : (
+            <>
+              <DataFilters onFilterChange={setFilters} breedLegislationData={breedLegislationData} />
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm text-muted-foreground">Total Municipalities</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-3xl font-bold text-dogdata-blue">{totalMunicipalities}</p>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm text-muted-foreground">Total Breed Bans</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-3xl font-bold text-dogdata-accent">{totalBreedBans}</p>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm text-muted-foreground">Unique Breeds Banned</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-3xl font-bold text-dogdata-bluelight">{uniqueBreeds}</p>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm text-muted-foreground">States with Bans</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-3xl font-bold text-dogdata-blue">{uniqueStates}</p>
+                  </CardContent>
+                </Card>
+              </div>
+              
+              <StatsComponent data={filteredData} />
+            </>
+          )}
         </div>
       </div>
     </div>

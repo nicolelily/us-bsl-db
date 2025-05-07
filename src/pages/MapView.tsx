@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 import Navigation from '../components/Navigation';
 import DataFilters from '../components/DataFilters';
-import { breedLegislationData } from '../data/breedLegislationData';
 import { FilterOptions } from '@/types';
+import { fetchBreedLegislationData } from '@/utils/dataFetcher';
+import { useQuery } from '@tanstack/react-query';
 
 const MapView = () => {
   const [filters, setFilters] = useState<FilterOptions>({
@@ -11,6 +12,11 @@ const MapView = () => {
     breed: null,
     stateFilter: null,
     type: null,
+  });
+
+  const { data: breedLegislationData = [], isLoading, error } = useQuery({
+    queryKey: ['breedLegislationData'],
+    queryFn: fetchBreedLegislationData
   });
 
   return (
@@ -24,7 +30,15 @@ const MapView = () => {
             This map view is under development and will be available in a future update.
           </p>
           
-          <DataFilters onFilterChange={setFilters} />
+          {isLoading ? (
+            <div className="flex justify-center items-center h-32">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-dogdata-blue"></div>
+            </div>
+          ) : error ? (
+            <p className="text-red-500 mb-6">Error loading data. Please try again later.</p>
+          ) : (
+            <DataFilters onFilterChange={setFilters} breedLegislationData={breedLegislationData} />
+          )}
           
           <div className="bg-white p-8 rounded-lg shadow-md flex flex-col items-center justify-center" style={{ height: '500px' }}>
             <MapPin className="w-16 h-16 text-dogdata-accent mb-4" />

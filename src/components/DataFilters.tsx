@@ -10,14 +10,14 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Search, Filter } from 'lucide-react';
-import { breedLegislationData } from '../data/breedLegislationData';
-import { FilterOptions } from '@/types';
+import { FilterOptions, BreedLegislation } from '@/types';
 
 interface DataFiltersProps {
   onFilterChange: (filters: FilterOptions) => void;
+  breedLegislationData: BreedLegislation[];
 }
 
-const DataFilters = ({ onFilterChange }: DataFiltersProps) => {
+const DataFilters = ({ onFilterChange, breedLegislationData }: DataFiltersProps) => {
   const [search, setSearch] = useState('');
   const [breed, setBreed] = useState<string | null>(null);
   const [stateFilter, setStateFilter] = useState<string | null>(null);

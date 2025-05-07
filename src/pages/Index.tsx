@@ -1,10 +1,11 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Navigation from '../components/Navigation';
 import DataFilters from '../components/DataFilters';
 import DataTable from '../components/DataTable';
-import { breedLegislationData } from '../data/breedLegislationData';
-import { FilterOptions } from '@/types';
+import { FilterOptions, BreedLegislation } from '@/types';
+import { fetchBreedLegislationData } from '@/utils/dataFetcher';
+import { useQuery } from '@tanstack/react-query';
 
 const Index = () => {
   const [filters, setFilters] = useState<FilterOptions>({
@@ -12,6 +13,11 @@ const Index = () => {
     breed: null,
     stateFilter: null,
     type: null,
+  });
+
+  const { data: breedLegislationData = [], isLoading, error } = useQuery({
+    queryKey: ['breedLegislationData'],
+    queryFn: fetchBreedLegislationData
   });
 
   const filteredData = useMemo(() => {
@@ -38,7 +44,7 @@ const Index = () => {
 
       return true;
     });
-  }, [filters]);
+  }, [filters, breedLegislationData]);
 
   return (
     <div className="min-h-screen bg-dogdata-background">
@@ -51,15 +57,27 @@ const Index = () => {
             Use the filters below to explore data about banned dog breeds, ordinances, and more.
           </p>
           
-          <DataFilters onFilterChange={setFilters} />
+          <DataFilters onFilterChange={setFilters} breedLegislationData={breedLegislationData} />
           
           <div className="mb-4">
-            <p className="text-sm text-dogdata-text">
-              Showing {filteredData.length} of {breedLegislationData.length} records
-            </p>
+            {isLoading ? (
+              <p className="text-sm text-dogdata-text">Loading data...</p>
+            ) : error ? (
+              <p className="text-sm text-red-500">Error loading data. Please try again later.</p>
+            ) : (
+              <p className="text-sm text-dogdata-text">
+                Showing {filteredData.length} of {breedLegislationData.length} records
+              </p>
+            )}
           </div>
           
-          <DataTable data={filteredData} />
+          {isLoading ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-dogdata-blue"></div>
+            </div>
+          ) : (
+            <DataTable data={filteredData} />
+          )}
         </div>
       </div>
     </div>
