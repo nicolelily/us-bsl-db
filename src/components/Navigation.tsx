@@ -2,7 +2,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Map, BarChart3, Info } from 'lucide-react';
-import UserMenu from './UserMenu';
 
 const Navigation = () => {
   const location = useLocation();
@@ -43,7 +42,6 @@ const Navigation = () => {
               })}
             </div>
           </div>
-          <UserMenu />
         </div>
       </div>
     </nav>
