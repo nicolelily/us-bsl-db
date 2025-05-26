@@ -1,4 +1,3 @@
-
 import React, { useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BreedLegislation } from '@/types';
@@ -60,15 +59,9 @@ const StatsComponent = ({ data }: StatsComponentProps) => {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={breedStats.slice(0, 5)}
-              margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
+              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
             >
-              <XAxis 
-                dataKey="name" 
-                angle={-45}
-                textAnchor="end"
-                height={80}
-                interval={0}
-              />
+              <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
               <Legend />
