@@ -49,6 +49,10 @@ function transformSheetData(values: any[][]): BreedLegislation[] {
     const lat = row[6] ? parseFloat(row[6]) : undefined;
     const lng = row[7] ? parseFloat(row[7]) : undefined;
     
+    // Parse new fields (columns 8 and 9)
+    const verificationDate = row[8] || undefined;
+    const ordinanceUrl = row[9] || undefined;
+    
     return {
       id: index + 1, // Generate an ID based on row index
       municipality,
@@ -58,7 +62,9 @@ function transformSheetData(values: any[][]): BreedLegislation[] {
       ordinance,
       population,
       lat,
-      lng
+      lng,
+      verificationDate,
+      ordinanceUrl
     };
   });
 }

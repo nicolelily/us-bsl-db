@@ -10,12 +10,23 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { BreedLegislation } from '@/types';
+import { ExternalLink } from 'lucide-react';
 
 interface DataTableProps {
   data: BreedLegislation[];
 }
 
 const DataTable = ({ data }: DataTableProps) => {
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return 'N/A';
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString();
+    } catch {
+      return dateString;
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="overflow-x-auto">
@@ -28,12 +39,14 @@ const DataTable = ({ data }: DataTableProps) => {
               <TableHead className="font-semibold">Banned Breeds</TableHead>
               <TableHead className="font-semibold">Ordinance</TableHead>
               <TableHead className="font-semibold">Population</TableHead>
+              <TableHead className="font-semibold">Verification Date</TableHead>
+              <TableHead className="font-semibold">Ordinance URL</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} className="text-center py-8 text-dogdata-text">
+                <TableCell colSpan={8} className="text-center py-8 text-dogdata-text">
                   No data found matching your filters.
                 </TableCell>
               </TableRow>
@@ -55,6 +68,22 @@ const DataTable = ({ data }: DataTableProps) => {
                   <TableCell>{item.ordinance}</TableCell>
                   <TableCell>
                     {item.population ? item.population.toLocaleString() : 'N/A'}
+                  </TableCell>
+                  <TableCell>{formatDate(item.verificationDate)}</TableCell>
+                  <TableCell>
+                    {item.ordinanceUrl ? (
+                      <a
+                        href={item.ordinanceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 text-dogdata-blue hover:text-dogdata-bluelight"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                        View
+                      </a>
+                    ) : (
+                      'N/A'
+                    )}
                   </TableCell>
                 </TableRow>
               ))

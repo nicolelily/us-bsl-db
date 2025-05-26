@@ -9,6 +9,8 @@ export interface BreedLegislation {
   population?: number;
   lat?: number;
   lng?: number;
+  verificationDate?: string;
+  ordinanceUrl?: string;
 }
 
 export interface FilterOptions {
