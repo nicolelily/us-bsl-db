@@ -10,7 +10,7 @@ const Navigation = () => {
   const navItems = [
     { path: '/', label: 'Home', icon: Home },
     { path: '/map', label: 'Map', icon: Map },
-    { path: '/stats', label: 'Statistics', icon: BarChart3 },
+    { path: '/stats', label: 'Charts', icon: BarChart3 },
     { path: '/about', label: 'About', icon: Info },
   ];
 

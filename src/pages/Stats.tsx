@@ -58,9 +58,9 @@ const Stats = () => {
       <Navigation />
       <div className="container mx-auto py-8 px-4">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-dogdata-text mb-4">Statistics & Analytics</h1>
+          <h1 className="text-3xl font-bold text-dogdata-text mb-4">Charts & Analytics</h1>
           <p className="text-dogdata-text mb-6">
-            Explore statistics and visualizations about breed-specific legislation in the United States.
+            Explore charts and visualizations about breed-specific legislation in the United States.
             Use the filters below to analyze specific subsets of the data.
           </p>
           

@@ -29,7 +29,7 @@ export async function fetchBreedLegislationData(): Promise<BreedLegislation[]> {
       municipality: row.municipality || '',
       state: row.state || '',
       type: (row.type === 'County' ? 'County' : 'City') as 'City' | 'County',
-      bannedBreeds: Array.isArray(row.banned_breeds) ? row.banned_breeds : [],
+      bannedBreeds: Array.isArray(row.banned_breeds) ? row.banned_breeds.map(breed => String(breed)) : [],
       ordinance: row.ordinance || '',
       population: row.population || undefined,
       lat: row.lat || undefined,
