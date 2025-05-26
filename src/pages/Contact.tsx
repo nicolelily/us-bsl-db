@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { Mail, Phone, MapPin } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -44,13 +45,40 @@ const Contact = () => {
   const onSubmit = async (data: ContactFormData) => {
     console.log('Contact form submitted:', data);
     
-    // For now, just show a success toast
-    toast({
-      title: "Message sent!",
-      description: "Thank you for your message. We'll get back to you soon.",
-    });
-    
-    form.reset();
+    try {
+      const { error } = await supabase
+        .from('contact_submissions')
+        .insert({
+          name: data.name,
+          email: data.email,
+          subject: data.subject,
+          message: data.message,
+        });
+
+      if (error) {
+        console.error('Error saving contact submission:', error);
+        toast({
+          title: "Error",
+          description: "There was a problem sending your message. Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      toast({
+        title: "Message sent!",
+        description: "Thank you for your message. We'll get back to you soon.",
+      });
+      
+      form.reset();
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      toast({
+        title: "Error",
+        description: "There was a problem sending your message. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -133,8 +161,8 @@ const Contact = () => {
                     )}
                   />
                   
-                  <Button type="submit" className="w-full">
-                    Send Message
+                  <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
+                    {form.formState.isSubmitting ? 'Sending...' : 'Send Message'}
                   </Button>
                 </form>
               </Form>
