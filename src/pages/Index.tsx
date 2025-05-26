@@ -54,7 +54,7 @@ const Index = () => {
           <h1 className="text-3xl font-bold text-dogdata-text mb-4">U.S. Breed-Specific Legislation Database</h1>
           <p className="text-dogdata-text mb-6">
             This application provides information about breed-specific legislation in municipalities across the United States.
-            Use the filters below to explore data about banned dog breeds, ordinances, and more.
+            Use the filters below to explore data about banned dog breeds, ordinances, and more. Please note that this database only includes bans at the moment. We plan to add the legislation regulating specific breeds in the near future.
           </p>
           
           <DataFilters onFilterChange={setFilters} breedLegislationData={breedLegislationData} />
