@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Map, BarChart3, Info } from 'lucide-react';
+import { Home, Map, BarChart3, Info, Contact } from 'lucide-react';
 
 const Navigation = () => {
   const location = useLocation();
@@ -11,6 +10,7 @@ const Navigation = () => {
     { path: '/map', label: 'Map', icon: Map },
     { path: '/stats', label: 'Charts', icon: BarChart3 },
     { path: '/about', label: 'About', icon: Info },
+    { path: '/contact', label: 'Contact', icon: Contact },
   ];
 
   return (
