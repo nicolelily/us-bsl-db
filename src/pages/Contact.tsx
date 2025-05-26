@@ -187,7 +187,7 @@ const Contact = () => {
                   <Phone className="w-5 h-5 text-dogdata-blue" />
                   <div>
                     <p className="font-medium">Phone</p>
-                    <p className="text-dogdata-text">+1 (555) 123-4567</p>
+                    <p className="text-dogdata-text">+1 (813) 230-7946</p>
                   </div>
                 </div>
                 
@@ -196,9 +196,9 @@ const Contact = () => {
                   <div>
                     <p className="font-medium">Address</p>
                     <p className="text-dogdata-text">
-                      123 Research Drive<br />
-                      Animal Welfare Center<br />
-                      Washington, DC 20001
+                      6421 N Florida Ave<br />
+                      Unit D-1679<br />
+                      Tampa, Florida 33604 
                     </p>
                   </div>
                 </div>
@@ -215,8 +215,8 @@ const Contact = () => {
                 </p>
                 <ul className="list-disc pl-6 space-y-1">
                   <li>Report changes in local legislation</li>
-                  <li>Share links to official ordinances</li>
-                  <li>Verify existing data</li>
+                  <li>Share links to news reports about ban repeals or changes</li>
+                  <li>Request the dataset</li>
                   <li>Contribute research or analysis</li>
                 </ul>
               </CardContent>
