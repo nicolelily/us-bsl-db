@@ -33,14 +33,14 @@ const DataTable = ({ data }: DataTableProps) => {
         <Table>
           <TableHeader>
             <TableRow className="bg-dogdata-muted">
-              <TableHead className="font-semibold">Municipality</TableHead>
-              <TableHead className="font-semibold">State</TableHead>
-              <TableHead className="font-semibold">Type</TableHead>
-              <TableHead className="font-semibold">Banned Breeds</TableHead>
-              <TableHead className="font-semibold">Ordinance</TableHead>
-              <TableHead className="font-semibold">Population</TableHead>
-              <TableHead className="font-semibold">Verification Date</TableHead>
-              <TableHead className="font-semibold">Ordinance URL</TableHead>
+              <TableHead className="font-semibold w-32">Municipality</TableHead>
+              <TableHead className="font-semibold w-20">State</TableHead>
+              <TableHead className="font-semibold w-20">Type</TableHead>
+              <TableHead className="font-semibold w-40">Banned Breeds</TableHead>
+              <TableHead className="font-semibold w-64">Ordinance</TableHead>
+              <TableHead className="font-semibold w-24">Population</TableHead>
+              <TableHead className="font-semibold w-32">Verification Date</TableHead>
+              <TableHead className="font-semibold w-24">Ordinance URL</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -65,7 +65,7 @@ const DataTable = ({ data }: DataTableProps) => {
                       ))}
                     </div>
                   </TableCell>
-                  <TableCell>{item.ordinance}</TableCell>
+                  <TableCell className="max-w-64 break-words">{item.ordinance}</TableCell>
                   <TableCell>
                     {item.population ? item.population.toLocaleString() : 'N/A'}
                   </TableCell>
