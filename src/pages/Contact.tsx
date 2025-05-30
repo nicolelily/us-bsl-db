@@ -82,12 +82,12 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-dogdata-background">
+    <div className="min-h-screen bg-bsl-background">
       <Navigation />
       <div className="container mx-auto py-8 px-4">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-dogdata-text mb-4">Contact Us</h1>
-          <p className="text-dogdata-text mb-8">
+          <h1 className="text-3xl font-bold text-bsl-brown mb-4">Contact Us</h1>
+          <p className="text-bsl-brown mb-8">
             Have questions about breed-specific legislation or want to contribute to our database? 
             We'd love to hear from you.
           </p>
@@ -176,26 +176,26 @@ const Contact = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <Mail className="w-5 h-5 text-dogdata-blue" />
+                  <Mail className="w-5 h-5 text-bsl-teal" />
                   <div>
                     <p className="font-medium">Email</p>
-                    <p className="text-dogdata-text">info@bsldb.app</p>
+                    <p className="text-bsl-brown">info@bsldb.app</p>
                   </div>
                 </div>
                 
                 <div className="flex items-center space-x-3">
-                  <Phone className="w-5 h-5 text-dogdata-blue" />
+                  <Phone className="w-5 h-5 text-bsl-teal" />
                   <div>
                     <p className="font-medium">Phone</p>
-                    <p className="text-dogdata-text">+1 (813) 230-7946</p>
+                    <p className="text-bsl-brown">+1 (813) 230-7946</p>
                   </div>
                 </div>
                 
                 <div className="flex items-center space-x-3">
-                  <MapPin className="w-5 h-5 text-dogdata-blue" />
+                  <MapPin className="w-5 h-5 text-bsl-teal" />
                   <div>
                     <p className="font-medium">Address</p>
-                    <p className="text-dogdata-text">
+                    <p className="text-bsl-brown">
                       6421 N Florida Ave<br />
                       Unit D-1679<br />
                       Tampa, Florida 33604 
@@ -209,7 +209,7 @@ const Contact = () => {
               <CardHeader>
                 <CardTitle>How can you help?</CardTitle>
               </CardHeader>
-              <CardContent className="text-dogdata-text space-y-3">
+              <CardContent className="text-bsl-brown space-y-3">
                 <p>
                   We're always looking for help to keep our database accurate and up-to-date:
                 </p>

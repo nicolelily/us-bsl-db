@@ -1,3 +1,4 @@
+
 import React, { useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BreedLegislation } from '@/types';
@@ -47,7 +48,7 @@ const StatsComponent = ({ data }: StatsComponentProps) => {
     return Object.entries(typeCounts).map(([name, value]) => ({ name, value }));
   }, [data]);
   
-  const COLORS = ['#9e8fb2', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'];
+  const COLORS = ['#7DCBC4', '#5D2A1A', '#D2691E', '#B8E6E2', '#F5F1E8', '#F8FDFC'];
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
@@ -65,7 +66,7 @@ const StatsComponent = ({ data }: StatsComponentProps) => {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="value" name="Number of Municipalities" fill="#3182ce" />
+              <Bar dataKey="value" name="Number of Municipalities" fill="#7DCBC4" />
             </BarChart>
           </ResponsiveContainer>
         </CardContent>

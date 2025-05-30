@@ -47,12 +47,12 @@ const Index = () => {
   }, [filters, breedLegislationData]);
 
   return (
-    <div className="min-h-screen bg-dogdata-background">
+    <div className="min-h-screen bg-bsl-background">
       <Navigation />
       <div className="container mx-auto py-8 px-4">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-dogdata-text mb-4">U.S. Breed-Specific Legislation Database</h1>
-          <p className="text-dogdata-text mb-6">
+          <h1 className="text-3xl font-bold text-bsl-brown mb-4">U.S. Breed-Specific Legislation Database</h1>
+          <p className="text-bsl-brown mb-6">
             This application provides information about breed-specific legislation in municipalities across the United States.
             Use the filters below to explore data about banned dog breeds, ordinances, and more. Please note that this database only includes bans at the moment. We plan to add the legislation regulating specific breeds in the near future.
           </p>
@@ -61,11 +61,11 @@ const Index = () => {
           
           <div className="mb-4">
             {isLoading ? (
-              <p className="text-sm text-dogdata-text">Loading data...</p>
+              <p className="text-sm text-bsl-brown">Loading data...</p>
             ) : error ? (
               <p className="text-sm text-red-500">Error loading data. Please try again later.</p>
             ) : (
-              <p className="text-sm text-dogdata-text">
+              <p className="text-sm text-bsl-brown">
                 Showing {filteredData.length} of {breedLegislationData.length} records
               </p>
             )}
@@ -73,7 +73,7 @@ const Index = () => {
           
           {isLoading ? (
             <div className="flex justify-center items-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-dogdata-blue"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-bsl-teal"></div>
             </div>
           ) : (
             <DataTable data={filteredData} />

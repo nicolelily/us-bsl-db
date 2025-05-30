@@ -63,13 +63,21 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
+				bsl: {
+					teal: '#7DCBC4',
+					brown: '#5D2A1A',
+					cream: '#F5F1E8',
+					orange: '#D2691E',
+					background: '#F8FDFC',
+					border: '#B8E6E2'
+				},
 				dogdata: {
-					blue: '#1a365d',
-					bluelight: '#2c5282',
-					accent: '#3182ce',
-					background: '#f7fafc',
-					muted: '#e2e8f0',
-					text: '#2d3748'
+					blue: '#7DCBC4',
+					bluelight: '#B8E6E2',
+					accent: '#5D2A1A',
+					background: '#F8FDFC',
+					muted: '#F5F1E8',
+					text: '#5D2A1A'
 				}
 			},
 			borderRadius: {
