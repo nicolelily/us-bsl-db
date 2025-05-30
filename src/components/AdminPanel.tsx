@@ -18,6 +18,18 @@ interface UserWithRole {
   created_at: string;
 }
 
+interface UserRoleData {
+  role: 'admin' | 'moderator' | 'user';
+}
+
+interface UserData {
+  id: string;
+  email: string;
+  full_name: string | null;
+  created_at: string;
+  user_roles: UserRoleData[];
+}
+
 const AdminPanel = () => {
   const { hasRole, loading: roleLoading } = useUserRole();
   const [users, setUsers] = useState<UserWithRole[]>([]);
@@ -40,14 +52,14 @@ const AdminPanel = () => {
           full_name,
           created_at,
           user_roles!inner(role)
-        `);
+        `) as { data: UserData[] | null, error: any };
 
       if (error) throw error;
 
-      const usersWithRoles = data.map(user => ({
+      const usersWithRoles: UserWithRole[] = data?.map(user => ({
         ...user,
         role: user.user_roles[0]?.role || 'user'
-      }));
+      })) || [];
 
       setUsers(usersWithRoles);
     } catch (error) {
