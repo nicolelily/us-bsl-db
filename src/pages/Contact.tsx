@@ -182,7 +182,6 @@ const Contact = () => {
                     <p className="text-bsl-brown">info@bsldb.app</p>
                   </div>
                 </div>
-                </div>
                 
                 <div className="flex items-center space-x-3">
                   <MapPin className="w-5 h-5 text-bsl-teal" />
