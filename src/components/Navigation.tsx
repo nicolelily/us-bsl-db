@@ -2,9 +2,12 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Map, BarChart3, Info, Contact } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import UserMenu from './UserMenu';
 
 const Navigation = () => {
   const location = useLocation();
+  const { user } = useAuth();
 
   const navItems = [
     { path: '/', label: 'Home', icon: Home },
@@ -49,6 +52,19 @@ const Navigation = () => {
                 );
               })}
             </div>
+          </div>
+          
+          <div className="flex items-center space-x-4">
+            {user ? (
+              <UserMenu />
+            ) : (
+              <Link
+                to="/auth"
+                className="bg-bsl-teal text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-bsl-teal/90 transition-colors"
+              >
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
       </div>
