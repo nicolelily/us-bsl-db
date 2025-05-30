@@ -182,13 +182,6 @@ const Contact = () => {
                     <p className="text-bsl-brown">info@bsldb.app</p>
                   </div>
                 </div>
-                
-                <div className="flex items-center space-x-3">
-                  <Phone className="w-5 h-5 text-bsl-teal" />
-                  <div>
-                    <p className="font-medium">Phone</p>
-                    <p className="text-bsl-brown">+1 (813) 230-7946</p>
-                  </div>
                 </div>
                 
                 <div className="flex items-center space-x-3">
