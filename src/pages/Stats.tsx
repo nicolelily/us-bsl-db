@@ -80,7 +80,7 @@ const Stats = () => {
                     <CardTitle className="text-sm text-muted-foreground">Total Municipalities</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-3xl font-bold text-dogdata-blue">{totalMunicipalities}</p>
+                    <p className="text-3xl font-bold text-bsl-teal">{totalMunicipalities}</p>
                   </CardContent>
                 </Card>
                 
@@ -89,7 +89,7 @@ const Stats = () => {
                     <CardTitle className="text-sm text-muted-foreground">Total Breed Bans</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-3xl font-bold text-dogdata-accent">{totalBreedBans}</p>
+                    <p className="text-3xl font-bold text-bsl-teal">{totalBreedBans}</p>
                   </CardContent>
                 </Card>
                 
@@ -98,7 +98,7 @@ const Stats = () => {
                     <CardTitle className="text-sm text-muted-foreground">Unique Breeds Banned</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-3xl font-bold text-dogdata-bluelight">{uniqueBreeds}</p>
+                    <p className="text-3xl font-bold text-bsl-teal">{uniqueBreeds}</p>
                   </CardContent>
                 </Card>
                 
@@ -107,7 +107,7 @@ const Stats = () => {
                     <CardTitle className="text-sm text-muted-foreground">States with Bans</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-3xl font-bold text-dogdata-blue">{uniqueStates}</p>
+                    <p className="text-3xl font-bold text-bsl-teal">{uniqueStates}</p>
                   </CardContent>
                 </Card>
               </div>
