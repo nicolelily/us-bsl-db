@@ -2,10 +2,10 @@
 import React from 'react';
 import { useUserRole } from '@/hooks/useUserRole';
 import { useAdminUsers } from '@/hooks/useAdminUsers';
-import AdminStatsCards from './admin/AdminStatsCards';
-import UserManagementTable from './admin/UserManagementTable';
-import AdminAccessDenied from './admin/AdminAccessDenied';
-import AdminLoading from './admin/AdminLoading';
+import AdminStatsCards from './AdminStatsCards';
+import UserManagementTable from './UserManagementTable';
+import AdminAccessDenied from './AdminAccessDenied';
+import AdminLoading from './AdminLoading';
 
 const AdminPanel = () => {
   const { hasRole, loading: roleLoading } = useUserRole();

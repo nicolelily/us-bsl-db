@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Navigation from '../components/Navigation';
-import AdminPanel from '../components/AdminPanel';
+import AdminPanel from '../components/admin/AdminPanel';
 import ProtectedRoute from '../components/ProtectedRoute';
 
 const Admin = () => {
