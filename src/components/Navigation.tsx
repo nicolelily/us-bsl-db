@@ -17,13 +17,13 @@ const Navigation = () => {
   return (
     <nav className="bg-white shadow-lg border-b border-bsl-border">
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           <div className="flex items-center space-x-8">
             <Link to="/" className="flex items-center space-x-3">
               <img 
                 src="/lovable-uploads/009d4537-5a1c-40cd-93af-4624fe786dc4.png" 
                 alt="BSLDB Logo" 
-                className="h-10 w-10"
+                className="h-16 w-16"
               />
               <span className="text-xl font-bold text-bsl-brown">
                 BSL Database
