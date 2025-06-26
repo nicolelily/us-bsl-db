@@ -1,3 +1,4 @@
+
 import { supabase } from '@/integrations/supabase/client';
 
 export const validateInput = {
@@ -17,8 +18,13 @@ export const validateInput = {
 };
 
 export const securityChecks = {
-  isAuthenticated: (): boolean => {
-    return Boolean(supabase.auth.session);
+  isAuthenticated: async (): Promise<boolean> => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      return Boolean(session);
+    } catch {
+      return false;
+    }
   },
   
   hasValidSession: async (): Promise<boolean> => {
