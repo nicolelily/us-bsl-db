@@ -4,6 +4,7 @@ import { useUserRole } from '@/hooks/useUserRole';
 import { useAdminUsersSecure } from '@/hooks/useAdminUsersSecure';
 import AdminStatsCards from './AdminStatsCards';
 import UserManagementTable from './UserManagementTable';
+import SecurityMonitor from './SecurityMonitor';
 import AdminAccessDenied from './AdminAccessDenied';
 import AdminLoading from './AdminLoading';
 import AdminErrorBoundary from './AdminErrorBoundary';
@@ -23,6 +24,7 @@ const AdminPanel = () => {
   return (
     <div className="space-y-6">
       <AdminErrorBoundary error={error} retry={refetchUsers}>
+        <SecurityMonitor />
         <AdminStatsCards users={users} />
         <UserManagementTable 
           users={users} 
