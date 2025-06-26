@@ -48,7 +48,7 @@ export async function fetchBreedLegislationData(): Promise<BreedLegislation[]> {
     console.log(`Successfully fetched ${data.length} records from Supabase`);
     await auditLog.logAction('fetch_breed_legislation_success', { record_count: data.length });
     
-    // Transform the data to match our BreedLegislation interface with input validation
+    // Transform the data to match our BreedLegislation interface with enhanced input validation
     const transformedData = data.map((row) => ({
       id: row.id,
       municipality: String(row.municipality || '').trim(),
@@ -69,6 +69,6 @@ export async function fetchBreedLegislationData(): Promise<BreedLegislation[]> {
   } catch (error) {
     console.error("Error fetching breed legislation data:", error);
     await auditLog.logAction('fetch_breed_legislation_error', { error: error instanceof Error ? error.message : 'Unknown error' });
-    return []; // Return empty array on error
+    return []; // Return empty array on error to prevent application crashes
   }
 }
