@@ -11,29 +11,48 @@ export const useAdminUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const { data, error } = await supabase
+      console.log('Fetching users for admin panel...');
+      
+      // First get all profiles that the admin can see
+      const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
-        .select(`
-          id,
-          email,
-          full_name,
-          created_at,
-          user_roles!inner(role)
-        `) as { data: UserData[] | null, error: any };
+        .select('id, email, full_name, created_at');
 
-      if (error) throw error;
+      if (profilesError) {
+        console.error('Error fetching profiles:', profilesError);
+        throw profilesError;
+      }
 
-      const usersWithRoles: UserWithRole[] = data?.map(user => ({
-        ...user,
-        role: user.user_roles[0]?.role || 'user'
-      })) || [];
+      console.log(`Fetched ${profilesData?.length || 0} profiles`);
 
+      // Then get user roles for each user
+      const { data: rolesData, error: rolesError } = await supabase
+        .from('user_roles')
+        .select('user_id, role');
+
+      if (rolesError) {
+        console.error('Error fetching user roles:', rolesError);
+        throw rolesError;
+      }
+
+      console.log(`Fetched ${rolesData?.length || 0} user roles`);
+
+      // Combine the data
+      const usersWithRoles: UserWithRole[] = (profilesData || []).map(profile => {
+        const userRole = rolesData?.find(role => role.user_id === profile.id);
+        return {
+          ...profile,
+          role: userRole?.role || 'user'
+        };
+      });
+
+      console.log(`Combined data for ${usersWithRoles.length} users`);
       setUsers(usersWithRoles);
     } catch (error) {
       console.error('Error fetching users:', error);
       toast({
         title: "Error",
-        description: "Failed to fetch users",
+        description: "Failed to fetch users. Make sure you have admin permissions.",
         variant: "destructive",
       });
     } finally {
@@ -43,17 +62,47 @@ export const useAdminUsers = () => {
 
   const updateUserRole = async (userId: string, newRole: 'admin' | 'moderator' | 'user') => {
     try {
-      const { error } = await supabase
+      console.log(`Updating user ${userId} role to ${newRole}`);
+      
+      // Check if user already has a role entry
+      const { data: existingRole, error: checkError } = await supabase
         .from('user_roles')
-        .update({ role: newRole })
-        .eq('user_id', userId);
+        .select('id')
+        .eq('user_id', userId)
+        .maybeSingle();
 
-      if (error) throw error;
+      if (checkError) {
+        console.error('Error checking existing role:', checkError);
+        throw checkError;
+      }
 
+      let updateError;
+      if (existingRole) {
+        // Update existing role
+        const { error } = await supabase
+          .from('user_roles')
+          .update({ role: newRole })
+          .eq('user_id', userId);
+        updateError = error;
+      } else {
+        // Insert new role
+        const { error } = await supabase
+          .from('user_roles')
+          .insert({ user_id: userId, role: newRole });
+        updateError = error;
+      }
+
+      if (updateError) {
+        console.error('Error updating user role:', updateError);
+        throw updateError;
+      }
+
+      // Update local state
       setUsers(prev => prev.map(user => 
         user.id === userId ? { ...user, role: newRole } : user
       ));
 
+      console.log(`Successfully updated user ${userId} role to ${newRole}`);
       toast({
         title: "Success",
         description: "User role updated successfully",
@@ -62,7 +111,7 @@ export const useAdminUsers = () => {
       console.error('Error updating user role:', error);
       toast({
         title: "Error",
-        description: "Failed to update user role",
+        description: "Failed to update user role. Make sure you have admin permissions.",
         variant: "destructive",
       });
     }

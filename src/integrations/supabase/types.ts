@@ -180,13 +180,22 @@ export type Database = {
     }
     Functions: {
       create_audit_log: {
-        Args: {
-          _action: string
-          _table_name: string
-          _record_id?: string
-          _old_values?: Json
-          _new_values?: Json
-        }
+        Args:
+          | {
+              _action: string
+              _table_name: string
+              _record_id?: string
+              _old_values?: Json
+              _new_values?: Json
+            }
+          | {
+              _action: string
+              _table_name: string
+              _record_id?: string
+              _old_values?: Json
+              _new_values?: Json
+              _created_at?: string
+            }
         Returns: undefined
       }
       get_current_user_role: {
@@ -197,6 +206,13 @@ export type Database = {
         Args: {
           _user_id: string
           _role: Database["public"]["Enums"]["app_role"]
+        }
+        Returns: boolean
+      }
+      user_has_role_or_higher: {
+        Args: {
+          _user_id: string
+          _required_role: Database["public"]["Enums"]["app_role"]
         }
         Returns: boolean
       }
