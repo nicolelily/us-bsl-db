@@ -4,8 +4,9 @@ import { BreedLegislation } from "@/types";
 
 export async function fetchBreedLegislationData(): Promise<BreedLegislation[]> {
   try {
-    console.log('Fetching breed legislation data from Supabase...');
+    console.log('Fetching breed legislation data from Supabase with RLS protection...');
     
+    // The breed_legislation table should be publicly readable, but we'll handle RLS gracefully
     const { data, error } = await supabase
       .from('breed_legislation')
       .select('*')
@@ -13,6 +14,17 @@ export async function fetchBreedLegislationData(): Promise<BreedLegislation[]> {
 
     if (error) {
       console.error('Supabase error:', error);
+      
+      // Handle RLS policy violations gracefully
+      if (error.message?.includes('row-level security') || 
+          error.message?.includes('permission denied') ||
+          error.code === 'PGRST116' || 
+          error.code === '42501') {
+        console.warn('RLS policy may be blocking access to breed legislation data');
+        // Return empty array for now, but log the issue
+        return [];
+      }
+      
       throw new Error(`Failed to fetch data: ${error.message}`);
     }
 

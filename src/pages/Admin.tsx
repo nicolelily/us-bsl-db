@@ -2,6 +2,7 @@
 import React from 'react';
 import Navigation from '../components/Navigation';
 import AdminPanel from '../components/admin/AdminPanel';
+import SecurityMonitor from '../components/admin/SecurityMonitor';
 import ProtectedRoute from '../components/ProtectedRoute';
 
 const Admin = () => {
@@ -15,7 +16,15 @@ const Admin = () => {
             <p className="text-bsl-brown mb-6">
               Manage users, roles, and system settings. Only administrators can access this panel.
             </p>
-            <AdminPanel />
+            
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+              <div className="lg:col-span-2">
+                <AdminPanel />
+              </div>
+              <div>
+                <SecurityMonitor />
+              </div>
+            </div>
           </div>
         </div>
       </div>
