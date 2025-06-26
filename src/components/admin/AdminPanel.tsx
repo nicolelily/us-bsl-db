@@ -6,11 +6,11 @@ import AdminStatsCards from './AdminStatsCards';
 import UserManagementTable from './UserManagementTable';
 import AdminAccessDenied from './AdminAccessDenied';
 import AdminLoading from './AdminLoading';
-import AdminRLSHandler from './AdminRLSHandler';
+import AdminErrorBoundary from './AdminErrorBoundary';
 
 const AdminPanel = () => {
   const { hasRole, loading: roleLoading } = useUserRole();
-  const { users, loading: usersLoading, error, updateUserRole } = useAdminUsersSecure();
+  const { users, loading: usersLoading, error, updateUserRole, refetchUsers } = useAdminUsersSecure();
 
   if (roleLoading) {
     return <AdminLoading />;
@@ -22,14 +22,14 @@ const AdminPanel = () => {
 
   return (
     <div className="space-y-6">
-      <AdminRLSHandler error={error}>
+      <AdminErrorBoundary error={error} retry={refetchUsers}>
         <AdminStatsCards users={users} />
         <UserManagementTable 
           users={users} 
           loading={usersLoading} 
           onUpdateUserRole={updateUserRole} 
         />
-      </AdminRLSHandler>
+      </AdminErrorBoundary>
     </div>
   );
 };
