@@ -180,22 +180,13 @@ export type Database = {
     }
     Functions: {
       create_audit_log: {
-        Args:
-          | {
-              _action: string
-              _table_name: string
-              _record_id?: string
-              _old_values?: Json
-              _new_values?: Json
-            }
-          | {
-              _action: string
-              _table_name: string
-              _record_id?: string
-              _old_values?: Json
-              _new_values?: Json
-              _created_at?: string
-            }
+        Args: {
+          _action: string
+          _table_name: string
+          _record_id?: string
+          _old_values?: Json
+          _new_values?: Json
+        }
         Returns: undefined
       }
       get_current_user_role: {
