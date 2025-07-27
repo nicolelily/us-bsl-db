@@ -14,7 +14,7 @@ const Contact = () => {
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-bsl-brown mb-4">Contact Us</h1>
           <p className="text-bsl-brown mb-8">
-            Have questions about breed-specific legislation or want to contribute to our database? 
+            Do you have questions about breed-specific legislation, need help with a specific case, or want to learn more about our work?
             We'd love to hear from you.
           </p>
         </div>
