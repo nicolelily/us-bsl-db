@@ -24,7 +24,7 @@ export interface Submission {
   user_id: string;
   type: SubmissionType;
   status: SubmissionStatus;
-  original_record_id?: string;
+  original_record_id?: number;
   submitted_data: SubmissionData;
   admin_feedback?: string;
   reviewed_by?: string;
@@ -66,7 +66,7 @@ export interface SubmissionWithDetails extends Submission {
     email: string;
   };
   original_legislation?: {
-    id: string;
+    id: number;
     municipality: string;
     state: string;
     type: string;
@@ -85,7 +85,7 @@ export interface SubmissionStats {
 export interface SubmissionFormData {
   // Step 1: Type selection
   type: SubmissionType;
-  original_record_id?: string;
+  original_record_id?: number;
 
   // Step 2: Location
   state: string;
@@ -116,7 +116,7 @@ export interface SubmissionFormData {
 export interface DuplicateCheckResult {
   is_duplicate: boolean;
   similar_records: Array<{
-    id: string;
+    id: number;
     municipality: string;
     state: string;
     similarity_score: number;

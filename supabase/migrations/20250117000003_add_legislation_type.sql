@@ -32,10 +32,10 @@ CREATE OR REPLACE FUNCTION public.approve_submission(
     submission_id UUID,
     admin_user_id UUID
 )
-RETURNS BOOLEAN AS $$
+RETURNS BOOLEAN AS $$$
 DECLARE
     submission_record RECORD;
-    new_legislation_id UUID;
+    new_legislation_id BIGINT;
 BEGIN
     -- Get the submission
     SELECT * INTO submission_record
@@ -130,4 +130,4 @@ BEGIN
 
     RETURN TRUE;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$$ LANGUAGE plpgsql SECURITY DEFINER;

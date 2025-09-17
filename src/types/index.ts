@@ -2,7 +2,7 @@
 export type LegislationType = 'ban' | 'restriction';
 
 export interface BreedLegislation {
-  id: number;
+  id: string;
   municipality: string;
   state: string;
   type: "City" | "County";

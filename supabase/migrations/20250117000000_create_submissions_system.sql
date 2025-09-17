@@ -11,7 +11,7 @@ CREATE TABLE public.submissions (
     user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
     type submission_type NOT NULL,
     status submission_status DEFAULT 'pending' NOT NULL,
-    original_record_id UUID REFERENCES public.breed_legislation(id) ON DELETE SET NULL,
+    original_record_id BIGINT REFERENCES public.breed_legislation(id) ON DELETE SET NULL,
     submitted_data JSONB NOT NULL,
     admin_feedback TEXT,
     reviewed_by UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
