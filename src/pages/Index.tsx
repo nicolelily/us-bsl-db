@@ -5,6 +5,7 @@ import DataFilters from '../components/DataFilters';
 import DataTable from '../components/DataTable';
 import { FilterOptions, BreedLegislation } from '@/types';
 import { fetchBreedLegislationData } from '@/utils/dataFetcher';
+
 import { useQuery } from '@tanstack/react-query';
 
 const Index = () => {
@@ -19,6 +20,8 @@ const Index = () => {
     queryKey: ['breedLegislationData'],
     queryFn: fetchBreedLegislationData
   });
+
+
 
   const filteredData = useMemo(() => {
     return breedLegislationData.filter(item => {
@@ -63,11 +66,22 @@ const Index = () => {
             {isLoading ? (
               <p className="text-sm text-bsl-brown">Loading data...</p>
             ) : error ? (
-              <p className="text-sm text-red-500">Error loading data. Please try again later.</p>
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                <p className="text-sm text-red-600 font-semibold">Error loading data:</p>
+                <p className="text-sm text-red-500 mt-1">{error?.message || 'Unknown error occurred'}</p>
+                <p className="text-xs text-red-400 mt-2">Check the browser console for more details.</p>
+              </div>
             ) : (
-              <p className="text-sm text-bsl-brown">
-                Showing {filteredData.length} of {breedLegislationData.length} records
-              </p>
+              <div className="flex items-center justify-between">
+                <p className="text-sm text-bsl-brown">
+                  Showing {filteredData.length} of {breedLegislationData.length} records
+                </p>
+                {breedLegislationData.length === 0 && (
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg px-3 py-2">
+                    <p className="text-sm text-yellow-700">No data loaded from database</p>
+                  </div>
+                )}
+              </div>
             )}
           </div>
           
