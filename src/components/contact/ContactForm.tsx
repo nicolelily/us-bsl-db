@@ -16,7 +16,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -44,23 +43,33 @@ const ContactForm = () => {
     console.log('Contact form submitted:', data);
     
     try {
-      const { error } = await supabase
-        .from('contact_submissions')
-        .insert({
+      const formspreeEndpoint = import.meta.env.VITE_FORMSPREE_ENDPOINT;
+      
+      if (!formspreeEndpoint) {
+        console.error('Formspree endpoint not configured');
+        toast({
+          title: "Configuration Error",
+          description: "Contact form is not properly configured. Please try again later.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const response = await fetch(formspreeEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           name: data.name,
           email: data.email,
           subject: data.subject,
           message: data.message,
-        });
+        }),
+      });
 
-      if (error) {
-        console.error('Error saving contact submission:', error);
-        toast({
-          title: "Error",
-          description: "There was a problem sending your message. Please try again.",
-          variant: "destructive",
-        });
-        return;
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       toast({
@@ -70,7 +79,7 @@ const ContactForm = () => {
       
       form.reset();
     } catch (error) {
-      console.error('Unexpected error:', error);
+      console.error('Error sending message:', error);
       toast({
         title: "Error",
         description: "There was a problem sending your message. Please try again.",

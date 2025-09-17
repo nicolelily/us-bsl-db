@@ -3,7 +3,7 @@ import React from 'react';
 import Navigation from '../components/Navigation';
 import ContactForm from '../components/contact/ContactForm';
 import ResourcesSection from '../components/contact/ResourcesSection';
-import ContactInfo from '../components/contact/ContactInfo';
+
 import HelpSection from '../components/contact/HelpSection';
 
 const Contact = () => {
@@ -24,7 +24,6 @@ const Contact = () => {
 
           <div className="space-y-6">
             <ResourcesSection />
-            <ContactInfo />
             <HelpSection />
           </div>
         </div>
