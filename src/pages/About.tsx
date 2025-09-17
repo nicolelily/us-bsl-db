@@ -76,10 +76,6 @@ const About = () => {
                 legislation or legal interpretations. Users should consult with qualified legal professionals 
                 or local authorities for current information regarding specific municipalities.
               </p>
-              <p>
-                This project does not advocate for or against breed-specific legislation but aims to provide 
-                objective data for educational and research purposes.
-              </p>
             </CardContent>
           </Card>
         </div>
