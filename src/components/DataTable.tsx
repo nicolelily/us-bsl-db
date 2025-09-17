@@ -36,6 +36,7 @@ const DataTable = ({ data }: DataTableProps) => {
               <TableHead className="font-semibold w-32">Municipality</TableHead>
               <TableHead className="font-semibold w-20">State</TableHead>
               <TableHead className="font-semibold w-20">Type</TableHead>
+              <TableHead className="font-semibold w-24">Legislation</TableHead>
               <TableHead className="font-semibold w-40">Banned Breeds</TableHead>
               <TableHead className="font-semibold w-64">Ordinance</TableHead>
               <TableHead className="font-semibold w-24">Population</TableHead>
@@ -46,7 +47,7 @@ const DataTable = ({ data }: DataTableProps) => {
           <TableBody>
             {data.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={8} className="text-center py-8 text-dogdata-text">
+                <TableCell colSpan={9} className="text-center py-8 text-dogdata-text">
                   No data found matching your filters.
                 </TableCell>
               </TableRow>
@@ -56,6 +57,14 @@ const DataTable = ({ data }: DataTableProps) => {
                   <TableCell className="font-medium">{item.municipality}</TableCell>
                   <TableCell>{item.state}</TableCell>
                   <TableCell>{item.type}</TableCell>
+                  <TableCell>
+                    <Badge 
+                      variant={item.legislationType === 'ban' ? 'destructive' : 'secondary'}
+                      className="capitalize"
+                    >
+                      {item.legislationType}
+                    </Badge>
+                  </TableCell>
                   <TableCell>
                     <div className="flex flex-wrap gap-1">
                       {item.bannedBreeds.map((breed, idx) => (

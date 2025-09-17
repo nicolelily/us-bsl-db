@@ -3,12 +3,15 @@
 export type SubmissionType = 'new_legislation' | 'update_existing';
 export type SubmissionStatus = 'pending' | 'approved' | 'rejected' | 'needs_changes';
 
+export type LegislationType = 'ban' | 'restriction';
+
 export interface SubmissionData {
   municipality: string;
   state: string;
   type: 'City' | 'County';
   banned_breeds: string[];
   ordinance: string;
+  legislation_type: LegislationType;
   population?: number;
   lat?: number;
   lng?: number;
@@ -93,6 +96,7 @@ export interface SubmissionFormData {
   ordinance_title: string;
   banned_breeds: string[];
   ordinance_text: string;
+  legislation_type: LegislationType;
   population?: number;
   coordinates?: {
     lat: number;

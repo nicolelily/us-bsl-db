@@ -1,4 +1,6 @@
 
+export type LegislationType = 'ban' | 'restriction';
+
 export interface BreedLegislation {
   id: number;
   municipality: string;
@@ -6,6 +8,7 @@ export interface BreedLegislation {
   type: "City" | "County";
   bannedBreeds: string[];
   ordinance: string;
+  legislationType: LegislationType;
   population?: number;
   lat?: number;
   lng?: number;
@@ -18,6 +21,7 @@ export interface FilterOptions {
   breed: string | null;
   stateFilter: string | null;
   type: string | null;
+  legislationType: string | null;
 }
 
 export interface SheetData {

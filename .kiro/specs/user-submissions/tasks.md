@@ -2,7 +2,7 @@
 
 ## Phase 1: Database Foundation
 
-- [-] 1. Create database schema for submissions system
+- [x] 1. Create database schema for submissions system
   - Create submissions table with proper relationships
   - Create submission_documents table for file attachments
   - Create user_contributions table for tracking user stats
