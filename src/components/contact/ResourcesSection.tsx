@@ -6,11 +6,6 @@ import { ExternalLink } from 'lucide-react';
 const ResourcesSection = () => {
   const resources = [
     {
-      title: "Best Friends Animal Society",
-      description: "Leading advocacy organization working to end breed discrimination",
-      url: "https://bestfriends.org/no-kill-2025/breed-discriminatory-legislation"
-    },
-    {
       title: "National Canine Research Council",
       description: "Evidence-based research on dog bite prevention and breed policies",
       url: "https://www.nationalcanineresearchcouncil.com"
