@@ -13,7 +13,8 @@ const Stats = () => {
     search: '',
     breed: null,
     stateFilter: null,
-    type: null,
+    municipalityType: null,
+    legislationType: null,
   });
 
   const { data: breedLegislationData = [], isLoading, error } = useQuery({
@@ -38,8 +39,13 @@ const Stats = () => {
         return false;
       }
 
-      // Filter by type
-      if (filters.type && item.type !== filters.type) {
+      // Filter by municipality type
+      if (filters.municipalityType && item.municipalityType !== filters.municipalityType) {
+        return false;
+      }
+
+      // Filter by legislation type
+      if (filters.legislationType && item.legislationType !== filters.legislationType) {
         return false;
       }
 

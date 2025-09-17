@@ -42,7 +42,7 @@ const StatsComponent = ({ data }: StatsComponentProps) => {
     };
     
     data.forEach(item => {
-      typeCounts[item.type] += 1;
+      typeCounts[item.municipalityType] += 1;
     });
     
     return Object.entries(typeCounts).map(([name, value]) => ({ name, value }));

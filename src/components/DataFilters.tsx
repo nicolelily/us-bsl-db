@@ -21,7 +21,8 @@ const DataFilters = ({ onFilterChange, breedLegislationData }: DataFiltersProps)
   const [search, setSearch] = useState('');
   const [breed, setBreed] = useState<string | null>(null);
   const [stateFilter, setStateFilter] = useState<string | null>(null);
-  const [type, setType] = useState<string | null>(null);
+  const [municipalityType, setMunicipalityType] = useState<string | null>(null);
+  const [legislationType, setLegislationType] = useState<string | null>(null);
 
   // Generate unique lists for filters
   const uniqueBreeds = Array.from(
@@ -40,15 +41,17 @@ const DataFilters = ({ onFilterChange, breedLegislationData }: DataFiltersProps)
       search,
       breed,
       stateFilter,
-      type
+      municipalityType,
+      legislationType
     });
-  }, [search, breed, stateFilter, type, onFilterChange]);
+  }, [search, breed, stateFilter, municipalityType, legislationType, onFilterChange]);
 
   const handleReset = () => {
     setSearch('');
     setBreed(null);
     setStateFilter(null);
-    setType(null);
+    setMunicipalityType(null);
+    setLegislationType(null);
   };
 
   // Handle value changes for selects
@@ -60,15 +63,19 @@ const DataFilters = ({ onFilterChange, breedLegislationData }: DataFiltersProps)
     setStateFilter(value === "all" ? null : value);
   };
 
-  const handleTypeChange = (value: string) => {
-    setType(value === "all" ? null : value);
+  const handleMunicipalityTypeChange = (value: string) => {
+    setMunicipalityType(value === "all" ? null : value);
+  };
+
+  const handleLegislationTypeChange = (value: string) => {
+    setLegislationType(value === "all" ? null : value);
   };
 
   return (
     <div className="bg-white p-4 rounded-lg shadow-md mb-6">
       <h2 className="text-lg font-semibold mb-4 text-dogdata-text">Filter Data</h2>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
         <div className="space-y-2">
           <label htmlFor="search" className="text-sm font-medium text-dogdata-text">
             Search Municipality
@@ -130,8 +137,8 @@ const DataFilters = ({ onFilterChange, breedLegislationData }: DataFiltersProps)
             Municipality Type
           </label>
           <Select 
-            value={type || "all"} 
-            onValueChange={handleTypeChange}
+            value={municipalityType || "all"} 
+            onValueChange={handleMunicipalityTypeChange}
           >
             <SelectTrigger id="type-filter">
               <SelectValue placeholder="All types" />
@@ -140,6 +147,25 @@ const DataFilters = ({ onFilterChange, breedLegislationData }: DataFiltersProps)
               <SelectItem value="all">All types</SelectItem>
               <SelectItem value="City">City</SelectItem>
               <SelectItem value="County">County</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="legislation-type-filter" className="text-sm font-medium text-dogdata-text">
+            Legislation Type
+          </label>
+          <Select 
+            value={legislationType || "all"} 
+            onValueChange={handleLegislationTypeChange}
+          >
+            <SelectTrigger id="legislation-type-filter">
+              <SelectValue placeholder="All types" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All types</SelectItem>
+              <SelectItem value="ban">Ban</SelectItem>
+              <SelectItem value="restriction">Restriction</SelectItem>
             </SelectContent>
           </Select>
         </div>

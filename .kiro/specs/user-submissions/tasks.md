@@ -9,7 +9,7 @@
   - Add RLS policies for secure access control
   - _Requirements: 1.1, 2.1, 3.1, 5.1_
 
-- [ ] 2. Set up Supabase Storage for document uploads
+- [x] 2. Set up Supabase Storage for document uploads
   - Configure storage bucket for submission documents
   - Set up file upload policies and size limits
   - Implement virus scanning and file type validation
@@ -18,14 +18,14 @@
 
 ## Phase 2: Core Submission Components
 
-- [ ] 3. Create submission wizard component structure
+- [x] 3. Create submission wizard component structure
   - Build multi-step wizard container component
   - Implement step navigation and progress tracking
   - Add form state management across steps
   - Create responsive design for mobile and desktop
   - _Requirements: 2.1, 2.2_
 
-- [ ] 4. Implement legislation data form components
+- [x] 4. Implement legislation data form components
   - Create reusable LegislationForm component
   - Build location selector with state/municipality autocomplete
   - Implement breed selector with existing breed suggestions
@@ -41,7 +41,7 @@
 
 ## Phase 3: Duplicate Detection & Data Quality
 
-- [ ] 6. Implement duplicate detection system
+- [x] 6. Implement duplicate detection system
   - Create algorithm to detect similar legislation records
   - Build real-time duplicate checking during form entry
   - Add duplicate warning UI with comparison view

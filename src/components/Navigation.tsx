@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Map, BarChart3, Info, Contact } from 'lucide-react';
+import { Home, Map, BarChart3, Info, Contact, Plus } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import UserMenu from './UserMenu';
 
@@ -55,6 +55,16 @@ const Navigation = () => {
           </div>
           
           <div className="flex items-center space-x-4">
+            {user && (
+              <Link
+                to="/submit"
+                className="bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors flex items-center space-x-2"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Contribute</span>
+              </Link>
+            )}
+            
             {user ? (
               <UserMenu />
             ) : (
