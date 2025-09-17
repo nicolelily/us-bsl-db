@@ -5,7 +5,7 @@ export interface BreedLegislation {
   id: string;
   municipality: string;
   state: string;
-  type: "City" | "County";
+  municipalityType: "City" | "County";
   bannedBreeds: string[];
   ordinance: string;
   legislationType: LegislationType;
@@ -20,7 +20,7 @@ export interface FilterOptions {
   search: string;
   breed: string | null;
   stateFilter: string | null;
-  type: string | null;
+  municipalityType: string | null;
   legislationType: string | null;
 }
 

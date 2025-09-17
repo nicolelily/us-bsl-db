@@ -8,7 +8,7 @@ export type LegislationType = 'ban' | 'restriction';
 export interface SubmissionData {
   municipality: string;
   state: string;
-  type: 'City' | 'County';
+  municipality_type: 'City' | 'County';
   banned_breeds: string[];
   ordinance: string;
   legislation_type: LegislationType;

@@ -21,8 +21,8 @@ ALTER COLUMN legislation_type SET NOT NULL;
 ALTER TABLE public.breed_legislation 
 ALTER COLUMN legislation_type SET DEFAULT 'ban';
 
--- Add index for filtering by legislation type
-CREATE INDEX idx_breed_legislation_type ON public.breed_legislation(legislation_type);
+-- Add index for filtering by legislation type (if it doesn't exist)
+CREATE INDEX IF NOT EXISTS idx_breed_legislation_type ON public.breed_legislation(legislation_type);
 
 -- Add comment for documentation
 COMMENT ON COLUMN public.breed_legislation.legislation_type IS 'Type of breed-specific legislation: ban (breed prohibition) or restriction (additional requirements like insurance)';

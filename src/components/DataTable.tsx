@@ -35,7 +35,7 @@ const DataTable = ({ data }: DataTableProps) => {
             <TableRow className="bg-dogdata-muted">
               <TableHead className="font-semibold w-32">Municipality</TableHead>
               <TableHead className="font-semibold w-20">State</TableHead>
-              <TableHead className="font-semibold w-20">Type</TableHead>
+              <TableHead className="font-semibold w-20">Municipality</TableHead>
               <TableHead className="font-semibold w-24">Legislation</TableHead>
               <TableHead className="font-semibold w-40">Banned Breeds</TableHead>
               <TableHead className="font-semibold w-64">Ordinance</TableHead>
@@ -56,7 +56,7 @@ const DataTable = ({ data }: DataTableProps) => {
                 <TableRow key={item.id} className="hover:bg-dogdata-background">
                   <TableCell className="font-medium">{item.municipality}</TableCell>
                   <TableCell>{item.state}</TableCell>
-                  <TableCell>{item.type}</TableCell>
+                  <TableCell>{item.municipalityType}</TableCell>
                   <TableCell>
                     <Badge 
                       variant={item.legislationType === 'ban' ? 'destructive' : 'secondary'}
