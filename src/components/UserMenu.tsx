@@ -1,5 +1,5 @@
 
-import React from 'react';
+
 import { useAuth } from '@/contexts/AuthContext';
 import { useUserRole } from '@/hooks/useUserRole';
 import { Button } from '@/components/ui/button';
@@ -54,17 +54,24 @@ const UserMenu = () => {
           </p>
         </div>
         <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link to="/profile" className="flex items-center gap-2">
+            <User className="w-4 h-4" />
+            My Profile
+          </Link>
+        </DropdownMenuItem>
         {hasRole('admin') && (
           <>
+            <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link to="/admin" className="flex items-center gap-2">
                 <Shield className="w-4 h-4" />
                 Admin Panel
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
           </>
         )}
+        <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleSignOut} className="flex items-center gap-2">
           <LogOut className="w-4 h-4" />
           Sign Out

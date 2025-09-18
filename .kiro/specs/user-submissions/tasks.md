@@ -57,7 +57,7 @@
 
 ## Phase 4: User Dashboard & Profile
 
-- [ ] 8. Create user profile and dashboard
+- [x] 8. Create user profile and dashboard
   - Build UserProfile component with contribution statistics
   - Implement submission history with status tracking
   - Add reputation system and achievement badges
