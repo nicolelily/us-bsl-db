@@ -32,7 +32,7 @@
   - Add form validation with real-time feedback
   - _Requirements: 2.1, 2.5, 6.2, 6.3_
 
-- [ ] 5. Build document upload functionality
+- [x] 5. Build document upload functionality
   - Create DocumentUpload component with drag-and-drop
   - Implement file validation (type, size, virus scan)
   - Add upload progress indicators and error handling
@@ -48,7 +48,7 @@
   - Implement fuzzy matching for municipality and breed names
   - _Requirements: 2.6, 6.2, 6.3_
 
-- [ ] 7. Add data quality validation
+- [x] 7. Add data quality validation
   - Implement server-side validation for all submission fields
   - Create municipality validation against known database
   - Add breed name standardization and suggestions
