@@ -231,6 +231,125 @@ Add "Contribute" button to main navigation:
 - Automatic image optimization
 - File cleanup for rejected submissions
 
+## User Onboarding and Communication System
+
+### Welcome Email Workflow
+
+#### Trigger Events
+- User completes email verification after registration
+- User creates their first profile entry
+
+#### Email Content Structure
+
+**Welcome Email Template:**
+```
+Subject: Welcome to the BSL Database Community!
+
+Hi [User Name],
+
+Welcome to the BSL Database! Thank you for joining our community of contributors working to document breed-specific legislation across the United States.
+
+## How to Get Started
+
+1. **Explore the Database**: Browse existing legislation at [database URL]
+2. **Submit New Legislation**: Found BSL in your area? Click "Contribute" to add it
+3. **Report Updates**: See outdated information? Use "Report Update" on any record
+4. **Track Your Contributions**: Visit your profile to see your submission history
+
+## Contribution Guidelines
+
+- Provide accurate municipality and state information
+- Include source documents or URLs when possible
+- Check for duplicates before submitting
+- Be patient - all submissions are reviewed by our team
+
+## Stay Connected
+
+Would you like to receive updates about new features, database improvements, and community highlights?
+
+[Yes, subscribe to newsletter] [No thanks]
+
+Questions? Reply to this email or visit our FAQ.
+
+Best regards,
+The BSL Database Team
+```
+
+#### Newsletter System
+
+**Newsletter Preferences:**
+- Stored in user_preferences table
+- Opt-in only (GDPR compliant)
+- Easy unsubscribe mechanism
+- Frequency: Monthly or quarterly
+
+**Newsletter Content:**
+- Database statistics and growth
+- New features and improvements
+- Community highlights and top contributors
+- Legislative trend analysis
+- Call-to-action for specific contribution needs
+
+### Database Schema Extensions
+
+#### New Tables
+
+**user_preferences**
+```sql
+- id (uuid, primary key)
+- user_id (uuid, foreign key to profiles)
+- newsletter_subscribed (boolean, default false)
+- email_notifications (boolean, default true)
+- marketing_emails (boolean, default false)
+- created_at (timestamp)
+- updated_at (timestamp)
+```
+
+**email_logs**
+```sql
+- id (uuid, primary key)
+- user_id (uuid, foreign key to profiles)
+- email_type (enum: 'welcome', 'newsletter', 'submission_update', 'admin_notification')
+- subject (text)
+- sent_at (timestamp)
+- status (enum: 'sent', 'failed', 'bounced')
+- provider_id (text) -- External email service ID
+```
+
+### Email Service Integration
+
+#### Service Provider
+- Use Supabase Edge Functions with email service (SendGrid, Mailgun, or similar)
+- Template-based email system
+- Delivery tracking and bounce handling
+- Unsubscribe link management
+
+#### Email Templates
+
+**Template Types:**
+1. Welcome email with onboarding
+2. Newsletter subscription confirmation
+3. Monthly/quarterly newsletter
+4. Submission status updates
+5. Admin notifications
+
+### User Interface Updates
+
+#### Registration Flow Enhancement
+- Add newsletter opt-in checkbox during registration
+- Clear explanation of what newsletter includes
+- Privacy policy link
+
+#### Profile Settings
+- Newsletter subscription toggle
+- Email preference management
+- Unsubscribe from all emails option
+
+#### Admin Dashboard
+- Newsletter subscriber count
+- Email delivery statistics
+- Newsletter composition and sending interface
+
 ## Testing Strategy
 
 ### Unit Tests
@@ -239,6 +358,8 @@ Add "Contribute" button to main navigation:
 - Duplicate detection algorithms
 - User permission checks
 - Data transformation functions
+- Email template rendering
+- Newsletter subscription logic
 
 ### Integration Tests
 
@@ -246,6 +367,8 @@ Add "Contribute" button to main navigation:
 - Admin approval process
 - Email notification system
 - File upload and storage
+- Welcome email delivery
+- Newsletter subscription flow
 
 ### User Acceptance Tests
 
@@ -253,3 +376,5 @@ Add "Contribute" button to main navigation:
 - Mobile responsiveness
 - Admin moderation workflow
 - User dashboard functionality
+- Email delivery and formatting
+- Newsletter opt-in/out process

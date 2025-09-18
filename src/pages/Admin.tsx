@@ -3,7 +3,9 @@ import React from 'react';
 import Navigation from '../components/Navigation';
 import AdminPanel from '../components/admin/AdminPanel';
 import SecurityMonitor from '../components/admin/SecurityMonitor';
+import { NewsletterManager } from '../components/admin/NewsletterManager';
 import ProtectedRoute from '../components/ProtectedRoute';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const Admin = () => {
   return (
@@ -17,14 +19,25 @@ const Admin = () => {
               Manage users, roles, and system settings. Only administrators can access this panel.
             </p>
             
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-              <div className="lg:col-span-2">
+            <Tabs defaultValue="users" className="w-full">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="users">User Management</TabsTrigger>
+                <TabsTrigger value="newsletter">Newsletter</TabsTrigger>
+                <TabsTrigger value="security">Security</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="users" className="mt-6">
                 <AdminPanel />
-              </div>
-              <div>
+              </TabsContent>
+              
+              <TabsContent value="newsletter" className="mt-6">
+                <NewsletterManager />
+              </TabsContent>
+              
+              <TabsContent value="security" className="mt-6">
                 <SecurityMonitor />
-              </div>
-            </div>
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
       </div>

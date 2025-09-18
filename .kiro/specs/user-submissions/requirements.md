@@ -91,3 +91,16 @@ This feature will allow authenticated users to submit new breed-specific legisla
 3. WHEN documents are uploaded THEN they SHALL be scanned for malware
 4. WHEN a submission includes sources THEN they SHALL be validated as accessible URLs
 5. IF a submission lacks sources THEN it SHALL be marked as "needs verification"
+
+### Requirement 8: User Onboarding and Communication
+
+**User Story:** As a new contributor, I want to receive guidance on how to contribute effectively and stay informed about the database.
+
+#### Acceptance Criteria
+
+1. WHEN a user completes registration THEN they SHALL receive a welcome email with contribution guidelines
+2. WHEN a user receives the welcome email THEN it SHALL include clear instructions on how to submit legislation
+3. WHEN a user receives the welcome email THEN it SHALL include a call-to-action to opt-in to the newsletter
+4. WHEN a user opts into the newsletter THEN their preference SHALL be saved to their profile
+5. WHEN a user opts into the newsletter THEN they SHALL receive periodic updates about database improvements
+6. WHEN a user wants to unsubscribe THEN they SHALL be able to do so via email link or profile settings

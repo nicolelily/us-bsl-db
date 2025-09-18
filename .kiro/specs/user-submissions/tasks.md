@@ -103,16 +103,25 @@
   - Add user communication preferences
   - _Requirements: 4.2, 5.4, 5.6_
 
+- [x] 14. Implement user onboarding and welcome email system
+  - Create welcome email template with contribution guidelines
+  - Build email service integration using Supabase Edge Functions
+  - Implement newsletter subscription system with opt-in/out
+  - Add user preferences table and management interface
+  - Create newsletter composition and delivery system
+  - Add email delivery tracking and bounce handling
+  - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6_
+
 ## Phase 7: Security & Performance
 
-- [ ] 14. Implement security measures
+- [ ] 15. Implement security measures
   - Add rate limiting for submission creation
   - Implement spam detection and prevention
   - Create user account flagging system for policy violations
   - Add comprehensive input sanitization and validation
   - _Requirements: 6.4, 6.5_
 
-- [ ] 15. Optimize performance and scalability
+- [ ] 16. Optimize performance and scalability
   - Add database indexes for submission queries
   - Implement caching for duplicate detection
   - Optimize file upload and storage performance
@@ -121,32 +130,36 @@
 
 ## Phase 8: Testing & Quality Assurance
 
-- [ ] 16. Create comprehensive test suite
+- [ ] 17. Create comprehensive test suite
   - Write unit tests for all submission components
   - Implement integration tests for complete workflows
   - Add end-to-end tests for user and admin journeys
   - Create performance tests for file uploads and processing
+  - Test email delivery and newsletter systems
   - _Requirements: All requirements validation_
 
-- [ ] 17. Conduct user acceptance testing
+- [ ] 18. Conduct user acceptance testing
   - Test submission wizard usability across devices
   - Validate admin moderation workflow efficiency
   - Test email notification delivery and content
   - Verify data quality controls and duplicate detection
+  - Test welcome email and newsletter subscription flow
   - _Requirements: User experience validation_
 
 ## Phase 9: Documentation & Launch Preparation
 
-- [ ] 18. Create user documentation and help system
+- [ ] 19. Create user documentation and help system
   - Write submission guidelines and best practices
   - Create video tutorials for submission process
   - Build FAQ section for common questions
   - Add contextual help throughout the interface
+  - Create newsletter content templates and guidelines
   - _Requirements: User education and support_
 
-- [ ] 19. Prepare for production launch
+- [ ] 20. Prepare for production launch
   - Set up monitoring and analytics for submission system
   - Create admin training materials and procedures
   - Implement backup and recovery procedures for submissions
   - Plan soft launch with limited user group
+  - Set up email service provider and delivery monitoring
   - _Requirements: Production readiness_

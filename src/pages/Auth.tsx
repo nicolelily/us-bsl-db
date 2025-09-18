@@ -8,11 +8,16 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
+import { Checkbox } from '@/components/ui/checkbox';
+import { useEmailService } from '@/hooks/useEmailService';
+import { useUserPreferences } from '@/hooks/useUserPreferences';
 
 const Auth = () => {
   const { user, signIn, signUp } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { sendWelcomeEmail } = useEmailService();
+  const { subscribeToNewsletter } = useUserPreferences();
   const [loading, setLoading] = useState(false);
 
   // Redirect authenticated users to home
@@ -31,6 +36,7 @@ const Auth = () => {
     email: '',
     password: '',
     fullName: '',
+    newsletterOptIn: false,
   });
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -80,8 +86,11 @@ const Auth = () => {
       } else {
         toast({
           title: 'Account Created!',
-          description: 'Please check your email to verify your account.',
+          description: 'Please check your email to verify your account. You\'ll receive a welcome email once verified.',
         });
+
+        // Note: Welcome email will be sent after email verification
+        // We'll handle this in the AuthContext when the user confirms their email
       }
     } catch (error: any) {
       toast({
@@ -173,6 +182,21 @@ const Auth = () => {
                     disabled={loading}
                   />
                 </div>
+                
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="newsletter-opt-in"
+                    checked={signupForm.newsletterOptIn}
+                    onCheckedChange={(checked) => 
+                      setSignupForm({ ...signupForm, newsletterOptIn: checked as boolean })
+                    }
+                    disabled={loading}
+                  />
+                  <Label htmlFor="newsletter-opt-in" className="text-sm">
+                    Subscribe to our newsletter for database updates and community highlights
+                  </Label>
+                </div>
+                
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? 'Creating account...' : 'Sign Up'}
                 </Button>

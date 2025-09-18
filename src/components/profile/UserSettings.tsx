@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,31 +8,55 @@ import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { User, Bell, Shield, Trash2, Save } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useUserPreferences } from '@/hooks/useUserPreferences';
 
 export function UserSettings() {
   const { user } = useAuth();
+  const { preferences, updatePreferences, subscribeToNewsletter, isLoading: prefsLoading } = useUserPreferences();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   
   const [settings, setSettings] = useState({
     displayName: user?.user_metadata?.display_name || '',
     email: user?.email || '',
-    emailNotifications: true,
-    submissionUpdates: true,
-    weeklyDigest: false,
-    marketingEmails: false
+    emailNotifications: preferences?.emailNotifications ?? true,
+    newsletterSubscribed: preferences?.newsletterSubscribed ?? false,
+    marketingEmails: preferences?.marketingEmails ?? false
   });
+
+  // Update settings when preferences load
+  useEffect(() => {
+    if (preferences) {
+      setSettings(prev => ({
+        ...prev,
+        emailNotifications: preferences.emailNotifications,
+        newsletterSubscribed: preferences.newsletterSubscribed,
+        marketingEmails: preferences.marketingEmails
+      }));
+    }
+  }, [preferences]);
 
   const handleSave = async () => {
     setIsLoading(true);
     setMessage(null);
     
     try {
-      // TODO: Implement settings update API call
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+      // Update user preferences
+      if (preferences) {
+        await updatePreferences({
+          emailNotifications: settings.emailNotifications,
+          marketingEmails: settings.marketingEmails
+        });
+
+        // Handle newsletter subscription separately
+        if (settings.newsletterSubscribed !== preferences.newsletterSubscribed) {
+          await subscribeToNewsletter(settings.newsletterSubscribed);
+        }
+      }
       
       setMessage({ type: 'success', text: 'Settings saved successfully!' });
     } catch (error) {
+      console.error('Settings save error:', error);
       setMessage({ type: 'error', text: 'Failed to save settings. Please try again.' });
     } finally {
       setIsLoading(false);
@@ -124,25 +148,16 @@ export function UserSettings() {
           
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label>Submission Updates</Label>
-              <p className="text-sm text-gray-600">Get notified when your submissions are reviewed</p>
+              <Label>Newsletter Subscription</Label>
+              <p className="text-sm text-gray-600">Receive updates about database improvements and community highlights</p>
+              {preferences?.newsletterSubscribed && preferences?.newsletterConfirmed && (
+                <p className="text-xs text-green-600">✓ Subscribed and confirmed</p>
+              )}
             </div>
             <Switch
-              checked={settings.submissionUpdates}
-              onCheckedChange={(checked) => setSettings(prev => ({ ...prev, submissionUpdates: checked }))}
-              disabled={!settings.emailNotifications}
-            />
-          </div>
-          
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label>Weekly Digest</Label>
-              <p className="text-sm text-gray-600">Receive a weekly summary of platform activity</p>
-            </div>
-            <Switch
-              checked={settings.weeklyDigest}
-              onCheckedChange={(checked) => setSettings(prev => ({ ...prev, weeklyDigest: checked }))}
-              disabled={!settings.emailNotifications}
+              checked={settings.newsletterSubscribed}
+              onCheckedChange={(checked) => setSettings(prev => ({ ...prev, newsletterSubscribed: checked }))}
+              disabled={!settings.emailNotifications || prefsLoading}
             />
           </div>
           
