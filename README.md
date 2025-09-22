@@ -10,3 +10,9 @@ Relevant ordinance or municipal code references
 Population data where available
 The goal of this resource is to provide accurate, up-to-date information on breed-specific legislation to assist pet owners, animal welfare organizations, lawmakers, and researchers.
 
+## Technologies used in this project
+- TypeScript
+- Supabase (PostgreSQL)
+- Vercel
+- Vite
+- yarn
