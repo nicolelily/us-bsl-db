@@ -48,7 +48,7 @@ export function useUserSubmissions(): UseUserSubmissionsResult {
       setError(null);
 
       const { data, error: fetchError } = await supabase
-        .from('submissions')
+        .from('submissions' as any)
         .select(`
           id,
           type,
@@ -66,7 +66,7 @@ export function useUserSubmissions(): UseUserSubmissionsResult {
         throw fetchError;
       }
 
-      const formattedSubmissions: UserSubmission[] = (data || []).map(submission => {
+      const formattedSubmissions: UserSubmission[] = (data || []).map((submission: any) => {
         const submittedData = submission.submitted_data || {};
         const municipality = submittedData.municipality || 'Unknown';
         const state = submittedData.state || 'Unknown';

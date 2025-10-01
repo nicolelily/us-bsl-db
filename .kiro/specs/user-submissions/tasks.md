@@ -64,7 +64,7 @@
   - Create responsive dashboard layout
   - _Requirements: 4.1, 4.2_
 
-- [ ] 9. Build submission management interface
+- [x] 9. Build submission management interface
   - Create SubmissionList component with filtering and sorting
   - Implement SubmissionDetail view with full information
   - Add edit functionality for pending submissions
@@ -89,7 +89,7 @@
 
 ## Phase 6: Integration & User Experience
 
-- [ ] 12. Integrate submission system with existing UI
+- [x] 12. Integrate submission system with existing UI
   - Add "Contribute" button to main navigation
   - Implement "Report Update" buttons on existing records
   - Create seamless authentication flow for contributors

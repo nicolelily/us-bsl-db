@@ -3,6 +3,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import Navigation from '../components/Navigation';
 import DataFilters from '../components/DataFilters';
 import DataTable from '../components/DataTable';
+import { ContributionPrompt } from '../components/submissions/ContributionPrompt';
 import { FilterOptions, BreedLegislation } from '@/types';
 import { fetchBreedLegislationData } from '@/utils/dataFetcher';
 
@@ -58,6 +59,9 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-bsl-background">
       <Navigation />
+      {/* Hero Banner with Contribution CTA */}
+      <ContributionPrompt variant="banner" showStats={false} />
+      
       <div className="container mx-auto py-8 px-4">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-bsl-brown mb-4">U.S. Breed-Specific Legislation Database</h1>
@@ -96,7 +100,14 @@ const Index = () => {
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-bsl-teal"></div>
             </div>
           ) : (
-            <DataTable data={filteredData} />
+            <>
+              <DataTable data={filteredData} />
+              
+              {/* Contribution Prompt */}
+              <div className="mt-12">
+                <ContributionPrompt variant="default" showStats={true} />
+              </div>
+            </>
           )}
         </div>
       </div>

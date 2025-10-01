@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -15,17 +15,21 @@ import { useUserPreferences } from '@/hooks/useUserPreferences';
 const Auth = () => {
   const { user, signIn, signUp } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { toast } = useToast();
   const { sendWelcomeEmail } = useEmailService();
   const { subscribeToNewsletter } = useUserPreferences();
   const [loading, setLoading] = useState(false);
 
-  // Redirect authenticated users to home
+  // Get redirect URL from search params
+  const redirectUrl = searchParams.get('redirect') || '/';
+
+  // Redirect authenticated users
   useEffect(() => {
     if (user) {
-      navigate('/');
+      navigate(redirectUrl);
     }
-  }, [user, navigate]);
+  }, [user, navigate, redirectUrl]);
 
   const [loginForm, setLoginForm] = useState({
     email: '',
@@ -57,7 +61,7 @@ const Auth = () => {
           title: 'Welcome back!',
           description: 'You have been successfully logged in.',
         });
-        navigate('/');
+        navigate(redirectUrl);
       }
     } catch (error: any) {
       toast({

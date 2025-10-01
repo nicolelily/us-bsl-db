@@ -15,6 +15,7 @@ import Auth from "./pages/Auth";
 import Submit from "./pages/Submit";
 import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
+import SubmissionManagement from "./pages/SubmissionManagement";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,6 +38,9 @@ const App = () => (
               <Route path="/submit" element={<Submit />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/submissions" element={<SubmissionManagement />} />
+              <Route path="/submissions/:submissionId" element={<SubmissionManagement />} />
+              <Route path="/submissions/:submissionId/edit" element={<SubmissionManagement />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

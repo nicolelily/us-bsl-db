@@ -55,15 +55,14 @@ const Navigation = () => {
           </div>
           
           <div className="flex items-center space-x-4">
-            {user && (
-              <Link
-                to="/submit"
-                className="bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors flex items-center space-x-2"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Contribute</span>
-              </Link>
-            )}
+            {/* Contribute Button - Always visible */}
+            <Link
+              to={user ? "/submit" : "/auth?redirect=/submit"}
+              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 flex items-center space-x-2 shadow-md hover:shadow-lg transform hover:scale-105"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Contribute</span>
+            </Link>
             
             {user ? (
               <UserMenu />

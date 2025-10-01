@@ -2,6 +2,7 @@
 import React from 'react';
 import Navigation from '../components/Navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ContributionPrompt } from '../components/submissions/ContributionPrompt';
 
 const About = () => {
   return (
@@ -78,6 +79,11 @@ const About = () => {
               </p>
             </CardContent>
           </Card>
+
+          {/* Contribution Prompt */}
+          <div className="mt-8">
+            <ContributionPrompt variant="default" showStats={true} />
+          </div>
         </div>
       </div>
     </div>
