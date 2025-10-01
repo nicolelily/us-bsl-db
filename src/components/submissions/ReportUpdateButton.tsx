@@ -99,7 +99,10 @@ export function ReportUpdateButton({
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="font-medium">Legislation:</span>
-                  <Badge variant={record.legislationType === 'ban' ? 'destructive' : 'secondary'}>
+                  <Badge 
+                    variant={record.legislationType === 'ban' ? 'destructive' : 'secondary'}
+                    className={record.legislationType === 'restriction' ? 'bg-[#74CFC5] text-white hover:bg-[#5fb8ad]' : ''}
+                  >
                     {record.legislationType || 'Ban'}
                   </Badge>
                 </div>

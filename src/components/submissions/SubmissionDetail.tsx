@@ -266,7 +266,14 @@ const SubmissionDetail: React.FC<SubmissionDetailProps> = ({
                                 </div>
                                 <div>
                                     <label className="text-sm font-medium text-muted-foreground">Legislation Type</label>
-                                    <p className="capitalize">{submittedData.legislation_type || 'Not specified'}</p>
+                                    <div className="mt-1">
+                                        <Badge 
+                                            variant={submittedData.legislation_type === 'ban' ? 'destructive' : 'secondary'}
+                                            className={`capitalize ${submittedData.legislation_type === 'restriction' ? 'bg-[#74CFC5] text-white hover:bg-[#5fb8ad]' : ''}`}
+                                        >
+                                            {submittedData.legislation_type || 'Not specified'}
+                                        </Badge>
+                                    </div>
                                 </div>
                             </div>
 

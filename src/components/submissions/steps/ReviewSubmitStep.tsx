@@ -110,7 +110,10 @@ const ReviewSubmitStep: React.FC<ReviewSubmitStepProps> = ({
             
             <div>
               <h4 className="font-medium text-sm text-muted-foreground mb-1">Legislation Type</h4>
-              <Badge variant={data.legislation_type === 'ban' ? 'destructive' : 'secondary'}>
+              <Badge 
+                variant={data.legislation_type === 'ban' ? 'destructive' : 'secondary'}
+                className={data.legislation_type === 'restriction' ? 'bg-[#74CFC5] text-white hover:bg-[#5fb8ad]' : ''}
+              >
                 {data.legislation_type}
               </Badge>
             </div>

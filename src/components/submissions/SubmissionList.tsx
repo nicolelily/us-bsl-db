@@ -321,7 +321,10 @@ const SubmissionCard: React.FC<SubmissionCardProps> = ({
                 {getStatusIcon(submission.status)}
                 <span className="capitalize">{submission.status.replace('_', ' ')}</span>
               </Badge>
-              <Badge variant="outline" className="capitalize">
+              <Badge 
+                variant="outline" 
+                className={`capitalize ${submission.legislationType === 'restriction' ? 'bg-[#74CFC5] text-white border-[#74CFC5] hover:bg-[#5fb8ad]' : ''}`}
+              >
                 {submission.legislationType.replace('_', ' ')}
               </Badge>
             </div>
