@@ -197,7 +197,7 @@ const Auth = () => {
                     disabled={loading}
                   />
                   <Label htmlFor="newsletter-opt-in" className="text-sm">
-                    Subscribe to our newsletter for database updates and community highlights
+                    Subscribe to our newsletter for database updates and new features
                   </Label>
                 </div>
                 

@@ -2,7 +2,7 @@
 
 ## US Breed-Specific Legislation Database
 
-A React-based web application that provides comprehensive information about breed-specific legislation (BSL) in municipalities across the United States. The platform allows users to search, filter, and explore data about banned dog breeds and related ordinances.
+A React-based web application that provides comprehensive information about breed-specific legislation (BSL) in municipalities across the United States. The database was initially built through extensive personal research and now features community contribution capabilities for ongoing maintenance and expansion.
 
 ### Key Features
 
@@ -23,4 +23,4 @@ A React-based web application that provides comprehensive information about bree
 
 ### Core Functionality
 
-The application focuses on providing accurate, up-to-date information about breed bans and restrictions, with a community-driven approach to data collection and verification.
+The application focuses on providing accurate, up-to-date information about breed bans and restrictions. The initial database was personally researched and curated, and now features a community contribution system for ongoing updates and expansion.

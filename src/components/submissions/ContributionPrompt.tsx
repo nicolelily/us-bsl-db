@@ -1,15 +1,12 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { 
   Plus, 
   Users, 
   FileText, 
-  Award, 
-  ArrowRight,
+  Award,
   CheckCircle,
-  Clock,
   MapPin
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -28,13 +25,7 @@ export function ContributionPrompt({
 }: ContributionPromptProps) {
   const { user } = useAuth();
 
-  // Mock stats - in production these would come from a hook
-  const stats = {
-    totalRecords: 2847,
-    recentContributions: 23,
-    activeContributors: 156,
-    pendingReviews: 12
-  };
+  // Note: Statistics removed until real community participation exists
 
   if (variant === 'compact') {
     return (
@@ -69,22 +60,8 @@ export function ContributionPrompt({
             <div className="text-center md:text-left mb-4 md:mb-0">
               <h2 className="text-2xl font-bold mb-2">Help Build the Most Comprehensive BSL Database</h2>
               <p className="text-blue-100 mb-4">
-                Join {stats.activeContributors}+ contributors documenting breed-specific legislation across the US
+                Comprehensive database of breed-specific legislation, ready for community contributions
               </p>
-              <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                <div className="flex items-center space-x-2">
-                  <FileText className="h-4 w-4" />
-                  <span className="text-sm">{stats.totalRecords.toLocaleString()} Records</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Users className="h-4 w-4" />
-                  <span className="text-sm">{stats.activeContributors} Contributors</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Clock className="h-4 w-4" />
-                  <span className="text-sm">{stats.recentContributions} This Month</span>
-                </div>
-              </div>
             </div>
             <div className="flex flex-col space-y-2">
               <Link to={user ? "/submit" : "/auth?redirect=/submit"}>
@@ -151,35 +128,14 @@ export function ContributionPrompt({
           <div className="p-2 bg-blue-100 rounded-full">
             <Users className="h-5 w-5 text-blue-600" />
           </div>
-          <span>Join Our Community of Contributors</span>
+          <span>Help Build Our Community of Contributors</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <p className="text-blue-800">
-          Help us build the most comprehensive database of breed-specific legislation in the United States. 
-          Your contributions make a real difference in promoting transparency and awareness.
+          This comprehensive database of breed-specific legislation was personally researched and curated. 
+          Now we're ready to grow it with community contributions. Your submissions help promote transparency and awareness.
         </p>
-
-        {showStats && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-900">{stats.totalRecords.toLocaleString()}</div>
-              <div className="text-xs text-blue-600">Total Records</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-900">{stats.activeContributors}</div>
-              <div className="text-xs text-blue-600">Contributors</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-900">{stats.recentContributions}</div>
-              <div className="text-xs text-blue-600">This Month</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-900">{stats.pendingReviews}</div>
-              <div className="text-xs text-blue-600">Pending Review</div>
-            </div>
-          </div>
-        )}
 
         <div className="space-y-3">
           <h4 className="font-medium text-blue-900">How You Can Help:</h4>

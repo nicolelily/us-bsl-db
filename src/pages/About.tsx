@@ -17,8 +17,8 @@ const About = () => {
             </CardHeader>
             <CardContent className="text-dogdata-text space-y-4">
               <p>
-                This application serves as a comprehensive resource for tracking breed-specific legislation (BSL) 
-                across municipalities in the United States. BSL refers to laws that regulate or ban certain dog 
+                This application serves as a comprehensive resource for tracking breed-specific legislation (BSL)
+                across municipalities in the United States. BSL refers to laws that regulate or ban certain dog
                 breeds based on their perceived danger to public safety.
               </p>
               <p>
@@ -31,7 +31,7 @@ const About = () => {
                 <li>Population data where available</li>
               </ul>
               <p>
-                The goal of this resource is to provide accurate, up-to-date information on breed-specific 
+                The goal of this resource is to provide accurate, up-to-date information on breed-specific
                 legislation to assist pet owners, animal welfare organizations, lawmakers, and researchers.
               </p>
             </CardContent>
@@ -43,17 +43,23 @@ const About = () => {
             </CardHeader>
             <CardContent className="text-dogdata-text space-y-4">
               <p>
-                The data presented in this application has been compiled from various sources, including:
+                The initial database was personally researched and curated through extensive investigation of:
               </p>
               <ul className="list-disc pl-6 space-y-1">
-                <li>Municipal code databases</li>
+                <li>Municipal code databases and official city/county websites</li>
                 <li>Direct communication with animal control departments</li>
-                <li>Legal research databases</li>
+                <li>Legal research databases and court records</li>
                 <li>Animal welfare organizations tracking BSL</li>
+                <li>News reports and legislative documents</li>
               </ul>
               <p>
-                Every effort is made to ensure the accuracy and currency of this information. However, 
-                municipal ordinances change frequently, and we recommend verifying any information with 
+                This comprehensive research effort established the foundation of our database. Now, we're
+                opening it to community contributions to help keep the information current and expand coverage
+                to areas that may have been missed in the initial research.
+              </p>
+              <p>
+                Every effort is made to ensure the accuracy and currency of this information. However,
+                municipal ordinances change frequently, and we recommend verifying any information with
                 the relevant local authorities before making decisions based on this data.
               </p>
               <p>
@@ -69,12 +75,12 @@ const About = () => {
             <CardContent className="text-dogdata-text space-y-4">
               <p>
                 This application is provided for informational purposes only and does not constitute legal advice.
-                The creators of this database make no warranties or representations regarding the accuracy, 
+                The creators of this database make no warranties or representations regarding the accuracy,
                 completeness, or reliability of the information contained herein.
               </p>
               <p>
-                Laws and ordinances change frequently, and this database may not reflect the most current 
-                legislation or legal interpretations. Users should consult with qualified legal professionals 
+                Laws and ordinances change frequently, and this database may not reflect the most current
+                legislation or legal interpretations. Users should consult with qualified legal professionals
                 or local authorities for current information regarding specific municipalities.
               </p>
             </CardContent>
@@ -82,7 +88,7 @@ const About = () => {
 
           {/* Contribution Prompt */}
           <div className="mt-8">
-            <ContributionPrompt variant="default" showStats={true} />
+            <ContributionPrompt variant="default" showStats={false} />
           </div>
         </div>
       </div>
