@@ -105,7 +105,7 @@ const Index = () => {
               
               {/* Contribution Prompt */}
               <div className="mt-12">
-                <ContributionPrompt variant="default" showStats={true} />
+                <ContributionPrompt variant="default" showStats={false} />
               </div>
             </>
           )}
