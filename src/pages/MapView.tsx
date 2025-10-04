@@ -26,10 +26,10 @@ const MapView = () => {
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-dogdata-text mb-4">Breed Legislation Map</h1>
           <p className="text-dogdata-text mb-6">
-            Visual representation of breed-specific legislation across the United States. 
+            Visual representation of breed-specific legislation across the United States.
             This map view is under development and will be available in a future update.
           </p>
-          
+
           {isLoading ? (
             <div className="flex justify-center items-center h-32">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-dogdata-blue"></div>
@@ -39,12 +39,12 @@ const MapView = () => {
           ) : (
             <DataFilters onFilterChange={setFilters} breedLegislationData={breedLegislationData} />
           )}
-          
+
           <div className="bg-white p-8 rounded-lg shadow-md flex flex-col items-center justify-center" style={{ height: '500px' }}>
             <MapPin className="w-16 h-16 text-dogdata-accent mb-4" />
             <h3 className="text-xl font-semibold text-dogdata-text mb-2">Map Visualization Coming Soon</h3>
             <p className="text-center text-dogdata-text max-w-md">
-              The interactive map showing the geographical distribution of breed-specific legislation 
+              The interactive map showing the geographical distribution of breed-specific legislation
               will be implemented in a future update. Check back soon!
             </p>
           </div>
