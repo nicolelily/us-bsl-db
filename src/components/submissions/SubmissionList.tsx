@@ -323,7 +323,13 @@ const SubmissionCard: React.FC<SubmissionCardProps> = ({
               </Badge>
               <Badge 
                 variant="outline" 
-                className={`capitalize ${submission.legislationType === 'restriction' ? 'bg-[#74CFC5] text-white border-[#74CFC5] hover:bg-[#5fb8ad]' : ''}`}
+                className={`capitalize ${
+                  submission.legislationType === 'restriction' 
+                    ? 'bg-[#74CFC5] text-white border-[#74CFC5] hover:bg-[#5fb8ad]' 
+                    : submission.legislationType === 'repealed'
+                    ? 'bg-[#C5763D] text-white border-[#C5763D] hover:bg-[#b5662d]'
+                    : ''
+                }`}
               >
                 {submission.legislationType.replace('_', ' ')}
               </Badge>

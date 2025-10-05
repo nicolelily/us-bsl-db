@@ -20,7 +20,7 @@ FOR INSERT
 TO authenticated
 WITH CHECK (
   bucket_id = 'submission-documents' AND
-  auth.uid()::text = (storage.foldername(name))[1]
+  (SELECT auth.uid())::text = (storage.foldername(name))[1]
 );
 
 -- Allow users to view their own uploaded files
@@ -30,7 +30,7 @@ FOR SELECT
 TO authenticated
 USING (
   bucket_id = 'submission-documents' AND
-  auth.uid()::text = (storage.foldername(name))[1]
+  (SELECT auth.uid())::text = (storage.foldername(name))[1]
 );
 
 -- Allow users to delete their own files
@@ -40,7 +40,7 @@ FOR DELETE
 TO authenticated
 USING (
   bucket_id = 'submission-documents' AND
-  auth.uid()::text = (storage.foldername(name))[1]
+  (SELECT auth.uid())::text = (storage.foldername(name))[1]
 );
 
 -- Allow admins to view all submission documents
@@ -50,7 +50,7 @@ FOR SELECT
 TO authenticated
 USING (
   bucket_id = 'submission-documents' AND
-  public.has_role(auth.uid(), 'admin')
+  public.has_role((SELECT auth.uid()), 'admin')
 );
 
 -- Allow admins to delete any submission documents
@@ -60,5 +60,5 @@ FOR DELETE
 TO authenticated
 USING (
   bucket_id = 'submission-documents' AND
-  public.has_role(auth.uid(), 'admin')
+  public.has_role((SELECT auth.uid()), 'admin')
 );

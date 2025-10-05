@@ -62,7 +62,13 @@ const DataTable = ({ data }: DataTableProps) => {
                   <TableCell>
                     <Badge 
                       variant={item.legislationType === 'ban' ? 'destructive' : 'secondary'}
-                      className={`capitalize ${item.legislationType === 'restriction' ? 'bg-[#74CFC5] text-white hover:bg-[#5fb8ad]' : ''}`}
+                      className={`capitalize ${
+                        item.legislationType === 'restriction' 
+                          ? 'bg-[#74CFC5] text-white hover:bg-[#5fb8ad]' 
+                          : item.legislationType === 'repealed'
+                          ? 'bg-[#C5763D] text-white border-[#C5763D] hover:bg-[#b5662d]'
+                          : ''
+                      }`}
                     >
                       {item.legislationType}
                     </Badge>

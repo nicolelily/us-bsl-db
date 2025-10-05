@@ -1,24 +1,24 @@
--- Triggers and Row Level Security (RLS) policies
--- This migration recreates all triggers and security policies
-
--- Create triggers for automatic user setup
-CREATE TRIGGER IF NOT EXISTS on_auth_user_created_create_profile
+-- Drop triggers if they exist, then create triggers (Postgres doesn't support IF NOT EXISTS on CREATE TRIGGER)
+DROP TRIGGER IF EXISTS on_auth_user_created_create_profile ON auth.users;
+CREATE TRIGGER on_auth_user_created_create_profile
     AFTER INSERT ON auth.users
     FOR EACH ROW
     EXECUTE FUNCTION public.handle_new_user_role();
 
-CREATE TRIGGER IF NOT EXISTS on_profile_created_initialize_contributions
+DROP TRIGGER IF EXISTS on_profile_created_initialize_contributions ON public.profiles;
+CREATE TRIGGER on_profile_created_initialize_contributions
     AFTER INSERT ON public.profiles
     FOR EACH ROW
     EXECUTE FUNCTION public.initialize_user_contributions();
 
-CREATE TRIGGER IF NOT EXISTS on_profile_created_initialize_preferences
+DROP TRIGGER IF EXISTS on_profile_created_initialize_preferences ON public.profiles;
+CREATE TRIGGER on_profile_created_initialize_preferences
     AFTER INSERT ON public.profiles
     FOR EACH ROW
     EXECUTE FUNCTION public.initialize_user_preferences();
 
--- Create trigger for submission stats updates
-CREATE TRIGGER IF NOT EXISTS on_submission_stats_update
+DROP TRIGGER IF EXISTS on_submission_stats_update ON public.submissions;
+CREATE TRIGGER on_submission_stats_update
     AFTER INSERT OR UPDATE ON public.submissions
     FOR EACH ROW
     EXECUTE FUNCTION public.update_user_contribution_stats();

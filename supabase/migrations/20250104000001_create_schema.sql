@@ -205,45 +205,61 @@ CREATE INDEX IF NOT EXISTS idx_audit_logs_table_name ON public.audit_logs(table_
 CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at ON public.audit_logs(created_at DESC);
 
 -- Add updated_at triggers for all tables that need them
-CREATE TRIGGER IF NOT EXISTS handle_profiles_updated_at
-    BEFORE UPDATE ON public.profiles
-    FOR EACH ROW
-    EXECUTE FUNCTION public.handle_updated_at();
+-- profiles
+DROP TRIGGER IF EXISTS handle_profiles_updated_at ON public.profiles;
+CREATE TRIGGER handle_profiles_updated_at
+  BEFORE UPDATE ON public.profiles
+  FOR EACH ROW
+  EXECUTE FUNCTION public.handle_updated_at();
 
-CREATE TRIGGER IF NOT EXISTS handle_user_roles_updated_at
-    BEFORE UPDATE ON public.user_roles
-    FOR EACH ROW
-    EXECUTE FUNCTION public.handle_updated_at();
+-- user_roles
+DROP TRIGGER IF EXISTS handle_user_roles_updated_at ON public.user_roles;
+CREATE TRIGGER handle_user_roles_updated_at
+  BEFORE UPDATE ON public.user_roles
+  FOR EACH ROW
+  EXECUTE FUNCTION public.handle_updated_at();
 
-CREATE TRIGGER IF NOT EXISTS handle_breed_legislation_updated_at
-    BEFORE UPDATE ON public.breed_legislation
-    FOR EACH ROW
-    EXECUTE FUNCTION public.handle_updated_at();
+-- breed_legislation
+DROP TRIGGER IF EXISTS handle_breed_legislation_updated_at ON public.breed_legislation;
+CREATE TRIGGER handle_breed_legislation_updated_at
+  BEFORE UPDATE ON public.breed_legislation
+  FOR EACH ROW
+  EXECUTE FUNCTION public.handle_updated_at();
 
-CREATE TRIGGER IF NOT EXISTS handle_submissions_updated_at
-    BEFORE UPDATE ON public.submissions
-    FOR EACH ROW
-    EXECUTE FUNCTION public.handle_updated_at();
+-- submissions
+DROP TRIGGER IF EXISTS handle_submissions_updated_at ON public.submissions;
+CREATE TRIGGER handle_submissions_updated_at
+  BEFORE UPDATE ON public.submissions
+  FOR EACH ROW
+  EXECUTE FUNCTION public.handle_updated_at();
 
-CREATE TRIGGER IF NOT EXISTS handle_user_contributions_updated_at
-    BEFORE UPDATE ON public.user_contributions
-    FOR EACH ROW
-    EXECUTE FUNCTION public.handle_updated_at();
+-- user_contributions
+DROP TRIGGER IF EXISTS handle_user_contributions_updated_at ON public.user_contributions;
+CREATE TRIGGER handle_user_contributions_updated_at
+  BEFORE UPDATE ON public.user_contributions
+  FOR EACH ROW
+  EXECUTE FUNCTION public.handle_updated_at();
 
-CREATE TRIGGER IF NOT EXISTS handle_user_preferences_updated_at
-    BEFORE UPDATE ON public.user_preferences
-    FOR EACH ROW
-    EXECUTE FUNCTION public.handle_updated_at();
+-- user_preferences
+DROP TRIGGER IF EXISTS handle_user_preferences_updated_at ON public.user_preferences;
+CREATE TRIGGER handle_user_preferences_updated_at
+  BEFORE UPDATE ON public.user_preferences
+  FOR EACH ROW
+  EXECUTE FUNCTION public.handle_updated_at();
 
-CREATE TRIGGER IF NOT EXISTS handle_newsletter_campaigns_updated_at
-    BEFORE UPDATE ON public.newsletter_campaigns
-    FOR EACH ROW
-    EXECUTE FUNCTION public.handle_updated_at();
+-- newsletter_campaigns
+DROP TRIGGER IF EXISTS handle_newsletter_campaigns_updated_at ON public.newsletter_campaigns;
+CREATE TRIGGER handle_newsletter_campaigns_updated_at
+  BEFORE UPDATE ON public.newsletter_campaigns
+  FOR EACH ROW
+  EXECUTE FUNCTION public.handle_updated_at();
 
-CREATE TRIGGER IF NOT EXISTS handle_contact_submissions_updated_at
-    BEFORE UPDATE ON public.contact_submissions
-    FOR EACH ROW
-    EXECUTE FUNCTION public.handle_updated_at();
+-- contact_submissions
+DROP TRIGGER IF EXISTS handle_contact_submissions_updated_at ON public.contact_submissions;
+CREATE TRIGGER handle_contact_submissions_updated_at
+  BEFORE UPDATE ON public.contact_submissions
+  FOR EACH ROW
+  EXECUTE FUNCTION public.handle_updated_at();
 
 -- Add table comments for documentation
 COMMENT ON TABLE public.profiles IS 'User profile information linked to auth.users';
