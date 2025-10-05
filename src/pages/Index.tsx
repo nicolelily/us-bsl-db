@@ -112,13 +112,13 @@ const Index = () => {
                 <div className="bg-white rounded-lg shadow-md p-8 text-center">
                   <div className="mb-4">
                     <h3 className="text-xl font-semibold text-bsl-brown mb-2">
-                      No Breed-Specific Legislation Found
+                      No Active Breed-Specific Legislation Confirmed
                     </h3>
                     <p className="text-bsl-brown">
-                      Great news! <strong>{filters.stateFilter}</strong> currently has no recorded breed-specific legislation in our database.
+                      We have not confirmed any active breed-specific legislation for <strong>{filters.stateFilter}</strong> at this time.
                     </p>
                     <p className="text-sm text-bsl-brown mt-2">
-                      If you know of any BSL in {filters.stateFilter} that we've missed, please help us keep our database complete by submitting it.
+                      If you are aware of breed-specific legislation in {filters.stateFilter}, please help us keep our database complete by submitting it.
                     </p>
                   </div>
                   <div className="mt-6">

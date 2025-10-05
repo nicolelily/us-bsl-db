@@ -140,7 +140,7 @@ const DataFilters = ({ onFilterChange, breedLegislationData }: DataFiltersProps)
               <SelectItem value="all">All states</SelectItem>
               {allUSStates.map(state => (
                 <SelectItem key={state} value={state}>
-                  {state} {!statesWithData.includes(state) ? '(No BSL)' : ''}
+                  {state}
                 </SelectItem>
               ))}
             </SelectContent>
