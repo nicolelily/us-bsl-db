@@ -9,22 +9,24 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { User, Bell, Shield, Trash2, Save } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useUserPreferences } from '@/hooks/useUserPreferences';
+import { useProfile } from '@/hooks/useProfile';
 
 export function UserSettings() {
   const { user } = useAuth();
   const { preferences, updatePreferences, subscribeToNewsletter, isLoading: prefsLoading } = useUserPreferences();
+  const { profile, updateProfile } = useProfile();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   
   const [settings, setSettings] = useState({
-    displayName: user?.user_metadata?.display_name || '',
+    displayName: profile?.full_name || user?.user_metadata?.full_name || '',
     email: user?.email || '',
     emailNotifications: preferences?.emailNotifications ?? true,
     newsletterSubscribed: preferences?.newsletterSubscribed ?? false,
     marketingEmails: preferences?.marketingEmails ?? false
   });
 
-  // Update settings when preferences load
+  // Update settings when preferences or profile load
   useEffect(() => {
     if (preferences) {
       setSettings(prev => ({
@@ -36,11 +38,27 @@ export function UserSettings() {
     }
   }, [preferences]);
 
+  useEffect(() => {
+    if (profile) {
+      setSettings(prev => ({
+        ...prev,
+        displayName: profile.full_name || ''
+      }));
+    }
+  }, [profile]);
+
   const handleSave = async () => {
     setIsLoading(true);
     setMessage(null);
     
     try {
+      // Update profile information (display name)
+      if (profile && settings.displayName !== profile.full_name) {
+        await updateProfile({
+          full_name: settings.displayName.trim() || null
+        });
+      }
+
       // Update user preferences
       if (preferences) {
         await updatePreferences({

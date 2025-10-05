@@ -6,11 +6,13 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { User, Calendar, Mail, Shield } from 'lucide-react';
 import { useUserRole } from '@/hooks/useUserRole';
 import { useUserContributions } from '@/hooks/useUserContributions';
+import { useProfile } from '@/hooks/useProfile';
 
 const UserProfileCard: React.FC = () => {
   const { user } = useAuth();
   const { role } = useUserRole();
   const { contributions, loading: contributionsLoading } = useUserContributions();
+  const { profile, loading: profileLoading } = useProfile();
 
   if (!user) return null;
 
@@ -60,7 +62,7 @@ const UserProfileCard: React.FC = () => {
           <Avatar className="w-20 h-20">
             <AvatarImage src={user.user_metadata?.avatar_url} />
             <AvatarFallback className="text-lg">
-              {getInitials(user.user_metadata?.full_name || user.email || 'User')}
+              {getInitials(profile?.full_name || user.user_metadata?.full_name || user.email || 'User')}
             </AvatarFallback>
           </Avatar>
 
@@ -68,7 +70,7 @@ const UserProfileCard: React.FC = () => {
           <div className="flex-1 space-y-4">
             <div>
               <h2 className="text-2xl font-semibold text-dogdata-text">
-                {user.user_metadata?.full_name || 'Anonymous User'}
+                {profileLoading ? 'Loading...' : (profile?.full_name || user.user_metadata?.full_name || 'Anonymous User')}
               </h2>
               <div className="flex items-center space-x-2 mt-1">
                 <Mail className="w-4 h-4 text-muted-foreground" />

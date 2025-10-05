@@ -11,13 +11,13 @@ interface StatsComponentProps {
 const StatsComponent = ({ data }: StatsComponentProps) => {
   const breedStats = useMemo(() => {
     const breedCounts: Record<string, number> = {};
-    
+
     data.forEach(item => {
       item.bannedBreeds.forEach(breed => {
         breedCounts[breed] = (breedCounts[breed] || 0) + 1;
       });
     });
-    
+
     return Object.entries(breedCounts)
       .map(([name, value]) => ({ name, value }))
       .sort((a, b) => b.value - a.value);
@@ -25,29 +25,29 @@ const StatsComponent = ({ data }: StatsComponentProps) => {
 
   const stateStats = useMemo(() => {
     const stateCounts: Record<string, number> = {};
-    
+
     data.forEach(item => {
       stateCounts[item.state] = (stateCounts[item.state] || 0) + 1;
     });
-    
+
     return Object.entries(stateCounts)
       .map(([name, value]) => ({ name, value }))
       .sort((a, b) => b.value - a.value);
   }, [data]);
-  
+
   const typeStats = useMemo(() => {
     const typeCounts: Record<string, number> = {
       City: 0,
       County: 0
     };
-    
+
     data.forEach(item => {
       typeCounts[item.municipalityType] += 1;
     });
-    
+
     return Object.entries(typeCounts).map(([name, value]) => ({ name, value }));
   }, [data]);
-  
+
   const COLORS = ['#7DCBC4', '#5D2A1A', '#D2691E', '#B8E6E2', '#F5F1E8', '#F8FDFC'];
 
   return (
@@ -71,7 +71,7 @@ const StatsComponent = ({ data }: StatsComponentProps) => {
           </ResponsiveContainer>
         </CardContent>
       </Card>
-      
+
       <Card>
         <CardHeader>
           <CardTitle>Municipality Type Distribution</CardTitle>
