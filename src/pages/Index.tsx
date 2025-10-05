@@ -56,6 +56,13 @@ const Index = () => {
     });
   }, [filters, breedLegislationData]);
 
+  // Check if user selected a state with no BSL data
+  const isStateWithNoBSL = useMemo(() => {
+    if (!filters.stateFilter) return false;
+    const statesWithData = Array.from(new Set(breedLegislationData.map(item => item.state)));
+    return !statesWithData.includes(filters.stateFilter);
+  }, [filters.stateFilter, breedLegislationData]);
+
   return (
     <div className="min-h-screen bg-bsl-background">
       <Navigation />
@@ -101,12 +108,33 @@ const Index = () => {
             </div>
           ) : (
             <>
-              <DataTable data={filteredData} />
+              {isStateWithNoBSL ? (
+                <div className="bg-white rounded-lg shadow-md p-8 text-center">
+                  <div className="mb-4">
+                    <h3 className="text-xl font-semibold text-bsl-brown mb-2">
+                      No Breed-Specific Legislation Found
+                    </h3>
+                    <p className="text-bsl-brown">
+                      Great news! <strong>{filters.stateFilter}</strong> currently has no recorded breed-specific legislation in our database.
+                    </p>
+                    <p className="text-sm text-bsl-brown mt-2">
+                      If you know of any BSL in {filters.stateFilter} that we've missed, please help us keep our database complete by submitting it.
+                    </p>
+                  </div>
+                  <div className="mt-6">
+                    <ContributionPrompt variant="compact" showStats={false} />
+                  </div>
+                </div>
+              ) : (
+                <DataTable data={filteredData} />
+              )}
               
               {/* Contribution Prompt */}
-              <div className="mt-12">
-                <ContributionPrompt variant="default" showStats={false} />
-              </div>
+              {!isStateWithNoBSL && (
+                <div className="mt-12">
+                  <ContributionPrompt variant="default" showStats={false} />
+                </div>
+              )}
             </>
           )}
         </div>
