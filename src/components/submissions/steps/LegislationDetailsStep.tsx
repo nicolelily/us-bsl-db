@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle, Info, Loader2 } from 'lucide-react';
@@ -36,7 +36,8 @@ const LegislationDetailsStep: React.FC<LegislationDetailsStepProps> = ({
     debounceMs: 2000 // Longer debounce for this step
   });
 
-  const validateForm = () => {
+  // Validate form and update errors for display
+  React.useEffect(() => {
     const newErrors: string[] = [];
     
     if (!data.ordinance?.trim()) {
@@ -48,14 +49,7 @@ const LegislationDetailsStep: React.FC<LegislationDetailsStepProps> = ({
     }
     
     setErrors(newErrors);
-    return newErrors.length === 0;
-  };
-
-  const handleNext = () => {
-    if (validateForm()) {
-      onNext();
-    }
-  };
+  }, [data.ordinance, data.banned_breeds]);
 
   return (
     <div className="space-y-6">
@@ -109,14 +103,6 @@ const LegislationDetailsStep: React.FC<LegislationDetailsStepProps> = ({
         </Alert>
       )}
 
-      <div className="flex justify-between">
-        <Button variant="outline" onClick={onPrevious}>
-          Previous
-        </Button>
-        <Button onClick={handleNext}>
-          Next: Sources & Documents
-        </Button>
-      </div>
     </div>
   );
 };

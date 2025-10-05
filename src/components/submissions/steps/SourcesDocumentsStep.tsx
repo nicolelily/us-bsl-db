@@ -47,7 +47,8 @@ const SourcesDocumentsStep: React.FC<SourcesDocumentsStepProps> = ({
     });
   }, [ordinanceUrl, verificationDate, onDataChange]);
 
-  const validateForm = () => {
+  // Validate form and update errors/warnings for display
+  useEffect(() => {
     const newErrors: string[] = [];
     const newWarnings: string[] = [];
     
@@ -67,14 +68,7 @@ const SourcesDocumentsStep: React.FC<SourcesDocumentsStepProps> = ({
     
     setErrors(newErrors);
     setWarnings(newWarnings);
-    return newErrors.length === 0;
-  };
-
-  const handleNext = () => {
-    if (validateForm()) {
-      onNext();
-    }
-  };
+  }, [ordinanceUrl, documents]);
 
   const handleDocumentsChange = (newDocuments: DocumentMetadata[]) => {
     setDocuments(newDocuments);
@@ -197,14 +191,6 @@ const SourcesDocumentsStep: React.FC<SourcesDocumentsStepProps> = ({
         </ul>
       </div>
 
-      <div className="flex justify-between">
-        <Button variant="outline" onClick={onPrevious}>
-          Previous
-        </Button>
-        <Button onClick={handleNext}>
-          Next: Review & Submit
-        </Button>
-      </div>
     </div>
   );
 };

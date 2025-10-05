@@ -93,9 +93,8 @@ export interface SubmissionFormData {
   municipality_type: 'City' | 'County';
 
   // Step 3: Legislation details
-  ordinance_title: string;
+  ordinance: string;
   banned_breeds: string[];
-  ordinance_text: string;
   legislation_type: LegislationType;
   population?: number;
   coordinates?: {
@@ -106,11 +105,20 @@ export interface SubmissionFormData {
   // Step 4: Sources and documents
   ordinance_url?: string;
   additional_sources?: string[];
-  documents?: File[];
+  documents?: Array<{
+    id: string;
+    fileName: string;
+    fileUrl: string;
+    fileType: string;
+    fileSize: number;
+  }>;
   verification_date?: string;
 
   // Step 5: Review
-  terms_accepted: boolean;
+  terms_accepted?: boolean;
+  
+  // Internal validation state
+  _reviewStepValid?: boolean;
 }
 
 export interface DuplicateCheckResult {

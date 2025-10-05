@@ -61,12 +61,37 @@ const SubmissionWizard: React.FC<SubmissionWizardProps> = ({ onComplete, onCance
   };
 
   const canGoNext = () => {
-    // Add validation logic here based on current step
-    return true; // Placeholder
+    switch (currentStep) {
+      case 1: // Submission Type
+        return !!formData.type;
+      case 2: // Location
+        return !!(formData.municipality?.trim() && formData.state);
+      case 3: // Legislation Details
+        return !!(formData.ordinance?.trim() && formData.banned_breeds && formData.banned_breeds.length > 0);
+      case 4: // Sources & Documents
+        return true; // This step is optional
+      case 5: // Review & Submit
+        return false; // This step uses its own submit logic
+      default:
+        return false;
+    }
   };
 
   const canGoPrevious = () => {
     return currentStep > 1;
+  };
+
+  const isFormComplete = () => {
+    return !!(
+      formData.type &&
+      formData.municipality &&
+      formData.state &&
+      formData.municipality_type &&
+      formData.ordinance &&
+      formData.legislation_type &&
+      formData.banned_breeds &&
+      formData.banned_breeds.length > 0
+    );
   };
 
   if (!currentStepData) {
@@ -164,8 +189,18 @@ const SubmissionWizard: React.FC<SubmissionWizardProps> = ({ onComplete, onCance
                   onClick={handleNext}
                   disabled={!canGoNext() || isSubmitting}
                 >
-                  Next
+                  {currentStep === 4 ? 'Review & Submit' : 'Next'}
                   <ChevronRight className="w-4 h-4 ml-2" />
+                </Button>
+              )}
+              
+              {currentStep === STEPS.length && (
+                <Button
+                  onClick={() => handleSubmit(formData as SubmissionFormData)}
+                  disabled={!formData._reviewStepValid || isSubmitting}
+                  className="min-w-[120px]"
+                >
+                  {isSubmitting ? 'Submitting...' : 'Submit for Review'}
                 </Button>
               )}
             </div>

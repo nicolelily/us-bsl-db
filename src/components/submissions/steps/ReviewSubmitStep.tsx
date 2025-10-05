@@ -47,15 +47,7 @@ const ReviewSubmitStep: React.FC<ReviewSubmitStepProps> = ({
     enabled: isFormComplete()
   });
 
-  const handleSubmit = () => {
-    if (!agreedToTerms) return;
-    if (hasDuplicates && !duplicateWarningAcknowledged) return;
-    
-    // Validate that we have all required data
-    if (isFormComplete()) {
-      onSubmit(data as SubmissionFormData);
-    }
-  };
+
 
   const isFormComplete = () => {
     return !!(
@@ -79,6 +71,15 @@ const ReviewSubmitStep: React.FC<ReviewSubmitStepProps> = ({
       !isChecking
     );
   };
+
+  // Notify parent about validation state changes
+  React.useEffect(() => {
+    if (onDataChange) {
+      onDataChange({
+        _reviewStepValid: canSubmit()
+      });
+    }
+  }, [agreedToTerms, duplicateWarningAcknowledged, hasDuplicates, isSubmitting, isChecking, onDataChange]);
 
   return (
     <div className="space-y-6">
@@ -292,20 +293,6 @@ const ReviewSubmitStep: React.FC<ReviewSubmitStepProps> = ({
         </ol>
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex justify-between">
-        <Button variant="outline" onClick={onPrevious} disabled={isSubmitting}>
-          Previous
-        </Button>
-        
-        <Button 
-          onClick={handleSubmit} 
-          disabled={!canSubmit()}
-          className="min-w-[120px]"
-        >
-          {isSubmitting ? 'Submitting...' : 'Submit for Review'}
-        </Button>
-      </div>
     </div>
   );
 };

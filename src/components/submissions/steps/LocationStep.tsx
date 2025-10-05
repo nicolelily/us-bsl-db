@@ -22,7 +22,8 @@ const LocationStep: React.FC<LocationStepProps> = ({
 }) => {
   const [errors, setErrors] = useState<string[]>([]);
 
-  const validateForm = () => {
+  // Validate form and update errors for display
+  useEffect(() => {
     const newErrors: string[] = [];
     
     if (!data.municipality?.trim()) {
@@ -34,14 +35,7 @@ const LocationStep: React.FC<LocationStepProps> = ({
     }
     
     setErrors(newErrors);
-    return newErrors.length === 0;
-  };
-
-  const handleNext = () => {
-    if (validateForm()) {
-      onNext();
-    }
-  };
+  }, [data.municipality, data.state]);
 
   return (
     <div className="space-y-6">
@@ -83,15 +77,6 @@ const LocationStep: React.FC<LocationStepProps> = ({
           <li>• For counties, include "County" in the name (e.g., "Los Angeles County")</li>
           <li>• For cities, use the full official name</li>
         </ul>
-      </div>
-
-      <div className="flex justify-between">
-        <Button variant="outline" onClick={onPrevious}>
-          Previous
-        </Button>
-        <Button onClick={handleNext}>
-          Next: Legislation Details
-        </Button>
       </div>
     </div>
   );

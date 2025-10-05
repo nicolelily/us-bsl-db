@@ -24,11 +24,7 @@ const SubmissionTypeStep: React.FC<SubmissionTypeStepProps> = ({
     onDataChange({ type });
   };
 
-  const handleNext = () => {
-    if (data.type) {
-      onNext();
-    }
-  };
+
 
   return (
     <div className="space-y-6">
@@ -104,13 +100,7 @@ const SubmissionTypeStep: React.FC<SubmissionTypeStepProps> = ({
         </Card>
       </RadioGroup>
 
-      {data.type && (
-        <div className="flex justify-center">
-          <Button onClick={handleNext} size="lg">
-            Continue with {data.type === 'new_legislation' ? 'New Legislation' : 'Update'}
-          </Button>
-        </div>
-      )}
+
     </div>
   );
 };
