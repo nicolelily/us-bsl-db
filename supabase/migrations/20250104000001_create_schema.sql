@@ -17,12 +17,16 @@ CREATE TYPE IF NOT EXISTS municipality_type AS ENUM ('city', 'county');
 
 -- Create updated_at trigger function
 CREATE OR REPLACE FUNCTION public.handle_updated_at()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER 
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
 BEGIN
     NEW.updated_at = NOW();
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql;
+$$;
 
 -- 1. PROFILES TABLE (User profiles)
 CREATE TABLE IF NOT EXISTS public.profiles (
