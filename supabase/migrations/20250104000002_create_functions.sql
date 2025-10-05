@@ -88,29 +88,41 @@ $$;
 
 -- Function to initialize user contributions record
 CREATE OR REPLACE FUNCTION public.initialize_user_contributions()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER 
+LANGUAGE plpgsql 
+SECURITY DEFINER
+SET search_path = ''
+AS $$
 BEGIN
     INSERT INTO public.user_contributions (user_id)
     VALUES (NEW.id)
     ON CONFLICT (user_id) DO NOTHING;
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$;
 
 -- Function to initialize user preferences when profile is created
 CREATE OR REPLACE FUNCTION public.initialize_user_preferences()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER 
+LANGUAGE plpgsql 
+SECURITY DEFINER
+SET search_path = ''
+AS $$
 BEGIN
     INSERT INTO public.user_preferences (user_id)
     VALUES (NEW.id)
     ON CONFLICT (user_id) DO NOTHING;
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$;
 
 -- Function to update user contribution stats when submission status changes
 CREATE OR REPLACE FUNCTION public.update_user_contribution_stats()
-RETURNS TRIGGER AS $$
+RETURNS TRIGGER 
+LANGUAGE plpgsql 
+SECURITY DEFINER
+SET search_path = ''
+AS $$
 BEGIN
     -- If this is a new submission
     IF TG_OP = 'INSERT' THEN
@@ -170,7 +182,7 @@ BEGIN
 
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$;
 
 -- Function to approve a submission and create/update the legislation record
 CREATE OR REPLACE FUNCTION public.approve_submission(
