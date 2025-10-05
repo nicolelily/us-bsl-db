@@ -52,45 +52,51 @@ export type Database = {
         Row: {
           banned_breeds: Json[]
           created_at: string | null
-          id: number
+          id: string
           lat: number | null
           lng: number | null
           municipality: string
+          municipality_type: string | null
           ordinance: string
           ordinance_url: string | null
           population: number | null
+          repeal_date: string | null
           state: string
-          type: string
+          legislation_type: string
           updated_at: string | null
           verification_date: string | null
         }
         Insert: {
           banned_breeds: Json[]
           created_at?: string | null
-          id?: number
+          id?: string
           lat?: number | null
           lng?: number | null
           municipality: string
+          municipality_type?: string | null
           ordinance: string
           ordinance_url?: string | null
           population?: number | null
+          repeal_date?: string | null
           state: string
-          type: string
+          legislation_type?: string
           updated_at?: string | null
           verification_date?: string | null
         }
         Update: {
           banned_breeds?: Json[]
           created_at?: string | null
-          id?: number
+          id?: string
           lat?: number | null
           lng?: number | null
           municipality?: string
+          municipality_type?: string | null
           ordinance?: string
           ordinance_url?: string | null
           population?: number | null
+          repeal_date?: string | null
           state?: string
-          type?: string
+          legislation_type?: string
           updated_at?: string | null
           verification_date?: string | null
         }

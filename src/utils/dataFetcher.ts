@@ -58,7 +58,7 @@ export async function fetchBreedLegislationData(): Promise<BreedLegislation[]> {
         ? row.banned_breeds.map(breed => String(breed).trim()).filter(Boolean)
         : [],
       ordinance: String(row.ordinance || '').trim(),
-      legislationType: (row.legislation_type || 'ban') as 'ban' | 'restriction',
+      legislationType: (row.legislation_type || 'ban') as 'ban' | 'restriction' | 'repealed',
       population: row.population || undefined,
       lat: row.lat || undefined,
       lng: row.lng || undefined,

@@ -1,5 +1,90 @@
--- Helper functions for submissions system
--- These functions handle submission workflows and user contribution tracking
+-- Essential functions for BSL Database
+-- This migration recreates all the critical functions the application depends on
+
+-- Function to create audit log entries
+CREATE OR REPLACE FUNCTION public.create_audit_log(
+    _action text, 
+    _table_name text, 
+    _record_id text DEFAULT NULL, 
+    _old_values jsonb DEFAULT NULL, 
+    _new_values jsonb DEFAULT NULL
+)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+BEGIN
+    INSERT INTO public.audit_logs (user_id, action, table_name, record_id, old_values, new_values, created_at)
+    VALUES (auth.uid(), _action, _table_name, _record_id, _old_values, _new_values, now());
+END;
+$$;
+
+-- Function to check if user has a specific role
+CREATE OR REPLACE FUNCTION public.has_role(_user_id uuid, _role app_role)
+RETURNS boolean
+LANGUAGE sql
+STABLE SECURITY DEFINER
+SET search_path = ''
+AS $$
+  SELECT EXISTS (
+    SELECT 1
+    FROM public.user_roles
+    WHERE user_id = _user_id
+      AND role = _role
+  )
+$$;
+
+-- Function to check if user has role or higher
+CREATE OR REPLACE FUNCTION public.user_has_role_or_higher(_user_id uuid, _required_role app_role)
+RETURNS boolean
+LANGUAGE sql
+STABLE SECURITY DEFINER
+SET search_path = ''
+AS $$
+  SELECT CASE 
+    WHEN _required_role = 'user' THEN 
+      EXISTS (SELECT 1 FROM public.user_roles WHERE user_id = _user_id)
+    WHEN _required_role = 'moderator' THEN 
+      EXISTS (SELECT 1 FROM public.user_roles WHERE user_id = _user_id AND role IN ('moderator', 'admin'))
+    WHEN _required_role = 'admin' THEN 
+      EXISTS (SELECT 1 FROM public.user_roles WHERE user_id = _user_id AND role = 'admin')
+    ELSE false
+  END
+$$;
+
+-- Function to get current user's role
+CREATE OR REPLACE FUNCTION public.get_current_user_role()
+RETURNS app_role
+LANGUAGE sql
+STABLE SECURITY DEFINER
+SET search_path = ''
+AS $$
+  SELECT role
+  FROM public.user_roles
+  WHERE user_id = auth.uid()
+  ORDER BY 
+    CASE role
+      WHEN 'admin' THEN 1
+      WHEN 'moderator' THEN 2
+      WHEN 'user' THEN 3
+    END
+  LIMIT 1
+$$;
+
+-- Function to handle new user role assignment
+CREATE OR REPLACE FUNCTION public.handle_new_user_role()
+RETURNS trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+BEGIN
+    INSERT INTO public.user_roles (user_id, role)
+    VALUES (NEW.id, 'user');
+    RETURN NEW;
+END;
+$$;
 
 -- Function to initialize user contributions record
 CREATE OR REPLACE FUNCTION public.initialize_user_contributions()
@@ -12,11 +97,16 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- Trigger to create user_contributions record when profile is created
-CREATE TRIGGER on_profile_created_initialize_contributions
-    AFTER INSERT ON public.profiles
-    FOR EACH ROW
-    EXECUTE FUNCTION public.initialize_user_contributions();
+-- Function to initialize user preferences when profile is created
+CREATE OR REPLACE FUNCTION public.initialize_user_preferences()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO public.user_preferences (user_id)
+    VALUES (NEW.id)
+    ON CONFLICT (user_id) DO NOTHING;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- Function to update user contribution stats when submission status changes
 CREATE OR REPLACE FUNCTION public.update_user_contribution_stats()
@@ -82,18 +172,16 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- Trigger to update contribution stats when submissions change
-CREATE TRIGGER on_submission_stats_update
-    AFTER INSERT OR UPDATE ON public.submissions
-    FOR EACH ROW
-    EXECUTE FUNCTION public.update_user_contribution_stats();
-
--- Function to approve a submission and create the legislation record
+-- Function to approve a submission and create/update the legislation record
 CREATE OR REPLACE FUNCTION public.approve_submission(
     submission_id UUID,
     admin_user_id UUID
 )
-RETURNS BOOLEAN AS $$
+RETURNS BOOLEAN 
+LANGUAGE plpgsql 
+SECURITY DEFINER
+SET search_path = ''
+AS $$
 DECLARE
     submission_record RECORD;
     new_legislation_id UUID;
@@ -117,26 +205,30 @@ BEGIN
         INSERT INTO public.breed_legislation (
             municipality,
             state,
-            type,
+            municipality_type,
             banned_breeds,
             ordinance,
             population,
             lat,
             lng,
             verification_date,
-            ordinance_url
+            ordinance_url,
+            legislation_type,
+            repeal_date
         )
         SELECT 
             (submitted_data->>'municipality')::TEXT,
             (submitted_data->>'state')::TEXT,
-            (submitted_data->>'type')::TEXT,
+            (submitted_data->>'municipality_type')::TEXT,
             (submitted_data->'banned_breeds')::JSONB,
             (submitted_data->>'ordinance')::TEXT,
             (submitted_data->>'population')::INTEGER,
             (submitted_data->>'lat')::NUMERIC,
             (submitted_data->>'lng')::NUMERIC,
             (submitted_data->>'verification_date')::DATE,
-            (submitted_data->>'ordinance_url')::TEXT
+            (submitted_data->>'ordinance_url')::TEXT,
+            COALESCE((submitted_data->>'legislation_type')::legislation_type, 'ban'),
+            (submitted_data->>'repeal_date')::DATE
         FROM public.submissions
         WHERE id = submission_id
         RETURNING id INTO new_legislation_id;
@@ -156,7 +248,7 @@ BEGIN
         SET 
             municipality = COALESCE((submission_record.submitted_data->>'municipality')::TEXT, municipality),
             state = COALESCE((submission_record.submitted_data->>'state')::TEXT, state),
-            type = COALESCE((submission_record.submitted_data->>'type')::TEXT, type),
+            municipality_type = COALESCE((submission_record.submitted_data->>'municipality_type')::TEXT, municipality_type),
             banned_breeds = COALESCE((submission_record.submitted_data->'banned_breeds')::JSONB, banned_breeds),
             ordinance = COALESCE((submission_record.submitted_data->>'ordinance')::TEXT, ordinance),
             population = COALESCE((submission_record.submitted_data->>'population')::INTEGER, population),
@@ -164,6 +256,8 @@ BEGIN
             lng = COALESCE((submission_record.submitted_data->>'lng')::NUMERIC, lng),
             verification_date = COALESCE((submission_record.submitted_data->>'verification_date')::DATE, verification_date),
             ordinance_url = COALESCE((submission_record.submitted_data->>'ordinance_url')::TEXT, ordinance_url),
+            legislation_type = COALESCE((submission_record.submitted_data->>'legislation_type')::legislation_type, legislation_type),
+            repeal_date = COALESCE((submission_record.submitted_data->>'repeal_date')::DATE, repeal_date),
             updated_at = NOW()
         WHERE id = submission_record.original_record_id;
 
@@ -188,7 +282,7 @@ BEGIN
 
     RETURN TRUE;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$;
 
 -- Function to reject a submission with feedback
 CREATE OR REPLACE FUNCTION public.reject_submission(
@@ -196,7 +290,11 @@ CREATE OR REPLACE FUNCTION public.reject_submission(
     admin_user_id UUID,
     feedback_text TEXT
 )
-RETURNS BOOLEAN AS $$
+RETURNS BOOLEAN 
+LANGUAGE plpgsql 
+SECURITY DEFINER
+SET search_path = ''
+AS $$
 BEGIN
     -- Check if user has admin/moderator role
     IF NOT (public.has_role(admin_user_id, 'admin') OR public.has_role(admin_user_id, 'moderator')) THEN
@@ -228,7 +326,7 @@ BEGIN
 
     RETURN TRUE;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$;
 
 -- Function to get submission statistics for admins
 CREATE OR REPLACE FUNCTION public.get_submission_stats()
@@ -239,7 +337,11 @@ RETURNS TABLE (
     rejected_submissions BIGINT,
     needs_changes_submissions BIGINT,
     avg_review_time_hours NUMERIC
-) AS $$
+) 
+LANGUAGE plpgsql 
+SECURITY DEFINER
+SET search_path = ''
+AS $$
 BEGIN
     RETURN QUERY
     SELECT 
@@ -251,9 +353,165 @@ BEGIN
         AVG(EXTRACT(EPOCH FROM (reviewed_at - created_at)) / 3600) FILTER (WHERE reviewed_at IS NOT NULL) as avg_review_time_hours
     FROM public.submissions;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$;
 
--- Grant execute permissions to authenticated users for appropriate functions
-GRANT EXECUTE ON FUNCTION public.approve_submission(UUID, UUID) TO authenticated;
-GRANT EXECUTE ON FUNCTION public.reject_submission(UUID, UUID, TEXT) TO authenticated;
-GRANT EXECUTE ON FUNCTION public.get_submission_stats() TO authenticated;
+-- Function to mark legislation as repealed
+CREATE OR REPLACE FUNCTION public.mark_legislation_repealed(
+    legislation_id UUID,
+    repeal_date_param DATE,
+    admin_user_id UUID
+)
+RETURNS BOOLEAN 
+LANGUAGE plpgsql 
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+BEGIN
+    -- Check if user has admin/moderator role
+    IF NOT (public.has_role(admin_user_id, 'admin') OR public.has_role(admin_user_id, 'moderator')) THEN
+        RAISE EXCEPTION 'Insufficient permissions';
+    END IF;
+
+    -- Update the legislation record
+    UPDATE public.breed_legislation
+    SET 
+        legislation_type = 'repealed',
+        repeal_date = repeal_date_param,
+        updated_at = NOW()
+    WHERE id = legislation_id;
+
+    IF NOT FOUND THEN
+        RAISE EXCEPTION 'Legislation record not found';
+    END IF;
+
+    -- Log the repeal
+    PERFORM public.create_audit_log(
+        'mark_legislation_repealed',
+        'breed_legislation',
+        legislation_id::TEXT,
+        NULL,
+        jsonb_build_object('repeal_date', repeal_date_param, 'admin_id', admin_user_id)
+    );
+
+    RETURN TRUE;
+END;
+$$;
+
+-- Email and newsletter functions
+CREATE OR REPLACE FUNCTION public.log_email_send(
+    p_user_id UUID,
+    p_email_type email_type,
+    p_subject TEXT,
+    p_recipient_email TEXT,
+    p_provider_id TEXT DEFAULT NULL,
+    p_status email_status DEFAULT 'sent'
+)
+RETURNS UUID 
+LANGUAGE plpgsql 
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+DECLARE
+    log_id UUID;
+BEGIN
+    INSERT INTO public.email_logs (
+        user_id,
+        email_type,
+        subject,
+        recipient_email,
+        provider_id,
+        status
+    )
+    VALUES (
+        p_user_id,
+        p_email_type,
+        p_subject,
+        p_recipient_email,
+        p_provider_id,
+        p_status
+    )
+    RETURNING id INTO log_id;
+    
+    RETURN log_id;
+END;
+$$;
+
+-- Function to update newsletter subscription
+CREATE OR REPLACE FUNCTION public.update_newsletter_subscription(
+    p_user_id UUID,
+    p_subscribed BOOLEAN,
+    p_confirmed BOOLEAN DEFAULT false
+)
+RETURNS BOOLEAN 
+LANGUAGE plpgsql 
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+BEGIN
+    UPDATE public.user_preferences
+    SET 
+        newsletter_subscribed = p_subscribed,
+        newsletter_confirmed = CASE 
+            WHEN p_subscribed THEN p_confirmed 
+            ELSE false 
+        END,
+        updated_at = NOW()
+    WHERE user_id = p_user_id;
+    
+    IF NOT FOUND THEN
+        INSERT INTO public.user_preferences (
+            user_id, 
+            newsletter_subscribed, 
+            newsletter_confirmed
+        )
+        VALUES (p_user_id, p_subscribed, p_confirmed);
+    END IF;
+    
+    RETURN true;
+END;
+$$;
+
+-- Function to mark welcome email as sent
+CREATE OR REPLACE FUNCTION public.mark_welcome_email_sent(p_user_id UUID)
+RETURNS BOOLEAN 
+LANGUAGE plpgsql 
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+BEGIN
+    UPDATE public.user_preferences
+    SET 
+        welcome_email_sent = true,
+        updated_at = NOW()
+    WHERE user_id = p_user_id;
+    
+    RETURN FOUND;
+END;
+$$;
+
+-- Function to get newsletter subscribers
+CREATE OR REPLACE FUNCTION public.get_newsletter_subscribers()
+RETURNS TABLE (
+    user_id UUID,
+    email TEXT,
+    display_name TEXT,
+    subscribed_at TIMESTAMP WITH TIME ZONE
+) 
+LANGUAGE plpgsql 
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+        p.id as user_id,
+        p.email,
+        COALESCE(p.full_name, p.email) as display_name,
+        up.created_at as subscribed_at
+    FROM public.profiles p
+    JOIN public.user_preferences up ON p.id = up.user_id
+    WHERE up.newsletter_subscribed = true 
+    AND up.newsletter_confirmed = true
+    AND p.email IS NOT NULL;
+END;
+$$;

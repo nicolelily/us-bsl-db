@@ -1,5 +1,5 @@
 
-export type LegislationType = 'ban' | 'restriction';
+export type LegislationType = 'ban' | 'restriction' | 'repealed';
 
 export interface BreedLegislation {
   id: string;
