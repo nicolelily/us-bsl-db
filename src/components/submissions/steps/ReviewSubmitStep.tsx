@@ -30,6 +30,7 @@ interface ReviewSubmitStepProps {
 
 const ReviewSubmitStep: React.FC<ReviewSubmitStepProps> = ({
   data,
+  onDataChange,
   onPrevious,
   onSubmit,
   isSubmitting,
@@ -80,6 +81,8 @@ const ReviewSubmitStep: React.FC<ReviewSubmitStepProps> = ({
       });
     }
   }, [agreedToTerms, duplicateWarningAcknowledged, hasDuplicates, isSubmitting, isChecking, onDataChange]);
+
+
 
   return (
     <div className="space-y-6">
