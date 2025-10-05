@@ -163,6 +163,14 @@ const LegislationForm: React.FC<LegislationFormProps> = ({
                     </div>
                   </div>
                 </SelectItem>
+                <SelectItem value="repealed">
+                  <div>
+                    <div className="font-medium">Repealed</div>
+                    <div className="text-sm text-muted-foreground">
+                      Previously enacted legislation that has been repealed
+                    </div>
+                  </div>
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
