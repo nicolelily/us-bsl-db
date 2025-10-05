@@ -527,3 +527,23 @@ BEGIN
     AND p.email IS NOT NULL;
 END;
 $$;
+-- Functi
+on to handle complete new user setup (replaces handle_new_user_role)
+CREATE OR REPLACE FUNCTION public.handle_new_user_signup()
+RETURNS trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $
+BEGIN
+    -- First, create the profile record
+    INSERT INTO public.profiles (id, email, full_name)
+    VALUES (NEW.id, NEW.email, NEW.raw_user_meta_data->>'full_name');
+    
+    -- Then, create the user role
+    INSERT INTO public.user_roles (user_id, role)
+    VALUES (NEW.id, 'user');
+    
+    RETURN NEW;
+END;
+$;

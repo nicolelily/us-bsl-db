@@ -3,7 +3,7 @@ DROP TRIGGER IF EXISTS on_auth_user_created_create_profile ON auth.users;
 CREATE TRIGGER on_auth_user_created_create_profile
     AFTER INSERT ON auth.users
     FOR EACH ROW
-    EXECUTE FUNCTION public.handle_new_user_role();
+    EXECUTE FUNCTION public.handle_new_user_signup();
 
 DROP TRIGGER IF EXISTS on_profile_created_initialize_contributions ON public.profiles;
 CREATE TRIGGER on_profile_created_initialize_contributions
