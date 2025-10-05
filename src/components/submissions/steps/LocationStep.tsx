@@ -10,6 +10,8 @@ interface LocationStepProps {
   onDataChange: (data: Partial<SubmissionFormData>) => void;
   onNext: () => void;
   onPrevious: () => void;
+  onSubmit?: (data: SubmissionFormData) => void;
+  isSubmitting?: boolean;
 }
 
 const LocationStep: React.FC<LocationStepProps> = ({
