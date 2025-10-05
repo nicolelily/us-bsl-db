@@ -21,6 +21,8 @@ import DuplicateWarning from '../DuplicateWarning';
 
 interface ReviewSubmitStepProps {
   data: Partial<SubmissionFormData>;
+  onDataChange?: (data: Partial<SubmissionFormData>) => void;
+  onNext?: () => void;
   onPrevious: () => void;
   onSubmit: (data: SubmissionFormData) => void;
   isSubmitting: boolean;
