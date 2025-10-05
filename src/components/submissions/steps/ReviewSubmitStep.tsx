@@ -38,26 +38,15 @@ const ReviewSubmitStep: React.FC<ReviewSubmitStepProps> = ({
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [duplicateWarningAcknowledged, setDuplicateWarningAcknowledged] = useState(false);
 
-  // Debug logging
-  console.log('ReviewSubmitStep rendering with data:', data);
-
-  // Real-time duplicate detection with error handling
-  let duplicateResult = null;
-  let isChecking = false;
-  let hasDuplicates = false;
-  
-  try {
-    const duplicateDetection = useDuplicateDetection({
-      formData: data,
-      enabled: isFormComplete()
-    });
-    duplicateResult = duplicateDetection.duplicateResult;
-    isChecking = duplicateDetection.isChecking;
-    hasDuplicates = duplicateDetection.hasDuplicates;
-  } catch (error) {
-    console.error('Duplicate detection error:', error);
-    // Continue without duplicate detection
-  }
+  // Real-time duplicate detection
+  const { 
+    duplicateResult, 
+    isChecking, 
+    hasDuplicates 
+  } = useDuplicateDetection({
+    formData: data,
+    enabled: isFormComplete()
+  });
 
 
 
@@ -93,11 +82,7 @@ const ReviewSubmitStep: React.FC<ReviewSubmitStepProps> = ({
     }
   }, [agreedToTerms, duplicateWarningAcknowledged, hasDuplicates, isSubmitting, isChecking, onDataChange]);
 
-  // Add error boundary for debugging
-  if (!data) {
-    console.error('ReviewSubmitStep: No data provided');
-    return <div>Error: No form data available</div>;
-  }
+
 
   return (
     <div className="space-y-6">
