@@ -53,7 +53,10 @@ export async function fetchBreedLegislationData(): Promise<BreedLegislation[]> {
       id: row.id,
       municipality: String(row.municipality || '').trim(),
       state: String(row.state || '').trim(),
-      municipalityType: (row.municipality_type === 'County' ? 'County' : 'City') as 'City' | 'County',
+      municipalityType: (() => {
+        const type = String(row.municipality_type || '').toLowerCase().trim();
+        return (type === 'county' ? 'County' : 'City') as 'City' | 'County';
+      })(),
       bannedBreeds: Array.isArray(row.banned_breeds) 
         ? row.banned_breeds.map(breed => String(breed).trim()).filter(Boolean)
         : [],
