@@ -13,8 +13,9 @@ import SourcesDocumentsStep from './steps/SourcesDocumentsStep';
 import ReviewSubmitStep from './steps/ReviewSubmitStep';
 
 interface SubmissionWizardProps {
-  onComplete: (data: SubmissionFormData) => void;
+  onComplete: (data: SubmissionFormData) => Promise<void>;
   onCancel: () => void;
+  isSubmitting?: boolean;
 }
 
 const STEPS = [
@@ -25,11 +26,17 @@ const STEPS = [
   { id: 5, title: 'Review & Submit', component: ReviewSubmitStep },
 ];
 
-const SubmissionWizard: React.FC<SubmissionWizardProps> = ({ onComplete, onCancel }) => {
+const SubmissionWizard: React.FC<SubmissionWizardProps> = ({ 
+  onComplete, 
+  onCancel, 
+  isSubmitting: externalIsSubmitting = false 
+}) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<Partial<SubmissionFormData>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [reviewStepValid, setReviewStepValid] = useState(false);
+  
+  // Use external submission state if provided, otherwise track internally
+  const isSubmitting = externalIsSubmitting;
 
   const progress = (currentStep / STEPS.length) * 100;
   const currentStepData = STEPS.find(step => step.id === currentStep);
@@ -61,13 +68,11 @@ const SubmissionWizard: React.FC<SubmissionWizardProps> = ({ onComplete, onCance
   };
 
   const handleSubmit = async (finalData: SubmissionFormData) => {
-    setIsSubmitting(true);
     try {
       await onComplete(finalData);
     } catch (error) {
       console.error('Submission error:', error);
-    } finally {
-      setIsSubmitting(false);
+      // Error handling is done in the parent component
     }
   };
 

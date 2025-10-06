@@ -4,15 +4,18 @@ import Navigation from '../components/Navigation';
 import SubmissionWizard from '../components/submissions/SubmissionWizard';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, ArrowLeft } from 'lucide-react';
+import { CheckCircle, ArrowLeft, AlertCircle } from 'lucide-react';
 import { SubmissionFormData } from '@/types/submissions';
 import { useAuth } from '@/contexts/AuthContext';
+import { useSubmissionCreation } from '@/hooks/useSubmissionCreation';
 
 const Submit: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { createSubmission, isCreating, error: submissionError } = useSubmissionCreation();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submissionId, setSubmissionId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   // Redirect to auth if not logged in
   React.useEffect(() => {
@@ -23,20 +26,18 @@ const Submit: React.FC = () => {
 
   const handleSubmissionComplete = async (data: SubmissionFormData) => {
     try {
-      // TODO: Implement actual submission to Supabase
+      setError(null);
       console.log('Submitting data:', data);
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Create the actual submission in Supabase
+      const newSubmissionId = await createSubmission(data);
       
-      // Mock submission ID
-      const mockId = 'sub_' + Math.random().toString(36).substr(2, 9);
-      setSubmissionId(mockId);
+      setSubmissionId(newSubmissionId);
       setIsSubmitted(true);
       
     } catch (error) {
       console.error('Submission error:', error);
-      // TODO: Handle submission error
+      setError(error instanceof Error ? error.message : 'Failed to submit legislation');
     }
   };
 
@@ -115,9 +116,27 @@ const Submit: React.FC = () => {
     <div className="min-h-screen bg-dogdata-background">
       <Navigation />
       <div className="container mx-auto py-8 px-4">
+        {/* Error Display */}
+        {(error || submissionError) && (
+          <div className="max-w-4xl mx-auto mb-6">
+            <Card className="border-red-200">
+              <CardContent className="pt-6">
+                <div className="flex items-center space-x-2 text-red-600">
+                  <AlertCircle className="w-5 h-5" />
+                  <p className="font-medium">Submission Error</p>
+                </div>
+                <p className="text-red-700 mt-2">
+                  {error || submissionError}
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+        
         <SubmissionWizard
           onComplete={handleSubmissionComplete}
           onCancel={handleCancel}
+          isSubmitting={isCreating}
         />
       </div>
     </div>

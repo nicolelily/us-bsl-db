@@ -40,12 +40,13 @@ const SourcesDocumentsStep: React.FC<SourcesDocumentsStepProps> = ({
   const [errors, setErrors] = useState<string[]>([]);
   const [warnings, setWarnings] = useState<string[]>([]);
 
+  // Update parent when data changes - avoid including onDataChange in dependencies
   useEffect(() => {
     onDataChange({
       ordinance_url: ordinanceUrl || undefined,
       verification_date: verificationDate?.toISOString().split('T')[0],
     });
-  }, [ordinanceUrl, verificationDate, onDataChange]);
+  }, [ordinanceUrl, verificationDate]); // Removed onDataChange from dependencies
 
   // Validate form and update errors/warnings for display
   useEffect(() => {
@@ -133,7 +134,9 @@ const SourcesDocumentsStep: React.FC<SourcesDocumentsStepProps> = ({
               id="ordinance-url"
               type="url"
               value={ordinanceUrl}
-              onChange={(e) => setOrdinanceUrl(e.target.value)}
+              onChange={(e) => {
+                setOrdinanceUrl(e.target.value);
+              }}
               placeholder="https://example.com/ordinance.pdf"
             />
             <p className="text-sm text-muted-foreground">
@@ -160,7 +163,9 @@ const SourcesDocumentsStep: React.FC<SourcesDocumentsStepProps> = ({
                 <Calendar
                   mode="single"
                   selected={verificationDate}
-                  onSelect={setVerificationDate}
+                  onSelect={(date) => {
+                    setVerificationDate(date);
+                  }}
                   initialFocus
                 />
               </PopoverContent>

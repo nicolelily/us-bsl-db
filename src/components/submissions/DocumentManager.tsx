@@ -46,12 +46,12 @@ export function DocumentManager({
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('upload');
 
-  // Notify parent component when documents change
+  // Notify parent component when documents change - avoid including callback in dependencies
   useEffect(() => {
     if (onDocumentsChange) {
       onDocumentsChange(documents);
     }
-  }, [documents, onDocumentsChange]);
+  }, [documents]); // Removed onDocumentsChange from dependencies
 
   const handleFilesChange = async (uploadedFiles: UploadedFile[]) => {
     // Convert UploadedFile to File objects and upload them
