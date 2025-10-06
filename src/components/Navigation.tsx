@@ -24,7 +24,7 @@ const Navigation = () => {
           <div className="flex items-center space-x-4 sm:space-x-8">
             <Link to="/" className="flex items-center space-x-2 sm:space-x-3">
               <img 
-                src="/lovable-uploads/009d4537-5a1c-40cd-93af-4624fe786dc4.png" 
+                src="/assets/images/bsldb-logo.png" 
                 alt="BSLDB Logo" 
                 className="h-12 w-12 sm:h-16 sm:w-16"
               />
