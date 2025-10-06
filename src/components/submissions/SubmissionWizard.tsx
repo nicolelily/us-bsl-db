@@ -29,6 +29,7 @@ const SubmissionWizard: React.FC<SubmissionWizardProps> = ({ onComplete, onCance
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<Partial<SubmissionFormData>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [reviewStepValid, setReviewStepValid] = useState(false);
 
   const progress = (currentStep / STEPS.length) * 100;
   const currentStepData = STEPS.find(step => step.id === currentStep);
@@ -46,7 +47,17 @@ const SubmissionWizard: React.FC<SubmissionWizardProps> = ({ onComplete, onCance
   };
 
   const handleStepData = (stepData: Partial<SubmissionFormData>) => {
-    setFormData(prev => ({ ...prev, ...stepData }));
+    // Handle validation state separately to avoid infinite re-renders
+    if ('_reviewStepValid' in stepData) {
+      setReviewStepValid(!!stepData._reviewStepValid);
+      // Remove validation flag from form data to prevent it from being stored
+      const { _reviewStepValid, ...cleanStepData } = stepData;
+      if (Object.keys(cleanStepData).length > 0) {
+        setFormData(prev => ({ ...prev, ...cleanStepData }));
+      }
+    } else {
+      setFormData(prev => ({ ...prev, ...stepData }));
+    }
   };
 
   const handleSubmit = async (finalData: SubmissionFormData) => {
@@ -197,7 +208,7 @@ const SubmissionWizard: React.FC<SubmissionWizardProps> = ({ onComplete, onCance
               {currentStep === STEPS.length && (
                 <Button
                   onClick={() => handleSubmit(formData as SubmissionFormData)}
-                  disabled={!formData._reviewStepValid || isSubmitting}
+                  disabled={!reviewStepValid || isSubmitting}
                   className="min-w-[120px]"
                 >
                   {isSubmitting ? 'Submitting...' : 'Submit for Review'}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -38,19 +38,8 @@ const ReviewSubmitStep: React.FC<ReviewSubmitStepProps> = ({
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [duplicateWarningAcknowledged, setDuplicateWarningAcknowledged] = useState(false);
 
-  // Real-time duplicate detection
-  const { 
-    duplicateResult, 
-    isChecking, 
-    hasDuplicates 
-  } = useDuplicateDetection({
-    formData: data,
-    enabled: isFormComplete()
-  });
-
-
-
-  const isFormComplete = () => {
+  // Check if form is complete using useMemo for performance
+  const isFormComplete = useMemo(() => {
     return !!(
       data.type &&
       data.municipality &&
@@ -61,26 +50,36 @@ const ReviewSubmitStep: React.FC<ReviewSubmitStepProps> = ({
       data.banned_breeds &&
       data.banned_breeds.length > 0
     );
-  };
+  }, [data]);
 
-  const canSubmit = () => {
+  // Real-time duplicate detection
+  const { 
+    duplicateResult, 
+    isChecking, 
+    hasDuplicates 
+  } = useDuplicateDetection({
+    formData: data,
+    enabled: isFormComplete
+  });
+
+  const canSubmit = useMemo(() => {
     return (
-      isFormComplete() &&
+      isFormComplete &&
       agreedToTerms &&
       (!hasDuplicates || duplicateWarningAcknowledged) &&
       !isSubmitting &&
       !isChecking
     );
-  };
+  }, [isFormComplete, agreedToTerms, hasDuplicates, duplicateWarningAcknowledged, isSubmitting, isChecking]);
 
   // Notify parent about validation state changes
   React.useEffect(() => {
     if (onDataChange) {
       onDataChange({
-        _reviewStepValid: canSubmit()
+        _reviewStepValid: canSubmit
       });
     }
-  }, [agreedToTerms, duplicateWarningAcknowledged, hasDuplicates, isSubmitting, isChecking, onDataChange]);
+  }, [canSubmit]); // Removed onDataChange from dependencies to prevent infinite loops
 
 
 

@@ -43,10 +43,87 @@ const BreedSelector: React.FC<BreedSelectorProps> = ({
     queryFn: fetchBreedLegislationData
   });
 
+  // Normalize breed names to fix inconsistencies - make everything plural
+  const normalizeBreedName = (breed: string): string => {
+    const normalized = breed.trim();
+    
+    // Create a mapping of breed name variations to standard plural forms
+    const breedMappings: { [key: string]: string } = {
+      // Pit Bull variations
+      'pit bull-type dog': 'Pit Bull-Type Dogs',
+      'pit bull-type dogs': 'Pit Bull-Type Dogs',
+      'pit-bull type dog': 'Pit Bull-Type Dogs',
+      'pit-bull type dogs': 'Pit Bull-Type Dogs',
+      'pit bull type dog': 'Pit Bull-Type Dogs',
+      'pit bull type dogs': 'Pit Bull-Type Dogs',
+      'pit bull': 'Pit Bulls',
+      'pit bulls': 'Pit Bulls',
+      
+      // Doberman variations
+      'doberman pinscher': 'Doberman Pinschers',
+      'doberman pinschers': 'Doberman Pinschers',
+      'doberman': 'Doberman Pinschers',
+      'dobermans': 'Doberman Pinschers',
+      
+      // German Shepherd variations
+      'german shepherd': 'German Shepherd Dogs',
+      'german shepherds': 'German Shepherd Dogs',
+      'german shepherd dog': 'German Shepherd Dogs',
+      'german shepherd dogs': 'German Shepherd Dogs',
+      
+      // American Pit Bull Terrier variations
+      'american pit bull terrier': 'American Pit Bull Terriers',
+      'american pit bull terriers': 'American Pit Bull Terriers',
+      
+      // Staffordshire Terrier variations
+      'staffordshire terrier': 'Staffordshire Terriers',
+      'staffordshire terriers': 'Staffordshire Terriers',
+      'american staffordshire terrier': 'American Staffordshire Terriers',
+      'american staffordshire terriers': 'American Staffordshire Terriers',
+      
+      // Rottweiler variations
+      'rottweiler': 'Rottweilers',
+      'rottweilers': 'Rottweilers',
+      
+      // Other common breeds that might have singular/plural issues
+      'akita': 'Akitas',
+      'akitas': 'Akitas',
+      'boxer': 'Boxers',
+      'boxers': 'Boxers',
+      'mastiff': 'Mastiffs',
+      'mastiffs': 'Mastiffs',
+      'bullmastiff': 'Bullmastiffs',
+      'bullmastiffs': 'Bullmastiffs',
+      'chow chow': 'Chow Chows',
+      'chow chows': 'Chow Chows',
+    };
+    
+    // Check for exact matches (case insensitive)
+    const lowerNormalized = normalized.toLowerCase();
+    if (breedMappings[lowerNormalized]) {
+      return breedMappings[lowerNormalized];
+    }
+    
+    // If no specific mapping, apply generic pluralization rules
+    if (!normalized.endsWith('s') && !normalized.endsWith('x') && !normalized.endsWith('z')) {
+      // Simple pluralization for most breeds
+      if (normalized.endsWith('y') && normalized.length > 1) {
+        const beforeY = normalized.slice(-2, -1);
+        if (!['a', 'e', 'i', 'o', 'u'].includes(beforeY.toLowerCase())) {
+          return normalized.slice(0, -1) + 'ies';
+        }
+      }
+      return normalized + 's';
+    }
+    
+    return normalized;
+  };
+
   // Generate comprehensive breed list from existing data
   useEffect(() => {
     const existingBreeds = existingData
       .flatMap(item => item.bannedBreeds)
+      .map(breed => normalizeBreedName(breed)) // Normalize breed names
       .filter((breed, index, self) => self.indexOf(breed) === index) // Remove duplicates
       .sort();
 
@@ -210,7 +287,7 @@ const BreedSelector: React.FC<BreedSelectorProps> = ({
             ))}
           </div>
           <p className="text-xs text-muted-foreground">
-            These breeds will be stored as "pit bull-type dog" for consistency with existing data
+            These breeds will be stored as "Pit Bull-Type Dogs" for consistency with existing data
           </p>
         </div>
       )}
@@ -250,7 +327,7 @@ const BreedSelector: React.FC<BreedSelectorProps> = ({
                 You've selected {selectedPitBullTypes.length} pit bull-type breed{selectedPitBullTypes.length !== 1 ? 's' : ''}: {selectedPitBullTypes.join(', ')}
               </p>
               <p className="text-sm mt-1">
-                These will be stored as "<strong>pit bull-type dog</strong>" to maintain consistency with existing data in our database.
+                These will be stored as "<strong>Pit Bull-Type Dogs</strong>" to maintain consistency with existing data in our database.
               </p>
             </div>
           </AlertDescription>
