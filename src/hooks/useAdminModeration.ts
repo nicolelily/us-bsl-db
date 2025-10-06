@@ -228,7 +228,7 @@ export function useAdminModeration(): UseModerationResult {
       const { error } = await supabase.rpc('reject_submission', {
         submission_id: submissionId,
         admin_user_id: user?.id,
-        admin_feedback: feedback
+        feedback_text: feedback
       });
 
       if (error) throw error;
@@ -322,7 +322,7 @@ export function useAdminModeration(): UseModerationResult {
         supabase.rpc('reject_submission', {
           submission_id: id,
           admin_user_id: user?.id,
-          admin_feedback: feedback
+          feedback_text: feedback
         })
       );
 

@@ -231,7 +231,7 @@ BEGIN
         SELECT 
             (submitted_data->>'municipality')::TEXT,
             (submitted_data->>'state')::TEXT,
-            (submitted_data->>'municipality_type')::TEXT,
+            (submitted_data->>'municipality_type')::municipality_type,
             (submitted_data->'banned_breeds')::JSONB,
             (submitted_data->>'ordinance')::TEXT,
             (submitted_data->>'population')::INTEGER,
@@ -260,7 +260,7 @@ BEGIN
         SET 
             municipality = COALESCE((submission_record.submitted_data->>'municipality')::TEXT, municipality),
             state = COALESCE((submission_record.submitted_data->>'state')::TEXT, state),
-            municipality_type = COALESCE((submission_record.submitted_data->>'municipality_type')::TEXT, municipality_type),
+            municipality_type = COALESCE((submission_record.submitted_data->>'municipality_type')::municipality_type, municipality_type),
             banned_breeds = COALESCE((submission_record.submitted_data->'banned_breeds')::JSONB, banned_breeds),
             ordinance = COALESCE((submission_record.submitted_data->>'ordinance')::TEXT, ordinance),
             population = COALESCE((submission_record.submitted_data->>'population')::INTEGER, population),
