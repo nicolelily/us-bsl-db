@@ -6,14 +6,14 @@ BEGIN
   INSERT INTO public.user_roles (user_id, role, created_at, updated_at)
   VALUES (
     NEW.id,
-    'user'::app_role,
+    'user'::public.app_role,
     NOW(),
     NOW()
   );
   
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
 -- Create the trigger
 DROP TRIGGER IF EXISTS on_auth_user_role_created ON auth.users;
