@@ -2,7 +2,7 @@
 import React, { useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BreedLegislation } from '@/types';
-import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { HorizontalBarChart } from '@/components/ui/horizontal-bar-chart';
 
 interface StatsComponentProps {
   data: BreedLegislation[];
@@ -57,18 +57,12 @@ const StatsComponent = ({ data }: StatsComponentProps) => {
           <CardTitle>Most Commonly Banned Breeds</CardTitle>
         </CardHeader>
         <CardContent className="h-80">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={breedStats.slice(0, 5)}
-              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-            >
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="value" name="Number of Municipalities" fill="#7DCBC4" />
-            </BarChart>
-          </ResponsiveContainer>
+          <HorizontalBarChart
+            data={breedStats.slice(0, 5)}
+            height={300}
+            className="w-full"
+            color="#7DCBC4"
+          />
         </CardContent>
       </Card>
 
@@ -76,27 +70,24 @@ const StatsComponent = ({ data }: StatsComponentProps) => {
         <CardHeader>
           <CardTitle>Municipality Type Distribution</CardTitle>
         </CardHeader>
-        <CardContent className="h-80 flex justify-center items-center">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={typeStats}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                outerRadius={80}
-                fill="#8884d8"
-                dataKey="value"
-                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-              >
-                {typeStats.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
+        <CardContent className="space-y-6">
+          {typeStats.map(({ name, value }) => {
+            const percentage = (value / data.length * 100).toFixed(0);
+            return (
+              <div key={name} className="space-y-2">
+                <div className="flex justify-between items-center text-sm text-muted-foreground">
+                  <span>{name}</span>
+                  <span className="font-medium">{value} ({percentage}%)</span>
+                </div>
+                <div className="h-2 rounded-full bg-slate-100 overflow-hidden">
+                  <div 
+                    className="h-full bg-bsl-teal" 
+                    style={{ width: `${percentage}%` }}
+                  />
+                </div>
+              </div>
+            );
+          })}
         </CardContent>
       </Card>
     </div>
