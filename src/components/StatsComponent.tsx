@@ -59,7 +59,7 @@ const StatsComponent = ({ data }: StatsComponentProps) => {
         <CardContent className="h-80">
           <HorizontalBarChart
             data={breedStats.slice(0, 5)}
-            height={300}
+            height={320}
             className="w-full"
             color="#7DCBC4"
           />
@@ -70,18 +70,18 @@ const StatsComponent = ({ data }: StatsComponentProps) => {
         <CardHeader>
           <CardTitle>Municipality Type Distribution</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="py-6 space-y-8">
           {typeStats.map(({ name, value }) => {
             const percentage = (value / data.length * 100).toFixed(0);
             return (
-              <div key={name} className="space-y-2">
-                <div className="flex justify-between items-center text-sm text-muted-foreground">
-                  <span>{name}</span>
-                  <span className="font-medium">{value} ({percentage}%)</span>
+              <div key={name} className="space-y-3">
+                <div className="flex justify-between items-center text-sm">
+                  <span className="font-medium text-base">{name}</span>
+                  <span className="text-muted-foreground">{value} ({percentage}%)</span>
                 </div>
-                <div className="h-2 rounded-full bg-slate-100 overflow-hidden">
+                <div className="h-4 rounded-lg bg-slate-200/70 overflow-hidden shadow-inner">
                   <div 
-                    className="h-full bg-bsl-teal" 
+                    className="h-full bg-bsl-teal transition-all duration-500" 
                     style={{ width: `${percentage}%` }}
                   />
                 </div>
