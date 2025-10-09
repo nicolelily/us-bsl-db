@@ -10,58 +10,59 @@ export function useWelcomeFlow() {
   const [hasTriggeredWelcome, setHasTriggeredWelcome] = useState(false);
 
   useEffect(() => {
-    const triggerWelcomeFlow = async () => {
-      // Only trigger for authenticated users who haven't received welcome email
-      if (!user || !user.email || hasTriggeredWelcome) {
-        return;
-      }
+    // Temporarily disabled - custom welcome emails to be implemented later
+    // const triggerWelcomeFlow = async () => {
+    //   // Only trigger for authenticated users who haven't received welcome email
+    //   if (!user || !user.email || hasTriggeredWelcome) {
+    //     return;
+    //   }
 
-      // Wait for preferences to load
-      if (!preferences) {
-        return;
-      }
+    //   // Wait for preferences to load
+    //   if (!preferences) {
+    //     return;
+    //   }
 
-      // Check if welcome email was already sent
-      if (preferences.welcomeEmailSent) {
-        return;
-      }
+    //   // Check if welcome email was already sent
+    //   if (preferences.welcomeEmailSent) {
+    //     return;
+    //   }
 
-      // Check if user just verified their email (email_confirmed_at exists and is recent)
-      const emailConfirmedAt = user.email_confirmed_at;
-      if (!emailConfirmedAt) {
-        return;
-      }
+    //   // Check if user just verified their email (email_confirmed_at exists and is recent)
+    //   const emailConfirmedAt = user.email_confirmed_at;
+    //   if (!emailConfirmedAt) {
+    //     return;
+    //   }
 
-      // Check if email was confirmed recently (within last 5 minutes)
-      const confirmedTime = new Date(emailConfirmedAt).getTime();
-      const now = new Date().getTime();
-      const fiveMinutesAgo = now - (5 * 60 * 1000);
+    //   // Check if email was confirmed recently (within last 5 minutes)
+    //   const confirmedTime = new Date(emailConfirmedAt).getTime();
+    //   const now = new Date().getTime();
+    //   const fiveMinutesAgo = now - (5 * 60 * 1000);
 
-      if (confirmedTime < fiveMinutesAgo) {
-        return;
-      }
+    //   if (confirmedTime < fiveMinutesAgo) {
+    //     return;
+    //   }
 
-      try {
-        setHasTriggeredWelcome(true);
+    //   try {
+    //     setHasTriggeredWelcome(true);
 
-        // Get user's display name
-        const displayName = user.user_metadata?.full_name || user.user_metadata?.display_name;
+    //     // Get user's display name
+    //     const displayName = user.user_metadata?.full_name || user.user_metadata?.display_name;
 
-        // Check if user opted into newsletter during signup
-        // This would need to be stored somewhere during signup - for now we'll default to false
-        const newsletterOptIn = false;
+    //     // Check if user opted into newsletter during signup
+    //     // This would need to be stored somewhere during signup - for now we'll default to false
+    //     const newsletterOptIn = false;
 
-        // Send welcome email
-        await sendWelcomeEmail(user.email, displayName, newsletterOptIn);
+    //     // Send welcome email
+    //     await sendWelcomeEmail(user.email, displayName, newsletterOptIn);
 
-        console.log('Welcome email sent successfully');
-      } catch (error) {
-        console.error('Failed to send welcome email:', error);
-        setHasTriggeredWelcome(false); // Allow retry
-      }
-    };
+    //     console.log('Welcome email sent successfully');
+    //   } catch (error) {
+    //     console.error('Failed to send welcome email:', error);
+    //     setHasTriggeredWelcome(false); // Allow retry
+    //   }
+    // };
 
-    triggerWelcomeFlow();
+    // triggerWelcomeFlow();
   }, [user, preferences, sendWelcomeEmail, hasTriggeredWelcome]);
 
   const manuallyTriggerWelcome = async (newsletterOptIn: boolean = false) => {
