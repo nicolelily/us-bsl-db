@@ -7,6 +7,11 @@ import { createMultipleTestSubmissions } from '@/utils/testSubmissions';
 const TestSubmissionData: React.FC = () => {
   const { user } = useAuth();
 
+  // Only show in development environment
+  if (!import.meta.env.DEV) {
+    return null;
+  }
+
   const handleCreateTestData = async () => {
     if (!user) {
       alert('Please log in first');

@@ -11,8 +11,6 @@ export const useAdminUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      console.log('Fetching users for admin panel...');
-      
       // First get all profiles that the admin can see
       const { data: profilesData, error: profilesError } = await supabase
         .from('profiles')
@@ -22,8 +20,6 @@ export const useAdminUsers = () => {
         console.error('Error fetching profiles:', profilesError);
         throw profilesError;
       }
-
-      console.log(`Fetched ${profilesData?.length || 0} profiles`);
 
       // Then get user roles for each user
       const { data: rolesData, error: rolesError } = await supabase
@@ -35,8 +31,6 @@ export const useAdminUsers = () => {
         throw rolesError;
       }
 
-      console.log(`Fetched ${rolesData?.length || 0} user roles`);
-
       // Combine the data
       const usersWithRoles: UserWithRole[] = (profilesData || []).map(profile => {
         const userRole = rolesData?.find(role => role.user_id === profile.id);
@@ -46,7 +40,6 @@ export const useAdminUsers = () => {
         };
       });
 
-      console.log(`Combined data for ${usersWithRoles.length} users`);
       setUsers(usersWithRoles);
     } catch (error) {
       console.error('Error fetching users:', error);

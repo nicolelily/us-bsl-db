@@ -27,7 +27,6 @@ const Submit: React.FC = () => {
   const handleSubmissionComplete = async (data: SubmissionFormData) => {
     try {
       setError(null);
-      console.log('Submitting data:', data);
       
       // Create the actual submission in Supabase
       const newSubmissionId = await createSubmission(data);
