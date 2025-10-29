@@ -3,7 +3,7 @@
 export type SubmissionType = 'new_legislation' | 'update_existing';
 export type SubmissionStatus = 'pending' | 'approved' | 'rejected' | 'needs_changes';
 
-export type LegislationType = 'ban' | 'restriction' | 'repealed';
+export type LegislationType = 'ban' | 'restriction' | 'repealed' | 'unverified';
 
 export interface SubmissionData {
   municipality: string;

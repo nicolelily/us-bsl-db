@@ -171,6 +171,14 @@ const LegislationForm: React.FC<LegislationFormProps> = ({
                     </div>
                   </div>
                 </SelectItem>
+                <SelectItem value="unverified">
+                  <div>
+                    <div className="font-medium">Unverified</div>
+                    <div className="text-sm text-muted-foreground">
+                      Legislation that exists but needs verification
+                    </div>
+                  </div>
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>

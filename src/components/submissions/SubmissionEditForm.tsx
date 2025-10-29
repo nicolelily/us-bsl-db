@@ -215,7 +215,7 @@ const SubmissionEditForm: React.FC<SubmissionEditFormProps> = ({
             <Label htmlFor="legislation_type">Legislation Type</Label>
             <Select 
               value={formData.legislation_type || 'ban'} 
-              onValueChange={(value) => setFormData(prev => ({ ...prev, legislation_type: value as 'ban' | 'restriction' | 'repealed' }))}
+              onValueChange={(value) => setFormData(prev => ({ ...prev, legislation_type: value as 'ban' | 'restriction' | 'repealed' | 'unverified' }))}
             >
               <SelectTrigger>
                 <SelectValue />
@@ -224,6 +224,7 @@ const SubmissionEditForm: React.FC<SubmissionEditFormProps> = ({
                 <SelectItem value="ban">Ban</SelectItem>
                 <SelectItem value="restriction">Restriction</SelectItem>
                 <SelectItem value="repealed">Repealed</SelectItem>
+                <SelectItem value="unverified">Unverified</SelectItem>
               </SelectContent>
             </Select>
           </div>

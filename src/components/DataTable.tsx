@@ -66,7 +66,9 @@ const DataTable = ({ data }: DataTableProps) => {
                         ? 'bg-[#C5763D] text-white hover:bg-[#b5662d]'
                         : item.legislationType === 'repealed'
                           ? 'bg-[#74CFC5] text-white border-[#74CFC5] hover:bg-[#5fb8ad]'
-                          : ''
+                          : item.legislationType === 'unverified'
+                            ? 'bg-gray-500 text-white border-gray-500 hover:bg-gray-600'
+                            : ''
                         }`}
                     >
                       {item.legislationType}

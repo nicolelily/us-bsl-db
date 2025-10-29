@@ -269,7 +269,12 @@ const SubmissionDetail: React.FC<SubmissionDetailProps> = ({
                                     <div className="mt-1">
                                         <Badge 
                                             variant={submittedData.legislation_type === 'ban' ? 'destructive' : 'secondary'}
-                                            className={`capitalize ${submittedData.legislation_type === 'restriction' ? 'bg-[#74CFC5] text-white hover:bg-[#5fb8ad]' : ''}`}
+                                            className={`capitalize ${submittedData.legislation_type === 'restriction' 
+                                                ? 'bg-[#74CFC5] text-white hover:bg-[#5fb8ad]'
+                                                : submittedData.legislation_type === 'unverified'
+                                                    ? 'bg-gray-500 text-white border-gray-500 hover:bg-gray-600'
+                                                    : ''
+                                            }`}
                                         >
                                             {submittedData.legislation_type || 'Not specified'}
                                         </Badge>

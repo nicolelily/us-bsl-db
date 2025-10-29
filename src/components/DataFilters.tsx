@@ -182,6 +182,7 @@ const DataFilters = ({ onFilterChange, breedLegislationData }: DataFiltersProps)
               <SelectItem value="ban">Ban</SelectItem>
               <SelectItem value="restriction">Restriction</SelectItem>
               <SelectItem value="repealed">Repealed</SelectItem>
+              <SelectItem value="unverified">Unverified</SelectItem>
             </SelectContent>
           </Select>
         </div>

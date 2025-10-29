@@ -101,7 +101,12 @@ export function ReportUpdateButton({
                   <span className="font-medium">Legislation:</span>
                   <Badge 
                     variant={record.legislationType === 'ban' ? 'destructive' : 'secondary'}
-                    className={record.legislationType === 'restriction' ? 'bg-[#74CFC5] text-white hover:bg-[#5fb8ad]' : ''}
+                    className={record.legislationType === 'restriction' 
+                      ? 'bg-[#74CFC5] text-white hover:bg-[#5fb8ad]' 
+                      : record.legislationType === 'unverified'
+                        ? 'bg-gray-500 text-white border-gray-500 hover:bg-gray-600'
+                        : ''
+                    }
                   >
                     {record.legislationType || 'Ban'}
                   </Badge>

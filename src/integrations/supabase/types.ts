@@ -727,7 +727,7 @@ export const Constants = {
         "admin_notification",
         "newsletter_confirmation",
       ],
-      legislation_type: ["ban", "restriction", "repealed"],
+  legislation_type: ["ban", "restriction", "repealed", "unverified"],
       municipality_type: ["city", "county"],
       submission_status: ["pending", "approved", "rejected", "needs_changes"],
       submission_type: ["new_legislation", "update_existing"],
