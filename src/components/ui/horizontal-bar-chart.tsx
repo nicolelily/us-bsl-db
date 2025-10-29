@@ -13,7 +13,7 @@ interface HorizontalBarChartProps extends Omit<ObservableChartProps, 'options'> 
 export const HorizontalBarChart: React.FC<HorizontalBarChartProps> = ({
   data,
   color = chartTheme.colors.primary,
-  margin = chartTheme.chart.margins.default,
+  margin = { ...chartTheme.chart.margins.default, right: 60 }, // Increased right margin for labels
   ...props
 }) => {
   const { theme } = useTheme();
@@ -44,6 +44,16 @@ export const HorizontalBarChart: React.FC<HorizontalBarChartProps> = ({
         title: d => `${d.name}: ${d.value}`,
         stroke: isDarkMode ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)",
         strokeWidth: 1
+      }),
+      Plot.text(data, {
+        y: "name",
+        x: "value",
+        text: d => d.value.toString(),
+        dx: 8, // Offset from the end of the bar
+        fill: isDarkMode ? chartTheme.colors.text.dark : chartTheme.colors.text.light,
+        fontSize: 12,
+        fontWeight: "500",
+        textAnchor: "start"
       }),
       Plot.ruleY(data, {
         y: "name",

@@ -57,12 +57,20 @@ const StatsComponent = ({ data }: StatsComponentProps) => {
           <CardTitle>Most Commonly Banned Breeds</CardTitle>
         </CardHeader>
         <CardContent className="h-80">
-          <HorizontalBarChart
-            data={breedStats.slice(0, 5)}
-            height={320}
-            className="w-full"
-            color="#7DCBC4"
-          />
+          {breedStats.length > 0 ? (
+            <HorizontalBarChart
+              data={breedStats.slice(0, 5)}
+              height={320}
+              className="w-full"
+              color="#7DCBC4"
+            />
+          ) : (
+            <div className="flex items-center justify-center h-full text-center px-6">
+              <p className="text-muted-foreground text-sm leading-relaxed">
+                We are unaware of any breed-specific legislation being enforced in the selected area at this time.
+              </p>
+            </div>
+          )}
         </CardContent>
       </Card>
 
@@ -72,7 +80,7 @@ const StatsComponent = ({ data }: StatsComponentProps) => {
         </CardHeader>
         <CardContent className="py-6 space-y-8">
           {typeStats.map(({ name, value }) => {
-            const percentage = (value / data.length * 100).toFixed(0);
+            const percentage = data.length > 0 ? (value / data.length * 100).toFixed(0) : "0";
             return (
               <div key={name} className="space-y-3">
                 <div className="flex justify-between items-center text-sm">
