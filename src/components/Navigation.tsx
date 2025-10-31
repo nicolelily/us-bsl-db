@@ -26,7 +26,8 @@ const Navigation = () => {
       <nav className="bg-white shadow-lg border-b border-bsl-border">
       <div className="container mx-auto px-2 sm:px-4">
         <div className="flex justify-between items-center h-16 sm:h-20">
-          <div className="flex items-center space-x-4 sm:space-x-8">
+          {/* Left block: logo and (desktop) nav. Keep logo from shrinking so mobile trigger remains visible */}
+          <div className="flex items-center space-x-4 sm:space-x-8 flex-shrink-0">
             <Link to="/" className="flex items-center space-x-2 sm:space-x-3">
               <img 
                 src="/assets/images/bsldb-logo.png" 
@@ -38,7 +39,7 @@ const Navigation = () => {
                 <span className="sm:hidden">BSL DB</span>
               </span>
             </Link>
-            <div className="hidden md:flex space-x-6">
+            <div className="hidden md:flex flex-1 min-w-0 space-x-6">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = location.pathname === item.path;
@@ -60,14 +61,15 @@ const Navigation = () => {
             </div>
           </div>
           
-          <div className="flex items-center space-x-2 sm:space-x-4">
+          {/* Right controls: allow shrinking; keep contribute button from shrinking */}
+          <div className="flex items-center space-x-2 sm:space-x-4 min-w-0">
             {/* Mobile hamburger for secondary links (About / Contact) using Radix Dialog */}
             <div className="md:hidden">
               <Dialog.Root>
                 <Dialog.Trigger asChild>
                   <button
                     type="button"
-                    className="p-2 rounded-md text-bsl-brown hover:text-bsl-teal focus:outline-none focus:ring-2 focus:ring-bsl-teal"
+                    className="block p-2 rounded-md text-bsl-brown hover:text-bsl-teal focus:outline-none focus:ring-2 focus:ring-bsl-teal"
                     aria-label="Open more menu"
                   >
                     <Menu className="w-5 h-5" />
@@ -118,7 +120,7 @@ const Navigation = () => {
             {/* Contribute Button - Always visible */}
             <Link
               to={user ? "/submit" : "/auth?redirect=/submit"}
-              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-3 py-2 sm:px-6 rounded-lg text-xs sm:text-sm font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 flex items-center space-x-1 sm:space-x-2 shadow-md hover:shadow-lg transform hover:scale-105"
+              className="flex-shrink-0 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-3 py-2 sm:px-6 rounded-lg text-xs sm:text-sm font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 flex items-center space-x-1 sm:space-x-2 shadow-md hover:shadow-lg transform hover:scale-105"
             >
               <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
               <span className="hidden sm:inline">Contribute</span>
