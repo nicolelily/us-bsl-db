@@ -1,10 +1,11 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Map, BarChart3, Info, Contact, Plus, Menu, X } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import UserMenu from './UserMenu';
 import MobileBottomNav from './MobileBottomNav';
+import * as Dialog from '@radix-ui/react-dialog';
 
 const Navigation = () => {
   const location = useLocation();
@@ -18,15 +19,7 @@ const Navigation = () => {
     { path: '/contact', label: 'Contact', icon: Contact },
   ];
 
-  const [drawerOpen, setDrawerOpen] = useState(false);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setDrawerOpen(false);
-    };
-    if (drawerOpen) window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [drawerOpen]);
+  // Radix Dialog provides focus trap, aria handling and restores focus on close.
 
   return (
     <>
@@ -68,16 +61,55 @@ const Navigation = () => {
           </div>
           
           <div className="flex items-center space-x-2 sm:space-x-4">
-            {/* Mobile hamburger for secondary links (About / Contact) */}
-            <button
-              type="button"
-              aria-expanded={drawerOpen}
-              aria-controls="mobile-drawer"
-              onClick={() => setDrawerOpen(true)}
-              className="md:hidden p-2 rounded-md text-bsl-brown hover:text-bsl-teal focus:outline-none focus:ring-2 focus:ring-bsl-teal"
-            >
-              <Menu className="w-5 h-5" />
-            </button>
+            {/* Mobile hamburger for secondary links (About / Contact) using Radix Dialog */}
+            <div className="md:hidden">
+              <Dialog.Root>
+                <Dialog.Trigger asChild>
+                  <button
+                    type="button"
+                    className="p-2 rounded-md text-bsl-brown hover:text-bsl-teal focus:outline-none focus:ring-2 focus:ring-bsl-teal"
+                    aria-label="Open more menu"
+                  >
+                    <Menu className="w-5 h-5" />
+                  </button>
+                </Dialog.Trigger>
+
+                <Dialog.Portal>
+                  <Dialog.Overlay className="fixed inset-0 bg-black/40" />
+                  <Dialog.Content
+                    className="fixed bottom-0 left-0 right-0 w-full bg-white rounded-t-lg shadow-xl ring-1 ring-black/5 p-4 md:hidden"
+                    aria-label="More menu"
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-lg font-semibold text-bsl-brown">More</h3>
+                      <Dialog.Close asChild>
+                        <button className="p-2 rounded-md text-bsl-brown" aria-label="Close menu">
+                          <X className="w-5 h-5" />
+                        </button>
+                      </Dialog.Close>
+                    </div>
+                    <div className="flex flex-col space-y-2">
+                      <Dialog.Close asChild>
+                        <Link to="/about" className="px-3 py-3 rounded-md text-bsl-brown hover:bg-bsl-cream"> 
+                          <div className="flex items-center space-x-2">
+                            <Info className="w-4 h-4" />
+                            <span>About</span>
+                          </div>
+                        </Link>
+                      </Dialog.Close>
+                      <Dialog.Close asChild>
+                        <Link to="/contact" className="px-3 py-3 rounded-md text-bsl-brown hover:bg-bsl-cream"> 
+                          <div className="flex items-center space-x-2">
+                            <Contact className="w-4 h-4" />
+                            <span>Contact</span>
+                          </div>
+                        </Link>
+                      </Dialog.Close>
+                    </div>
+                  </Dialog.Content>
+                </Dialog.Portal>
+              </Dialog.Root>
+            </div>
             {/* Contribute Button - Always visible */}
             <Link
               to={user ? "/submit" : "/auth?redirect=/submit"}
@@ -104,39 +136,7 @@ const Navigation = () => {
       </div>
       </nav>
 
-      {/* Mobile drawer for secondary links (About / Contact) */}
-      {drawerOpen && (
-        <div
-          id="mobile-drawer"
-          role="dialog"
-          aria-modal="true"
-          className="fixed inset-0 z-50 flex items-end md:hidden"
-        >
-          <div className="absolute inset-0 bg-black/40" onClick={() => setDrawerOpen(false)} />
-          <div className="relative w-full bg-white rounded-t-lg shadow-xl ring-1 ring-black/5 p-4">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-bsl-brown">More</h3>
-              <button onClick={() => setDrawerOpen(false)} className="p-2 rounded-md text-bsl-brown">
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="flex flex-col space-y-2">
-              <Link to="/about" onClick={() => setDrawerOpen(false)} className="px-3 py-3 rounded-md text-bsl-brown hover:bg-bsl-cream"> 
-                <div className="flex items-center space-x-2">
-                  <Info className="w-4 h-4" />
-                  <span>About</span>
-                </div>
-              </Link>
-              <Link to="/contact" onClick={() => setDrawerOpen(false)} className="px-3 py-3 rounded-md text-bsl-brown hover:bg-bsl-cream"> 
-                <div className="flex items-center space-x-2">
-                  <Contact className="w-4 h-4" />
-                  <span>Contact</span>
-                </div>
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Radix Dialog handles the mobile drawer; no manual rendering needed here */}
 
       {/* Mobile bottom tab bar (primary routes) */}
       <MobileBottomNav />
