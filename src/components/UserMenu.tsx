@@ -13,6 +13,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { User, LogOut, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import DesktopOnlyModal from './DesktopOnlyModal';
 
 const UserMenu = () => {
   const { user, signOut } = useAuth();
@@ -64,10 +65,21 @@ const UserMenu = () => {
           <>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link to="/admin" className="flex items-center gap-2">
+              <Link to="/admin" className="flex items-center gap-2 hidden md:flex">
                 <Shield className="w-4 h-4" />
                 Admin Panel
               </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              {/* On mobile, show an info trigger that opens a modal explaining admin is desktop-only */}
+              <div className="md:hidden">
+                <DesktopOnlyModal
+                  title="Admin actions are desktop-only"
+                  description={<>Admin tasks (approvals, edits) are supported on desktop to ensure accurate review and attachments. Please use a desktop browser to access the Admin Panel.</>}
+                >
+                  <button className="w-full text-left px-2 py-1">Admin Panel</button>
+                </DesktopOnlyModal>
+              </div>
             </DropdownMenuItem>
           </>
         )}
