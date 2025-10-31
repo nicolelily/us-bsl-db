@@ -6,6 +6,8 @@ import { useAuth } from '../contexts/AuthContext';
 import UserMenu from './UserMenu';
 import MobileBottomNav from './MobileBottomNav';
 import * as Dialog from '@radix-ui/react-dialog';
+import { useIsMobile } from '@/hooks/use-mobile';
+import DesktopOnlyModal from './DesktopOnlyModal';
 
 const Navigation = () => {
   const location = useLocation();
@@ -117,15 +119,30 @@ const Navigation = () => {
                 </Dialog.Portal>
               </Dialog.Root>
             </div>
-            {/* Contribute Button - Always visible */}
-            <Link
-              to={user ? "/submit" : "/auth?redirect=/submit"}
-              className="flex-shrink-0 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-3 py-2 sm:px-6 rounded-lg text-xs sm:text-sm font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 flex items-center space-x-1 sm:space-x-2 shadow-md hover:shadow-lg transform hover:scale-105"
-            >
-              <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
-              <span className="hidden sm:inline">Contribute</span>
-              <span className="sm:hidden">+</span>
-            </Link>
+            {/* Contribute Button - desktop: link to /submit. mobile: show desktop-only modal */}
+            {useIsMobile() ? (
+              <DesktopOnlyModal
+                title="Contributions are desktop-only"
+                description={<>
+                  Submitting and approving new legislation requires a desktop browser for full functionality (file uploads, review tools). Please use a desktop to contribute or manage approvals.
+                </>}
+              >
+                <button className="flex-shrink-0 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-3 py-2 sm:px-6 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center space-x-1 sm:space-x-2 shadow-md hover:shadow-lg transform" aria-label="Contribute (desktop only)">
+                  <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
+                  <span className="hidden sm:inline">Contribute</span>
+                  <span className="sm:hidden">+</span>
+                </button>
+              </DesktopOnlyModal>
+            ) : (
+              <Link
+                to={user ? "/submit" : "/auth?redirect=/submit"}
+                className="flex-shrink-0 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-3 py-2 sm:px-6 rounded-lg text-xs sm:text-sm font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 flex items-center space-x-1 sm:space-x-2 shadow-md hover:shadow-lg transform hover:scale-105"
+              >
+                <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline">Contribute</span>
+                <span className="sm:hidden">+</span>
+              </Link>
+            )}
             
             {user ? (
               <UserMenu />
