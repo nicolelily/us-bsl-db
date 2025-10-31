@@ -99,3 +99,20 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Add bottom padding when the mobile bottom nav is mounted so content isn't obscured */
+@media (max-width: 767px) {
+  .has-mobile-nav {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+  }
+}
+
+/* Accessible focus styles for keyboard users */
+:where(a,button,input,select,textarea) :focus-visible {
+  outline: 2px solid #0d9488; /* teal-600 */
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Ensure links/buttons have a visible focus ring when using keyboard */
+.focus-visible\:ring-2:focus-visible { box-shadow: 0 0 0 3px rgba(13,148,136,0.25); }
