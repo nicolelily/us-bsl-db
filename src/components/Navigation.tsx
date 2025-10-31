@@ -1,9 +1,10 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Map, BarChart3, Info, Contact, Plus } from 'lucide-react';
+import { Home, Map, BarChart3, Info, Contact, Plus, Menu, X } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import UserMenu from './UserMenu';
+import MobileBottomNav from './MobileBottomNav';
 
 const Navigation = () => {
   const location = useLocation();
@@ -17,8 +18,19 @@ const Navigation = () => {
     { path: '/contact', label: 'Contact', icon: Contact },
   ];
 
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setDrawerOpen(false);
+    };
+    if (drawerOpen) window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [drawerOpen]);
+
   return (
-    <nav className="bg-white shadow-lg border-b border-bsl-border">
+    <>
+      <nav className="bg-white shadow-lg border-b border-bsl-border">
       <div className="container mx-auto px-2 sm:px-4">
         <div className="flex justify-between items-center h-16 sm:h-20">
           <div className="flex items-center space-x-4 sm:space-x-8">
@@ -56,6 +68,16 @@ const Navigation = () => {
           </div>
           
           <div className="flex items-center space-x-2 sm:space-x-4">
+            {/* Mobile hamburger for secondary links (About / Contact) */}
+            <button
+              type="button"
+              aria-expanded={drawerOpen}
+              aria-controls="mobile-drawer"
+              onClick={() => setDrawerOpen(true)}
+              className="md:hidden p-2 rounded-md text-bsl-brown hover:text-bsl-teal focus:outline-none focus:ring-2 focus:ring-bsl-teal"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
             {/* Contribute Button - Always visible */}
             <Link
               to={user ? "/submit" : "/auth?redirect=/submit"}
@@ -80,7 +102,45 @@ const Navigation = () => {
           </div>
         </div>
       </div>
-    </nav>
+      </nav>
+
+      {/* Mobile drawer for secondary links (About / Contact) */}
+      {drawerOpen && (
+        <div
+          id="mobile-drawer"
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-end md:hidden"
+        >
+          <div className="absolute inset-0 bg-black/40" onClick={() => setDrawerOpen(false)} />
+          <div className="relative w-full bg-white rounded-t-lg shadow-xl ring-1 ring-black/5 p-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-bsl-brown">More</h3>
+              <button onClick={() => setDrawerOpen(false)} className="p-2 rounded-md text-bsl-brown">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="flex flex-col space-y-2">
+              <Link to="/about" onClick={() => setDrawerOpen(false)} className="px-3 py-3 rounded-md text-bsl-brown hover:bg-bsl-cream"> 
+                <div className="flex items-center space-x-2">
+                  <Info className="w-4 h-4" />
+                  <span>About</span>
+                </div>
+              </Link>
+              <Link to="/contact" onClick={() => setDrawerOpen(false)} className="px-3 py-3 rounded-md text-bsl-brown hover:bg-bsl-cream"> 
+                <div className="flex items-center space-x-2">
+                  <Contact className="w-4 h-4" />
+                  <span>Contact</span>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Mobile bottom tab bar (primary routes) */}
+      <MobileBottomNav />
+    </>
   );
 };
 

@@ -99,3 +99,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Add bottom padding when the mobile bottom nav is mounted so content isn't obscured */
+@media (max-width: 767px) {
+  .has-mobile-nav {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+  }
+}
