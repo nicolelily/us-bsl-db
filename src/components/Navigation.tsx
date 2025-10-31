@@ -80,32 +80,37 @@ const Navigation = () => {
                     className="fixed bottom-0 left-0 right-0 w-full bg-white rounded-t-lg shadow-xl ring-1 ring-black/5 p-4 md:hidden"
                     aria-label="More menu"
                   >
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-lg font-semibold text-bsl-brown">More</h3>
-                      <Dialog.Close asChild>
-                        <button className="p-2 rounded-md text-bsl-brown" aria-label="Close menu">
-                          <X className="w-5 h-5" />
-                        </button>
-                      </Dialog.Close>
-                    </div>
-                    <div className="flex flex-col space-y-2">
-                      <Dialog.Close asChild>
-                        <Link to="/about" className="px-3 py-3 rounded-md text-bsl-brown hover:bg-bsl-cream"> 
-                          <div className="flex items-center space-x-2">
-                            <Info className="w-4 h-4" />
-                            <span>About</span>
-                          </div>
-                        </Link>
-                      </Dialog.Close>
-                      <Dialog.Close asChild>
-                        <Link to="/contact" className="px-3 py-3 rounded-md text-bsl-brown hover:bg-bsl-cream"> 
-                          <div className="flex items-center space-x-2">
-                            <Contact className="w-4 h-4" />
-                            <span>Contact</span>
-                          </div>
-                        </Link>
-                      </Dialog.Close>
-                    </div>
+                        <div className="flex items-center justify-between mb-4">
+                          <Dialog.Title asChild>
+                            <h3 className="text-lg font-semibold text-bsl-brown">More</h3>
+                          </Dialog.Title>
+                          <Dialog.Close asChild>
+                            <button className="p-2 rounded-md text-bsl-brown focus-visible:ring-2 focus-visible:ring-bsl-teal" aria-label="Close menu">
+                              <X className="w-5 h-5" />
+                            </button>
+                          </Dialog.Close>
+                        </div>
+                        <Dialog.Description asChild>
+                          <p className="text-sm text-bsl-brown mb-3">Navigate to additional pages</p>
+                        </Dialog.Description>
+                        <div className="flex flex-col space-y-2">
+                          <Dialog.Close asChild>
+                            <Link to="/about" className="px-3 py-3 rounded-md text-bsl-brown hover:bg-bsl-cream focus-visible:ring-2 focus-visible:ring-bsl-teal"> 
+                              <div className="flex items-center space-x-2">
+                                <Info className="w-4 h-4" />
+                                <span>About</span>
+                              </div>
+                            </Link>
+                          </Dialog.Close>
+                          <Dialog.Close asChild>
+                            <Link to="/contact" className="px-3 py-3 rounded-md text-bsl-brown hover:bg-bsl-cream focus-visible:ring-2 focus-visible:ring-bsl-teal"> 
+                              <div className="flex items-center space-x-2">
+                                <Contact className="w-4 h-4" />
+                                <span>Contact</span>
+                              </div>
+                            </Link>
+                          </Dialog.Close>
+                        </div>
                   </Dialog.Content>
                 </Dialog.Portal>
               </Dialog.Root>

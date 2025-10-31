@@ -23,7 +23,9 @@ const MobileBottomNav: React.FC = () => {
   }, []);
 
   return (
-    <div
+    <nav
+      role="navigation"
+      aria-label="Primary"
       className="fixed inset-x-0 bottom-0 z-50 bg-white border-t border-bsl-border md:hidden"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
       aria-hidden={false}
@@ -34,19 +36,20 @@ const MobileBottomNav: React.FC = () => {
             <NavLink
               key={item.to}
               to={item.to}
+              aria-current={location.pathname === item.to ? 'page' : undefined}
               className={({ isActive }) =>
-                `flex-1 flex flex-col items-center justify-center text-xs py-1 px-2 rounded-md transition-colors ${
-                  isActive ? 'text-bsl-teal' : 'text-bsl-brown'
+                `flex-1 flex flex-col items-center justify-center text-xs py-1 px-2 rounded-md transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-bsl-teal ${
+                  isActive ? 'text-bsl-teal bg-bsl-cream' : 'text-bsl-brown'
                 }`
               }
             >
-              <item.Icon className="w-5 h-5" />
+              <item.Icon className="w-5 h-5" aria-hidden="true" />
               <span className="mt-1">{item.label}</span>
             </NavLink>
           ))}
         </div>
       </div>
-    </div>
+    </nav>
   );
 };
 
