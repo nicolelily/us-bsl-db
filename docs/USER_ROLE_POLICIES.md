@@ -186,3 +186,15 @@ ON CONFLICT (user_id) DO UPDATE SET role = 'admin';
 **Last Updated**: October 2025  
 **Version**: 1.0  
 **Status**: Production Ready ✅
+
+## Mobile UX reminder
+
+When introducing client-side UX changes that limit or hide admin/contribute actions on small screens (for example: "desktop-only" modals or hidden buttons), make sure to also enforce the restriction on the server side.
+
+Checklist for mobile-related admin UX changes:
+- [ ] Confirm UI hides or disables admin/contribute controls on narrow viewports.
+- [ ] Verify RLS policies and server endpoints reject unauthorized attempts to perform admin actions regardless of client UI.
+- [ ] Add logging for blocked mobile attempts so admins can monitor how often mobile users try to access these flows.
+- [ ] Document the UX change in the PR and include steps for QA (device list, screenshots, and a11y checks).
+
+Rationale: Client-side hiding improves user experience but is not a security control. Server-side checks (RLS, stored procedures with SECURITY DEFINER, API-level role checks) are required to prevent privilege escalation or accidental access from non-desktop clients.
