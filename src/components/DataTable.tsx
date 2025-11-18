@@ -21,7 +21,10 @@ const DataTable = ({ data }: DataTableProps) => {
   const formatDate = (dateString?: string) => {
     if (!dateString) return 'N/A';
     try {
-      const date = new Date(dateString);
+      // Parse date as local date to avoid timezone conversion issues
+      // Split the date string and create a date in local timezone
+      const [year, month, day] = dateString.split('-').map(Number);
+      const date = new Date(year, month - 1, day); // month is 0-indexed
       return date.toLocaleDateString();
     } catch {
       return dateString;

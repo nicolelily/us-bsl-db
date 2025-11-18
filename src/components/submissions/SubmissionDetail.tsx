@@ -133,6 +133,16 @@ const SubmissionDetail: React.FC<SubmissionDetailProps> = ({
         });
     };
 
+    const formatDateOnly = (dateString: string) => {
+        // Parse date-only strings as local dates to avoid timezone conversion
+        const [year, month, day] = dateString.split('-').map(Number);
+        return new Date(year, month - 1, day).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    };
+
     const handleDownloadDocument = async (document: SubmissionDocument) => {
         try {
             const { data, error } = await supabase.storage
@@ -350,7 +360,7 @@ const SubmissionDetail: React.FC<SubmissionDetailProps> = ({
                                     <label className="text-sm font-medium text-muted-foreground">Verification Date</label>
                                     <div className="flex items-center space-x-2 mt-1">
                                         <FileCheck className="w-4 h-4 text-muted-foreground" />
-                                        <span>{formatDate(submittedData.verification_date)}</span>
+                                        <span>{formatDateOnly(submittedData.verification_date)}</span>
                                     </div>
                                 </div>
                             )}

@@ -216,7 +216,11 @@ const ReviewSubmitStep: React.FC<ReviewSubmitStepProps> = ({
                 <h4 className="font-medium text-sm text-muted-foreground mb-1">Verification Date</h4>
                 <p className="flex items-center text-sm">
                   <Calendar className="w-4 h-4 mr-1" />
-                  {new Date(data.verification_date).toLocaleDateString()}
+                  {(() => {
+                    // Parse date as local date to avoid timezone conversion
+                    const [year, month, day] = data.verification_date.split('-').map(Number);
+                    return new Date(year, month - 1, day).toLocaleDateString();
+                  })()}
                 </p>
               </div>
             )}
