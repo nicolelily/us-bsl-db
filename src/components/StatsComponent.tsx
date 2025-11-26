@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BreedLegislation } from '@/types';
 import { HorizontalBarChart } from '@/components/ui/horizontal-bar-chart';
+import DonutChart from './DonutChart';
 
 interface StatsComponentProps {
   data: BreedLegislation[];
@@ -78,24 +79,16 @@ const StatsComponent = ({ data }: StatsComponentProps) => {
         <CardHeader>
           <CardTitle>Municipality Type Distribution</CardTitle>
         </CardHeader>
-        <CardContent className="py-6 space-y-8">
-          {typeStats.map(({ name, value }) => {
-            const percentage = data.length > 0 ? (value / data.length * 100).toFixed(0) : "0";
-            return (
-              <div key={name} className="space-y-3">
-                <div className="flex justify-between items-center text-sm">
-                  <span className="font-medium text-base">{name}</span>
-                  <span className="text-muted-foreground">{value} ({percentage}%)</span>
-                </div>
-                <div className="h-4 rounded-lg bg-slate-200/70 overflow-hidden shadow-inner">
-                  <div 
-                    className="h-full bg-bsl-teal transition-all duration-500" 
-                    style={{ width: `${percentage}%` }}
-                  />
-                </div>
-              </div>
-            );
-          })}
+        <CardContent className="h-80 flex items-center justify-center">
+          {typeStats.length > 0 ? (
+            <DonutChart data={typeStats} height={300} width={400} />
+          ) : (
+            <div className="flex items-center justify-center h-full text-center px-6">
+              <p className="text-muted-foreground text-sm leading-relaxed">
+                No data available.
+              </p>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
