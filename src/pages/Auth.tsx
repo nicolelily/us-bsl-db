@@ -21,8 +21,17 @@ const Auth = () => {
   const { subscribeToNewsletter } = useUserPreferences();
   const [loading, setLoading] = useState(false);
 
-  // Get redirect URL from search params
-  const redirectUrl = searchParams.get('redirect') || '/';
+  // Get redirect URL from search params and sanitize to prevent open-redirects
+  const rawRedirect = searchParams.get('redirect') || '/';
+  const isSafePath = (value: string) => {
+    // Allow only path-only redirects starting with a single '/'
+    // Disallow protocol-relative '//' and any protocol like 'http://', 'https://'
+    if (!value) return false;
+    if (value.startsWith('//')) return false;
+    if (/^[a-zA-Z]+:\/\//.test(value)) return false; // protocol present
+    return value.startsWith('/');
+  };
+  const redirectUrl = isSafePath(rawRedirect) ? rawRedirect : '/';
 
   // Redirect authenticated users
   useEffect(() => {

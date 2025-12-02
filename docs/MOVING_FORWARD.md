@@ -187,6 +187,7 @@ Integrate with external systems and build strategic partnerships.
 - **Test Coverage**: Achieve >80% test coverage for critical paths
 - **Documentation**: Complete API documentation and component docs
 - **Security Audit**: Comprehensive security review and penetration testing
+ - **RLS Enforcement Review**: Verify Row Level Security is enabled (and forced where appropriate) on all protected tables; add a migration to assert `ALTER TABLE ... ENABLE ROW LEVEL SECURITY;` and `ALTER TABLE ... FORCE ROW LEVEL SECURITY;` for `profiles`, `user_roles`, `submissions`, `submission_documents`, `audit_logs`, `email_logs`, `breed_legislation`, and `contact_submissions`.
 
 ### Infrastructure
 - **Environment Management**: Proper staging/production environment separation
