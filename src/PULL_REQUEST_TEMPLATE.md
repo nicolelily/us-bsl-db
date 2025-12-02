@@ -33,6 +33,7 @@ Regression & misc
 - [ ] Desktop navigation remains unchanged and still displays the full horizontal nav.
 - [ ] No console errors or accessibility warnings in the browser devtools.
 - [ ] Run `npm run lint` (if configured) to ensure no lint errors introduced.
+- [ ] Database security reviewed (if DB affected): Verify Row Level Security is enabled (and forced where appropriate) on impacted tables. If needed, include a migration asserting `ALTER TABLE ... ENABLE ROW LEVEL SECURITY;` and `ALTER TABLE ... FORCE ROW LEVEL SECURITY;`.
 
 Notes / follow-ups
 - Consider adding automated a11y tests (axe) or end-to-end tests for keyboard/dialog behavior.
