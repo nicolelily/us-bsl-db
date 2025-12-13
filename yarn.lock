@@ -1201,6 +1201,61 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.53.3.tgz#38ae84f4c04226c1d56a3b17296ef1e0460ecdfe"
   integrity sha512-UhTd8u31dXadv0MopwGgNOBpUVROFKWVQgAg5N1ESyCz8AuBcMqm4AuTjrwgQKGDfoFuz02EuMRHQIw/frmYKQ==
 
+"@sentry-internal/browser-utils@10.29.0":
+  version "10.29.0"
+  resolved "https://registry.yarnpkg.com/@sentry-internal/browser-utils/-/browser-utils-10.29.0.tgz#37cdf31e273c60417570f358a1198ff88baca93b"
+  integrity sha512-M3kycMY6f3KY9a8jDYac+yG0E3ZgWVWSxlOEC5MhYyX+g7mqxkwrb3LFQyuxSm/m+CCgMTCaPOOaB2twXP6EQg==
+  dependencies:
+    "@sentry/core" "10.29.0"
+
+"@sentry-internal/feedback@10.29.0":
+  version "10.29.0"
+  resolved "https://registry.yarnpkg.com/@sentry-internal/feedback/-/feedback-10.29.0.tgz#c63236f3a8adb15f691f8ab4a429a190ed60a572"
+  integrity sha512-Y7IRsNeS99cEONu1mZWZc3HvbjNnu59Hgymm0swFFKbdgbCgdT6l85kn2oLsuq4Ew8Dw/pL/Sgpwsl9UgYFpUg==
+  dependencies:
+    "@sentry/core" "10.29.0"
+
+"@sentry-internal/replay-canvas@10.29.0":
+  version "10.29.0"
+  resolved "https://registry.yarnpkg.com/@sentry-internal/replay-canvas/-/replay-canvas-10.29.0.tgz#f3fd56f40ef8b9c7b7d38e591c2e7f1b098d0ff2"
+  integrity sha512-typY4JrpAQQGPuSyd/BD8+nNCbvTV2UVvKzr+iKgI0m1qc4Dz8tHZ4Nfais2Z8eYn/pL1kqVQN5ERTmJoYFdIw==
+  dependencies:
+    "@sentry-internal/replay" "10.29.0"
+    "@sentry/core" "10.29.0"
+
+"@sentry-internal/replay@10.29.0":
+  version "10.29.0"
+  resolved "https://registry.yarnpkg.com/@sentry-internal/replay/-/replay-10.29.0.tgz#f21e6933f47ddbab2c303a462d9b5317794b20e0"
+  integrity sha512-45NVw9PwB9TQ8z+xJ6G6Za+wmQ1RTA35heBSzR6U4bknj8LmA04k2iwnobvxCBEQXeLfcJEO1vFgagMoqMZMBw==
+  dependencies:
+    "@sentry-internal/browser-utils" "10.29.0"
+    "@sentry/core" "10.29.0"
+
+"@sentry/browser@10.29.0":
+  version "10.29.0"
+  resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-10.29.0.tgz#4d7d7289960526fa2fb43d1b3d750d357d47139c"
+  integrity sha512-XdbyIR6F4qoR9Z1JCWTgunVcTJjS9p2Th+v4wYs4ME+ZdLC4tuKKmRgYg3YdSIWCn1CBfIgdI6wqETSf7H6Njw==
+  dependencies:
+    "@sentry-internal/browser-utils" "10.29.0"
+    "@sentry-internal/feedback" "10.29.0"
+    "@sentry-internal/replay" "10.29.0"
+    "@sentry-internal/replay-canvas" "10.29.0"
+    "@sentry/core" "10.29.0"
+
+"@sentry/core@10.29.0":
+  version "10.29.0"
+  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-10.29.0.tgz#8783db0969224f48ea46e3c3212289d5dbd6ef38"
+  integrity sha512-olQ2DU9dA/Bwsz3PtA9KNXRMqBWRQSkPw+MxwWEoU1K1qtiM9L0j6lbEFb5iSY3d7WYD5MB+1d5COugjSBrHtw==
+
+"@sentry/react@^10.29.0":
+  version "10.29.0"
+  resolved "https://registry.yarnpkg.com/@sentry/react/-/react-10.29.0.tgz#ecd53f4e82d3067fb1ca644adf59eb8ee910cf08"
+  integrity sha512-YGaEUXubzil7qssD1koh1fyt0aS8tHB61/6+oNShJ6xZPg03AB42bNMr2/y8fIFx36kb3MiCA5sFoH/ubF0LnQ==
+  dependencies:
+    "@sentry/browser" "10.29.0"
+    "@sentry/core" "10.29.0"
+    hoist-non-react-statics "^3.3.2"
+
 "@supabase/auth-js@2.85.0":
   version "2.85.0"
   resolved "https://registry.yarnpkg.com/@supabase/auth-js/-/auth-js-2.85.0.tgz#9178e79c89e439331f2045492906f06fa319aaaa"
@@ -1722,6 +1777,16 @@
   dependencies:
     "@typescript-eslint/types" "8.48.0"
     eslint-visitor-keys "^4.2.1"
+
+"@vercel/analytics@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@vercel/analytics/-/analytics-1.6.1.tgz#b4e16daf445cf6cd365a91e43d86e9e5b3428ddc"
+  integrity sha512-oH9He/bEM+6oKlv3chWuOOcp8Y6fo6/PSro8hEkgCW3pu9/OiCXiUpRUogDh3Fs3LH2sosDrx8CxeOLBEE+afg==
+
+"@vercel/speed-insights@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@vercel/speed-insights/-/speed-insights-1.3.1.tgz#df8baeba65a1aaaf11adbd09d3fe7edc6b2a493a"
+  integrity sha512-PbEr7FrMkUrGYvlcLHGkXdCkxnylCWePx7lPxxq36DNdfo9mcUjLOmqOyPDHAOgnfqgGGdmE3XI9L/4+5fr+vQ==
 
 "@vitejs/plugin-react-swc@^3.5.0":
   version "3.11.0"
@@ -2625,6 +2690,13 @@ hasown@^2.0.2:
   dependencies:
     function-bind "^1.1.2"
 
+hoist-non-react-statics@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
+  integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
+  dependencies:
+    react-is "^16.7.0"
+
 iconv-lite@0.6:
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.6.3.tgz#a52f80bf38da1952eb5c681790719871a1a72501"
@@ -3069,6 +3141,11 @@ react-hook-form@^7.53.0:
   version "7.66.1"
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.66.1.tgz#da56644b4ad9bd31254662d3242975681e29558c"
   integrity sha512-2KnjpgG2Rhbi+CIiIBQQ9Df6sMGH5ExNyFl4Hw9qO7pIqMBR8Bvu9RQyjl3JM4vehzCh9soiNUM/xYMswb2EiA==
+
+react-is@^16.7.0:
+  version "16.13.1"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
+  integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
 react-leaflet@^4.2.1:
   version "4.2.1"
