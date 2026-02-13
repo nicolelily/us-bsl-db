@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import Navigation from '../components/Navigation';
 import StatsComponent from '../components/StatsComponent';
@@ -24,36 +23,25 @@ const Stats = () => {
 
   const filteredData = useMemo(() => {
     return breedLegislationData.filter(item => {
-      // Filter by search text
       if (filters.search && !item.municipality.toLowerCase().includes(filters.search.toLowerCase())) {
         return false;
       }
-
-      // Filter by breed
       if (filters.breed && !item.bannedBreeds.includes(filters.breed)) {
         return false;
       }
-
-      // Filter by state
       if (filters.stateFilter && item.state !== filters.stateFilter) {
         return false;
       }
-
-      // Filter by municipality type
       if (filters.municipalityType && item.municipalityType !== filters.municipalityType) {
         return false;
       }
-
-      // Filter by legislation type
       if (filters.legislationType && item.legislationType !== filters.legislationType) {
         return false;
       }
-
       return true;
     });
   }, [filters, breedLegislationData]);
 
-  // Calculate some basic statistics
   const totalMunicipalities = filteredData.length;
   const totalBreedBans = filteredData.reduce((sum, item) => sum + item.bannedBreeds.length, 0);
   const uniqueBreeds = new Set(filteredData.flatMap(item => item.bannedBreeds)).size;
@@ -69,7 +57,7 @@ const Stats = () => {
             Explore charts and visualizations about breed-specific legislation in the United States.
             Use the filters below to analyze specific subsets of the data.
           </p>
-          
+
           {isLoading ? (
             <div className="flex justify-center items-center h-32">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-dogdata-blue"></div>
@@ -79,7 +67,7 @@ const Stats = () => {
           ) : (
             <>
               <DataFilters onFilterChange={setFilters} breedLegislationData={breedLegislationData} />
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
                 <Card>
                   <CardHeader className="pb-2">
@@ -89,7 +77,7 @@ const Stats = () => {
                     <p className="text-3xl font-bold text-bsl-teal">{totalMunicipalities}</p>
                   </CardContent>
                 </Card>
-                
+
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-sm text-muted-foreground">Total Breed Bans</CardTitle>
@@ -98,7 +86,7 @@ const Stats = () => {
                     <p className="text-3xl font-bold text-bsl-teal">{totalBreedBans}</p>
                   </CardContent>
                 </Card>
-                
+
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-sm text-muted-foreground">Unique Breeds Banned</CardTitle>
@@ -107,7 +95,7 @@ const Stats = () => {
                     <p className="text-3xl font-bold text-bsl-teal">{uniqueBreeds}</p>
                   </CardContent>
                 </Card>
-                
+
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-sm text-muted-foreground">States with Bans</CardTitle>
@@ -117,7 +105,7 @@ const Stats = () => {
                   </CardContent>
                 </Card>
               </div>
-              
+
               <StatsComponent data={filteredData} />
             </>
           )}

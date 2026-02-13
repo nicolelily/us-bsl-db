@@ -11,7 +11,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { BreedLegislation } from '@/types';
 import { ExternalLink } from 'lucide-react';
-import { ReportUpdateButton } from './submissions/ReportUpdateButton';
 
 interface DataTableProps {
   data: BreedLegislation[];
@@ -46,13 +45,12 @@ const DataTable = ({ data }: DataTableProps) => {
               <TableHead className="font-semibold w-24">Population</TableHead>
               <TableHead className="font-semibold w-32">Verification Date</TableHead>
               <TableHead className="font-semibold w-24">Ordinance URL</TableHead>
-              <TableHead className="font-semibold w-24">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={10} className="text-center py-8 text-dogdata-text">
+                <TableCell colSpan={9} className="text-center py-8 text-dogdata-text">
                   No data found matching your filters.
                 </TableCell>
               </TableRow>
@@ -105,14 +103,6 @@ const DataTable = ({ data }: DataTableProps) => {
                     ) : (
                       'N/A'
                     )}
-                  </TableCell>
-                  <TableCell>
-                    <ReportUpdateButton
-                      record={item}
-                      variant="ghost"
-                      size="sm"
-                      showLabel={false}
-                    />
                   </TableCell>
                 </TableRow>
               ))

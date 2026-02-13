@@ -11,9 +11,6 @@ const items = [
 const MobileBottomNav: React.FC = () => {
   const location = useLocation();
 
-  // Hide bottom nav on auth pages
-  if (location.pathname.startsWith('/auth')) return null;
-
   useEffect(() => {
     // add a class so we can add bottom padding to pages when nav is present
     document.body.classList.add('has-mobile-nav');

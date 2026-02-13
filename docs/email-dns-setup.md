@@ -130,12 +130,6 @@ Functions now use fully qualified schema names, preventing potential attacks whe
 
 ## Future Enhancements
 
-### Email Marketing
-- Newsletter signup integration
-- User segmentation for targeted emails
-- Email templates and automation
-- Analytics and tracking
-
 ### DNS Optimizations
 - Consider Cloudflare for CDN and security features
 - Implement additional security headers

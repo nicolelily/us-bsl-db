@@ -38,3 +38,8 @@ TEMP_*
 
 # Supabase local development
 supabase/.temp/
+
+# Census enrichment script data and output
+scripts/census-enrichment/data/
+scripts/census-enrichment/match-report.json
+scripts/census-enrichment/node_modules/

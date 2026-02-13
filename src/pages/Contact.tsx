@@ -1,9 +1,7 @@
-
 import React from 'react';
 import Navigation from '../components/Navigation';
 import ContactForm from '../components/contact/ContactForm';
 import ResourcesSection from '../components/contact/ResourcesSection';
-
 import HelpSection from '../components/contact/HelpSection';
 
 const Contact = () => {

@@ -1,12 +1,9 @@
-
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import Navigation from '../components/Navigation';
 import DataFilters from '../components/DataFilters';
 import DataTable from '../components/DataTable';
-import { ContributionPrompt } from '../components/submissions/ContributionPrompt';
-import { FilterOptions, BreedLegislation } from '@/types';
+import { FilterOptions } from '@/types';
 import { fetchBreedLegislationData } from '@/utils/dataFetcher';
-
 import { useQuery } from '@tanstack/react-query';
 
 const Index = () => {
@@ -23,40 +20,27 @@ const Index = () => {
     queryFn: fetchBreedLegislationData
   });
 
-
-
   const filteredData = useMemo(() => {
     return breedLegislationData.filter(item => {
-      // Filter by search text
       if (filters.search && !item.municipality.toLowerCase().includes(filters.search.toLowerCase())) {
         return false;
       }
-
-      // Filter by breed
       if (filters.breed && !item.bannedBreeds.includes(filters.breed)) {
         return false;
       }
-
-      // Filter by state
       if (filters.stateFilter && item.state !== filters.stateFilter) {
         return false;
       }
-
-      // Filter by municipality type
       if (filters.municipalityType && item.municipalityType !== filters.municipalityType) {
         return false;
       }
-
-      // Filter by legislation type
       if (filters.legislationType && item.legislationType !== filters.legislationType) {
         return false;
       }
-
       return true;
     });
   }, [filters, breedLegislationData]);
 
-  // Check if user selected a state with no BSL data
   const isStateWithNoBSL = useMemo(() => {
     if (!filters.stateFilter) return false;
     const statesWithData = Array.from(new Set(breedLegislationData.map(item => item.state)));
@@ -66,9 +50,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-bsl-background">
       <Navigation />
-      {/* Hero Banner with Contribution CTA */}
-      <ContributionPrompt variant="banner" showStats={false} />
-      
+
       <div className="container mx-auto py-8 px-4">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-bsl-brown mb-4">U.S. Breed-Specific Legislation Database</h1>
@@ -76,16 +58,16 @@ const Index = () => {
             This application provides information about breed-specific legislation in municipalities across the United States.
             Use the filters below to explore data about banned dog breeds, ordinances, and more. Please note that this database only includes bans at the moment. We plan to add the legislation regulating specific breeds in the near future.
           </p>
-          
+
           <DataFilters onFilterChange={setFilters} breedLegislationData={breedLegislationData} />
-          
+
           <div className="mb-4">
             {isLoading ? (
               <p className="text-sm text-bsl-brown">Loading data...</p>
             ) : error ? (
               <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
                 <p className="text-sm text-red-600 font-semibold">Error loading data:</p>
-                <p className="text-sm text-red-500 mt-1">{error?.message || 'Unknown error occurred'}</p>
+                <p className="text-sm text-red-500 mt-1">{(error as Error)?.message || 'Unknown error occurred'}</p>
                 <p className="text-xs text-red-400 mt-2">Check the browser console for more details.</p>
               </div>
             ) : (
@@ -101,41 +83,24 @@ const Index = () => {
               </div>
             )}
           </div>
-          
+
           {isLoading ? (
             <div className="flex justify-center items-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-bsl-teal"></div>
             </div>
+          ) : isStateWithNoBSL ? (
+            <div className="bg-white rounded-lg shadow-md p-8 text-center">
+              <div className="mb-4">
+                <h3 className="text-xl font-semibold text-bsl-brown mb-2">
+                  No Active Breed-Specific Legislation Confirmed
+                </h3>
+                <p className="text-bsl-brown">
+                  We have not confirmed any active breed-specific legislation for <strong>{filters.stateFilter}</strong> at this time.
+                </p>
+              </div>
+            </div>
           ) : (
-            <>
-              {isStateWithNoBSL ? (
-                <div className="bg-white rounded-lg shadow-md p-8 text-center">
-                  <div className="mb-4">
-                    <h3 className="text-xl font-semibold text-bsl-brown mb-2">
-                      No Active Breed-Specific Legislation Confirmed
-                    </h3>
-                    <p className="text-bsl-brown">
-                      We have not confirmed any active breed-specific legislation for <strong>{filters.stateFilter}</strong> at this time.
-                    </p>
-                    <p className="text-sm text-bsl-brown mt-2">
-                      If you are aware of breed-specific legislation in {filters.stateFilter}, please help us keep our database complete by submitting it.
-                    </p>
-                  </div>
-                  <div className="mt-6">
-                    <ContributionPrompt variant="compact" showStats={false} />
-                  </div>
-                </div>
-              ) : (
-                <DataTable data={filteredData} />
-              )}
-              
-              {/* Contribution Prompt */}
-              {!isStateWithNoBSL && (
-                <div className="mt-12">
-                  <ContributionPrompt variant="default" showStats={false} />
-                </div>
-              )}
-            </>
+            <DataTable data={filteredData} />
           )}
         </div>
       </div>

@@ -351,10 +351,10 @@ const { trackAction, setContext } = useSentryTracking();
 
 // Before making query
 setContext('database', {
-  table: 'community_submissions',
+  table: 'breed_legislation',
   operation: 'SELECT',
 });
-trackAction('database_query', { table: 'community_submissions' });
+trackAction('database_query', { table: 'breed_legislation' });
 ```
 
 ## Resources
@@ -370,9 +370,7 @@ trackAction('database_query', { table: 'community_submissions' });
 - `sql/monitoring/rls_performance.sql` - RLS-specific monitoring
 
 ### Your Existing Docs
-- `docs/RLS_PERFORMANCE_OPTIMIZATION.md` - RLS optimization guide
-- `docs/RLS_TROUBLESHOOTING.md` - Troubleshooting RLS issues
-- `sql/migrations/21_fix_performance_rls_policies.sql` - Your RLS optimizations
+- `sql/migrations/21_fix_performance_rls_policies.sql` - RLS optimizations
 
 ## Next Steps
 

@@ -1,11 +1,11 @@
-
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Navigation from '../components/Navigation';
 import DataFilters from '../components/DataFilters';
 import { FilterOptions } from '@/types';
 import { fetchBreedLegislationData } from '@/utils/dataFetcher';
 import { useQuery } from '@tanstack/react-query';
 import MapComponent from '../components/MapComponent';
+
 const MapView = () => {
   const [filters, setFilters] = useState<FilterOptions>({
     search: '',
@@ -20,33 +20,23 @@ const MapView = () => {
     queryFn: fetchBreedLegislationData
   });
 
-  const filteredData = React.useMemo(() => {
+  const filteredData = useMemo(() => {
     return breedLegislationData.filter(item => {
-      // Filter by search text
       if (filters.search && !item.municipality.toLowerCase().includes(filters.search.toLowerCase())) {
         return false;
       }
-
-      // Filter by breed
       if (filters.breed && !item.bannedBreeds.includes(filters.breed)) {
         return false;
       }
-
-      // Filter by state
       if (filters.stateFilter && item.state !== filters.stateFilter) {
         return false;
       }
-
-      // Filter by municipality type
       if (filters.municipalityType && item.municipalityType !== filters.municipalityType) {
         return false;
       }
-
-      // Filter by legislation type
       if (filters.legislationType && item.legislationType !== filters.legislationType) {
         return false;
       }
-
       return true;
     });
   }, [filters, breedLegislationData]);
@@ -78,7 +68,5 @@ const MapView = () => {
     </div>
   );
 };
-
-
 
 export default MapView;

@@ -25,6 +25,28 @@ export interface FilterOptions {
   legislationType: string | null;
 }
 
+export interface MunicipalityDemographics {
+  id: string;
+  municipality: string;
+  state: string;
+  municipalityType: 'City' | 'County';
+  censusGeoid?: string;
+  totalPopulation?: number;
+  raceWhite?: number;
+  raceBlack?: number;
+  raceAian?: number;
+  raceAsian?: number;
+  raceNhpi?: number;
+  raceOther?: number;
+  raceTwoOrMore?: number;
+  medianHouseholdIncome?: number;
+  lat?: number;
+  lng?: number;
+  acsYear: number;
+  matchConfidence?: number;
+  matchMethod?: string;
+}
+
 export interface SheetData {
   values: any[][];
 }
