@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Non-yarn lockfiles (project uses yarn)
+package-lock.json
+bun.lockb
+
 # Environment variables
 .env
 .env.local
