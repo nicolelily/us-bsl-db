@@ -24,6 +24,11 @@ const ResourcesSection = () => {
       title: "American Veterinary Medical Association",
       description: "Scientific literature review on dog bite risk factors",
       url: "https://www.avma.org/resources-tools/literature-reviews/dog-bite-risk-and-prevention-role-breed"
+    },
+    {
+      title: "Pet-Inclusive Housing Initiative",
+      description: "Resources for pet-inclusive housing policies and reducing housing barriers for pet owners",
+      url: "https://www.petsandhousing.org/"
     }
   ];
 
