@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Map, BarChart3, Info, Contact, Menu, X } from 'lucide-react';
+import { Home, Map, BarChart3, Info, Contact, BookOpen, Menu, X } from 'lucide-react';
 import MobileBottomNav from './MobileBottomNav';
 import * as Dialog from '@radix-ui/react-dialog';
 
@@ -12,6 +12,7 @@ const Navigation = () => {
     { path: '/', label: 'Home', icon: Home },
     { path: '/map', label: 'Map', icon: Map },
     { path: '/stats', label: 'Charts', icon: BarChart3 },
+    { path: '/blog', label: 'Blog', icon: BookOpen },
     { path: '/about', label: 'About', icon: Info },
     { path: '/contact', label: 'Contact', icon: Contact },
   ];
@@ -88,6 +89,14 @@ const Navigation = () => {
                         <p className="text-sm text-bsl-brown mb-3">Navigate to additional pages</p>
                       </Dialog.Description>
                       <div className="flex flex-col space-y-2">
+                        <Dialog.Close asChild>
+                          <Link to="/blog" className="px-3 py-3 rounded-md text-bsl-brown hover:bg-bsl-cream focus-visible:ring-2 focus-visible:ring-bsl-teal">
+                            <div className="flex items-center space-x-2">
+                              <BookOpen className="w-4 h-4" />
+                              <span>Blog</span>
+                            </div>
+                          </Link>
+                        </Dialog.Close>
                         <Dialog.Close asChild>
                           <Link to="/about" className="px-3 py-3 rounded-md text-bsl-brown hover:bg-bsl-cream focus-visible:ring-2 focus-visible:ring-bsl-teal">
                             <div className="flex items-center space-x-2">
