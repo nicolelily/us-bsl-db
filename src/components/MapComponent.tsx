@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Tooltip } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Tooltip, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { BreedLegislation } from '@/types';
@@ -16,9 +16,30 @@ L.Icon.Default.mergeOptions({
 
 interface MapComponentProps {
     data: BreedLegislation[];
+    selectedState?: string | null;
 }
 
-const MapComponent: React.FC<MapComponentProps> = ({ data }) => {
+const DEFAULT_CENTER: [number, number] = [39.8283, -98.5795];
+const DEFAULT_ZOOM = 4;
+
+// Zooms the map to fit the selected state's markers, and back out when the filter clears
+const StateZoom: React.FC<{ selectedState?: string | null; positions: [number, number][] }> = ({ selectedState, positions }) => {
+    const map = useMap();
+
+    useEffect(() => {
+        if (selectedState && positions.length > 0) {
+            map.flyToBounds(L.latLngBounds(positions), { padding: [40, 40], maxZoom: 8 });
+        } else {
+            // No filter, or the selected state has no markers: return to the full US view
+            map.flyTo(DEFAULT_CENTER, DEFAULT_ZOOM);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedState, map]);
+
+    return null;
+};
+
+const MapComponent: React.FC<MapComponentProps> = ({ data, selectedState }) => {
     // Filter data to only include items with valid lat/lng
     const mapData = data.filter(item => item.lat !== undefined && item.lng !== undefined);
 
@@ -66,11 +87,15 @@ const MapComponent: React.FC<MapComponentProps> = ({ data }) => {
     return (
         <div className="h-[600px] w-full rounded-lg overflow-hidden shadow-md border border-gray-200 z-0 relative">
             <MapContainer
-                center={[39.8283, -98.5795]}
-                zoom={4}
+                center={DEFAULT_CENTER}
+                zoom={DEFAULT_ZOOM}
                 style={{ height: '100%', width: '100%' }}
                 scrollWheelZoom={false}
             >
+                <StateZoom
+                    selectedState={selectedState}
+                    positions={mapData.map(item => [item.lat!, item.lng!] as [number, number])}
+                />
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

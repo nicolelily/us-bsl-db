@@ -62,7 +62,7 @@ const MapView = () => {
             <DataFilters onFilterChange={setFilters} breedLegislationData={breedLegislationData} />
           )}
 
-          <MapComponent data={filteredData} />
+          <MapComponent data={filteredData} selectedState={filters.stateFilter} />
         </div>
       </div>
     </div>
